@@ -1,0 +1,237 @@
+.grey-body {
+    background-color: #F2F2F2;
+}
+
+.wrap-main {
+    /*padding-top:2.934rem;*/
+}
+.top-banner {
+    width:100%;
+    height: 9.734rem;
+    background: url("../images/newIndex/invite-banner.jpg") no-repeat center center;
+    background-size: cover;
+}
+.radius-wrap {
+    position: relative;
+    height:6.267rem;
+
+}
+.radius-wrap-inner {
+    position: absolute;
+    top:-1.667rem;
+}
+.radius-bg {
+    width:100%;
+}
+.radius-box {
+    position: absolute;
+    top:0;
+    left:50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.radius-item {
+    flex: 1;
+    padding:1.467rem 0;
+    text-align: center;
+}
+.radius-title {
+    font-size: 1.2rem;
+    color:#fff;
+}
+.radius-data {
+    font-size: 1.6rem;
+    color:#fff;
+    margin-top:0.667rem;
+}
+
+.section-title {
+    font-size: 1.2rem;
+    color:#323232;
+    display: flex;
+    align-items: center;
+    height: 1.2rem;
+    line-height: 1.2rem;
+}
+.section-title .short-line {
+    height: 1.2rem;
+    width:2px;
+    background-color: #EB5042;
+    display: inline-block;
+    margin-right:0.333rem;
+}
+.section-content {
+
+}
+.card-list {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.card-item {
+    /*width:33.33%;*/
+    width:7.334rem;
+    height: 7.334rem;
+    border:1px solid #DBB494;
+    padding:0.667rem;
+    -webkit-border-radius: 0.334rem;
+    -moz-border-radius: 0.334rem;
+    border-radius: 0.334rem;
+    position: relative;
+    background-color: #FFF4EA;
+    margin-top:0.667rem;
+    color:#AD786A;
+}
+.card-item:before {
+    content:"";
+    width:0.667rem;
+    height: 0.667rem;
+    background-color: #F2F2F2;
+    /*background-color: #f00;*/
+    display: block;
+    position: absolute;
+    top:50%;
+    margin-top:-0.333rem;
+    left:-0.333rem;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    border-color:#DBB494;
+    border-style: solid;
+    border-width:1px 1px 0 0;
+    transform: rotate(45deg);
+}
+.active-background {
+    /*background: linear-gradient(#FF9B1C,#ED562A);*/
+    background: #ffd07f;
+    /*color:#fff;*/
+    color:#000;
+}
+.card-item:after {
+    content:"";
+    width:0.667rem;
+    height: 0.667rem;
+    background-color: #F2F2F2;
+    /*background-color: #f00;*/
+    display: block;
+    position: absolute;
+    top:50%;
+    margin-top:-0.333rem;
+    right:-0.333rem;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    border-color:#DBB494;
+    border-style: solid;
+    border-width:0 0 1px 1px;
+    transform: rotate(45deg);
+}
+.card-item-text {
+    font-size: 0.867rem;
+    line-height: 1.2rem;
+}
+.card-item-bottom .red-font{
+    color:#F73232;
+}
+.card-item-bottom {
+    margin-top:1.334rem;
+}
+.dash-line {
+    height: 1px;
+    background: url("../images/newIndex/dashed-line.png") no-repeat center center;
+    background-size: cover;
+    /*margin:8px 0;*/
+    position: absolute;
+    left:0.334rem;
+    right:0.334rem;
+    top:50%;
+    transform: translateY(-50%);
+}
+.card-item-link {
+    width:7.334rem;
+    height: 7.334rem;
+    -webkit-border-radius: 0.334rem;
+    -moz-border-radius: 0.334rem;
+    border-radius: 0.334rem;
+    background: linear-gradient(#FF9B1C,#ED562A);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 1.2rem;
+    color:#fff;
+    line-height: 2rem;
+    margin-top:0.667rem;
+}
+.friend-wrap {
+    margin-top:1.2rem;
+}
+
+
+.friend-list {
+
+}
+.friend-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:1rem 0;
+    border-bottom:1px solid #E1E1E1;
+}
+.friend-item:last-child {
+    border:none;
+}
+.friend-item-left {
+    display: flex;
+    align-items: center;
+}
+.friend-profile {
+    width:3.334rem;
+    height: 3.334rem;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right:0.667rem;
+}
+.friend-profile img {
+    width:100%;
+}
+.friend-info {
+    height: 3.334rem;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    padding:0.334rem 0;
+}
+.friend-name {
+    font-size: 1rem;
+    color:#323232;
+    display: flex;
+    align-items: center;
+    height: 1.334rem;
+    line-height: 1.334rem;
+}
+.friend-name img {
+    width:1rem;
+    margin-left:4px;
+}
+.friend-id {
+    font-size: 1rem;
+    color:#323232;
+}
+.friend-item-right {
+    text-align: right;
+}
+.jifen-add {
+    font-size: 1rem;
+    color:#F73232;
+}
+.invite-time {
+    color:#909090;
+    font-size: 1rem;
+    margin-top:4px;
+}

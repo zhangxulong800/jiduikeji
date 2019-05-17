@@ -1,0 +1,62 @@
+/*common style*/
+*,body{
+	padding: 0;
+	margin: 0;
+	font: normal 100% 'Microsoft Yahei', Arial, sans-serif;
+}
+html, body { width:100%; margin:0; padding:0; font-size: 12px;}
+body{background:#fff;min-width:320px;max-width:640px;margin:0 auto;}
+li{list-style:none}
+a:active,a:hover {outline: 0;text-decoration:none;}
+a, li, a:hover, a:active, a:focus {text-decoration:none;}
+a,input,button,div{border: none;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;outline: none;}
+.fl { float: left;}
+.fr { float: right;}
+/*清除浮动*/
+.cf:before,.cf:after{display:table;line-height:0;content:"";}
+.cf:after{clear:both;}
+*.cf{zoom:1;}
+.vipName{
+	margin:6px auto;
+	width: 88%;
+	text-align: center;
+	height:54px;
+	line-height:54px;
+	background:url(../images/default/456.png)no-repeat center;
+	background-size:262px 53px;
+	font-size:16px;
+}
+.vipName img{
+	height: 15px;
+	margin-top:20px;
+}
+.vipContent{
+	width:90%;
+	margin:16px auto 56px auto;
+}
+.vipContent ul li{
+	width:50%;
+	float: left;
+	margin-bottom: 10px;
+}
+.vipContent ul li .vipContentImg{
+	width:156px;
+	height:156px;
+}
+.vipContent ul li .vipContentImg img{
+	width:100%;
+}
+.vipContent ul li .vipContentName{
+	font-size:15px;
+	text-align:left;
+/*	font-family:'pingfang';*/
+	height:40px;
+	color:#06060D;
+	overflow: hidden;
+    padding-right: 6px;
+}
+.vipContent ul li .vipContentPrice {
+	color:#FF0000;
+	margin-top:8px;
+	font-size:20px;
+}

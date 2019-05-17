@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/Mdate.css" />
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/balanceInfo.css" />
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/iScroll.js" ></script>
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/Mdate.js" ></script>
+		<title>金额明细</title>
+	</head>
+	<body>
+		<div class="box">
+			<div class="content_bg">
+				<div class="contentImg"><img src="__TEMP__/{$style}/public/images/icon/bg2.png"/></div>
+				<div class="contentcontent">余额 (元)</div>
+				{if condition="$market_isset eq true"}
+          			{foreach $balance.data as $balance_list}
+          	  			{if condition="$balance_list.shop_id eq 0"}
+				<div class="shop_balance">{$balance_list.balance}</div>
+						{/if}
+		           	{/foreach}
+            	{else /}
+		          	<div class="shop_balance">0.00</div>
+          		{/if}
+				<div class="shop_transaction">今日交易:（1）笔</div>
+			</div>
+			<div class="title titles">
+				<ul class="cf">
+					<li><a href="javascript:void(0);" class="tab">全部</a></li>
+					<li><a href="javascript:void(0);">正常</a></li>
+					<li><a href="javascript:void(0);">待入账</a></li>
+					<li><a href="javascript:void(0);">冻结</a></li>
+				</ul>
+			</div>
+			<div class="calendar calendars" id="dateShowBtn"><img src="__TEMP__/{$style}/public/images/icon/calendar.png"/></div>
+			<input type="hidden" id="dateSelectorTwo" />
+			<div class="coenter">
+				{if condition="count($balances) neq 0 "}
+				<div class="beginYear">2018年10月</div>
+				{volist name="balances.data" id="vo"}
+				<div class="kimgs cf">
+					<div class="fl">
+						<div class="netblank">{$vo['type_name']}</div>
+						<div class="netdate">{$vo['create_time']}</div>
+					</div>
+					<div class="fr">{$vo['number']}</div>
+				</div>
+				{/volist}
+				{/if}
+			</div>
+		</div>
+		<script type="text/javascript">
+			new Mdate("dateShowBtn", {
+			    acceptId: "dateSelectorTwo",
+			    beginYear: "2000",      //此项为Mdate的初始年份，不填写默认为2000
+			    beginMonth: "1",       //此项为Mdate的初始月份，不填写默认为1
+			    beginDay: "1",        //此项为Mdate的初始日期，不填写默认为1
+			    endYear: "",     //此项为Mdate的结束年份，不填写默认为当年
+			    endMonth: "",       //此项为Mdate的结束月份，不填写默认为当月
+			    endDay: "",        //此项为Mdate的结束日期，不填写默认为当天
+			    format: "YMD"     //此项为Mdate需要显示的格式，可填写"/"或"-"或".",不填写默认为年月日
+			})
+		</script>
+	</body>
+</html>

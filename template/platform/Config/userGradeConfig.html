@@ -1,0 +1,85 @@
+{extend name="platform/base" /}
+{block name="resources"/}
+<style>
+
+</style>
+
+{/block}
+{block name="main"}
+<section class="panel panel-default">
+    <header class="panel-heading font-bold"> 会员升级参数设置 </header>
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">会员升经理--直推人数</label>
+                <div class="col-md-4" style="width:80%;">
+                    <input type="text" class="form-control" id="title" value="{$info.hui_jing_num}" style="width:30%;">
+                </div>
+                <p class="col-sm-4" style="margin-left: 200px;margin-top: 10px;color: #BBB;width:100%;">直推人数指直接推荐人为当前用户并且成功购买了会员卡的人数，</p>
+            </div>
+            <div class="line line-dashed line-lg pull-in"></div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">会员升经理--消费金额</label>
+                <div class="col-md-4" style="width:80%;">
+                    <input type="text" class="form-control" id="meta" value="{$info.hui_jing_money}" style="width:30%;">
+                </div>
+                <p class="col-sm-4" style="margin-left: 200px;margin-top: 10px;color: #BBB;width:100%;">消费金额指当前用户或者直接推荐人为当前用户的用户消费总金额</p>
+            </div>
+            <div class="line line-dashed line-lg pull-in"></div>
+			<p class="col-sm-4" style="margin-left: 200px;margin-bottom:10px;color: #BBB;width:100%;">总监采取购买的方式！</p>
+			<br />
+			<!--
+            <div class="form-group">
+                <label class="col-sm-2 control-label">会员升总监--直推人数</label>
+                <div class="col-md-4" style="width:80%;">
+                    <input type="text" class="form-control" id="desc" value="{$info.jing_zong_num}" style="width:30%;">
+                </div>
+                <p class="col-sm-4" style="margin-left: 200px;margin-top: 10px;color: #BBB;width:100%;">直推人数指直接推荐人为当前用户并且成功购买了会员卡的人数</p>
+            </div>
+            <div class="line line-dashed line-lg pull-in"></div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">会员升总监--消费金额</label>
+                <div class="col-md-4" style="width:80%;">
+                    <input type="text" class="form-control" id="other" value="{$info.jing_zong_money}" style="width:30%;">
+                </div>
+                <p class="col-sm-4" style="margin-left: 200px;margin-top: 10px;color: #BBB;width:100%;">消费金额指当前用户或者直接推荐人为当前用户的用户消费总金额</p>
+            </div>
+            <div class="line line-dashed line-lg pull-in"></div>
+			-->
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                    <a href="javascript:void(0);" onclick="setConfigAjax()" class="btn btn-primary">保存</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+<script>
+    function setConfigAjax(){
+        var title = $('#title').val();
+        var meta = $("#meta").val();
+        var desc = $("#desc").val();
+        var other = $("#other").val();
+        $.ajax({
+            type:"post",
+            url : "PLATFORM_MAIN/config/userGradeConfig",
+            async : true,
+            data : {
+                "hui_jing_num" : title,
+                "hui_jing_money" : meta,
+                "jing_zong_num" : desc,
+                "jing_zong_maney" : other
+            },
+            success : function(data){
+                if(data['code'] > 0)
+                {
+                    showMessage('success', data["message"]);
+                    location.href="PLATFORM_MAIN/config/userGradeConfig";
+                }else{
+                    showMessage('error', data["message"]);
+                }
+            }
+        })
+    }
+</script>
+{/block}

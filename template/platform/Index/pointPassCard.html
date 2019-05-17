@@ -1,0 +1,207 @@
+{extend name="platform/base" /} 
+{block name="resources"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/pointPassCard.css" />
+{/block}
+{block name="main"}
+<div class="box">
+	<div class="title">积分详情</div>
+	<div class="point">
+		<ul class="cf">
+			<li class="col-04 fl">
+				<div class="total dsr">{$today_point}</div>
+				<div class="cf shuju">
+					<div class="fl yesterday">
+						<div>{$yesterday_point}</div>
+						<div>昨日</div>
+					</div>
+					<div class="fr today">
+						<div>{$today_point}</div>
+						<div>今日</div>
+					</div>
+				</div>
+				<div class="J_point">积分资产</div>
+			</li>
+			<li class="col-04 fl">
+				<div class="total dre">{$tot_point}</div>
+				<div class="cf shuju">
+					<div class="fl yesterday" style="width: 33.333%;">
+						<div>{$yesterday_tot_point}</div>
+						<div>昨日</div>
+					</div>
+					<div class="fl yesterday" style="width: 33.333%;">
+						<div>{$today_user_point}</div>
+						<div>客户(今日)</div>
+					</div>
+					<div class="fr today" style="width: 33.333%;">
+						<div>{$today_shop_point}</div>
+						<div>商户(今日)</div>
+					</div>
+				</div>
+				<div class="J_point">积分核销</div>
+			</li>
+			<li class="col-04 fl">
+				<div class="total dfr">{$tot_pay_point}</div>
+				<div class="cf shuju">
+					<div class="fl yesterday">
+						<div>{$yesterday_pay_point}</div>
+						<div>昨日</div>
+					</div>
+					<div class="fr today">
+						<div>{$today_pay_point}</div>
+						<div>今日</div>
+					</div>
+				</div>
+				<div class="J_point">积分支付核销</div>
+			</li>
+			<li class="col-04 fl">
+				<div class="total esd">{$tot_tongzheng_point}</div>
+				<div class="cf shuju">
+					<div class="fl yesterday">
+						<div>{$yesterday_tongzheng_point}</div>
+						<div>昨日</div>
+					</div>
+					<div class="fr today">
+						<div>{$today_tongzheng_point}</div>
+						<div>今日</div>
+					</div>
+				</div>
+				<div class="J_point">积分通证核销</div>
+			</li>
+		</ul>
+	</div>
+	<div class="title">通证分配详情</div>
+	<div class="point">
+		<ul class="cf">
+			<li class="col-04 fl" style="width:29%;">
+				<div class="total res">{$tot_money}</div>
+				<div class="cf shuju">
+					<div class="fl yesterday" style="width:33.333%;">
+						<div>{$yesterday__money}</div>
+						<div>昨日</div>
+					</div>
+					<div class="fl yesterday" style="width: 33.333%;">
+						<div>{$user_money}</div>
+						<div>客户</div>
+					</div>
+					<div class="fr today" style="width:33.333%;">
+						<div>{$shop_money}</div>
+						<div>商户</div>
+					</div>
+				</div>
+				<div class="J_point">通证分配资金</div>
+			</li>
+			<li class="col-04 fl" style="width:29%;">
+				<div class="total try">{$interest_margin}</div>
+				<div class="cf shuju">
+					<div class="fl yesterday" style="width: 33.333%;">
+						<div>{$interest_margin}</div>
+						<div>累计</div>
+					</div>
+					<div class="fl yesterday" style="width: 33.333%;">
+						<div>{$margin_yesterday}</div>
+						<div>昨日</div>
+					</div>
+					<div class="fr today" style="width: 33.333%;">
+						<div>{$margin_today}</div>
+						<div>今日</div>
+					</div>
+				</div>
+				<div class="J_point">备付金</div>
+			</li>
+			<li class="col-04 fl" style="width:29%;">
+				<div class="total tgd">0</div>
+				<div class="cf shuju">
+					<div class="fl yesterday" style="width:33.333%;">
+						<div>0</div>
+						<div>昨日</div>
+					</div>
+					<div class="fl yesterday" style="width: 33.333%;">
+						<div>0</div>
+						<div>今日</div>
+					</div>
+					<div class="fr today" style="width:33.333%;">
+						<div>0</div>
+						<div>周转率</div>
+					</div>
+				</div>
+				<div class="J_point">备付金/收益</div>
+			</li>
+			<li class="col-04 fl" style="width:12%;text-align: center;">
+				<div class="total red">{$param}</div>
+				<div class="shuju">
+					<div>{$param}</div>
+					<div>昨日</div>
+				</div>
+				<div class="J_point">通证分配系数</div>
+			</li>
+		</ul>
+	</div>
+	<div class="title">系数设置</div>
+	<div class="point">
+		<button class="set">循环系数设置</button>
+		<button class="maxSet">Max值设置</button>
+		<div class="day" id="maxSet">
+			<div class="dgy">
+				<label>Max值:</label>
+				<input type="text" class="coefficient" id="maxNumber" value="{$value[0]}"/>
+			</div>
+			<span id="J_comfig">保存</span>
+		</div>
+		<div class="day" id="day">
+			<div class="dgy">
+				<label>第1天:</label>
+				<input type="text" class="coefficient" />
+			</div>
+			<span id="add">增加</span>
+			<span id="delete">删除</span>
+			<span id="comfig">保存</span>
+		</div>
+	</div>
+</div>
+{/block}
+{block name="script"}
+<script>
+    $(function(){
+        $("#add").click(function(){
+            var len = $('#day .dgy').length + 1;
+            var html = '';
+            html+='<div class="dgy">'
+                +'<label>第'+len+'天:</label> '
+                +'<input type="text" class="coefficient" />'
+                +'</div>'
+            $(this).before(html);
+            if(len > 1){
+                $('#delete').show();
+            }
+        })
+        $(".set").click(function(){
+            $('#day').show();
+            $('#maxSet').hide();
+            $('#delete').hide()
+        })
+        $(".maxSet").click(function(){
+            $('#maxSet').show();
+            $('#day').hide();
+        })
+        $('#delete').click(function(){
+            var len = $('#day .dgy').length;
+            if(len > 1){
+                $('#day div:last').remove();
+            }
+            if(len == 2){
+                $(this).hide();
+            }
+        })
+        $("#J_comfig").click(function(){
+            $.ajax({
+                type:"post",
+                url:"PLATFORM_MAIN/index/setMaxParam",
+                data:{'param':$("#maxNumber").val()},
+				success:function(msg){
+                    window.location.reload();
+				}
+        	});
+        })
+    })
+</script>
+{/block}

@@ -1,0 +1,274 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/orderDetail.css" />
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<link rel="shortcut  icon" type="image/x-icon" href="__TEMP__/{$style}/public/images/icon.ico" media="screen"/>
+		<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/showbox.css">
+		<script src="__TEMP__/{$style}/public/js/showBox.js"></script>
+		<title>订单详情</title>
+		<script>
+			var s = '{$order_remain_time}';
+			var id = '{$order.order_id}';
+			$(function(){                            //订单关闭时间倒计时
+				var min = Math.floor(s%3600);
+				var mis = Math.floor(min/60);   //分钟
+				var ms = s%60;  //秒 
+				var timeID;
+					mis = mis<10?'0'+mis:mis;
+				function settime() { 
+				    if(ms == 0 && mis > 0) { 
+				        ms = 60;
+				        mis  = mis>0?mis - 1:0;
+				        mis = mis<10?'0'+mis:mis;
+				        settime()
+				        return;
+				    }else {
+				        ms--;
+				        ms = ms<10?'0'+ms:ms;
+				    } 
+				    $('#mins').html('订单已经提交,请在'+Math.floor(s/3600) + ":" + mis + ":"+ms +'内完成支付或者将自动取消!');
+				    if(mis == 0 && ms == 0){
+				    	orderClose(id);
+				    	stopCount();
+				    }
+					timeID = setTimeout(function() { 
+				    	settime()
+				},1000)}
+				settime();
+				function stopCount(){             //取消定时器
+				  clearTimeout(timeID);
+				}
+			})
+		</script>
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/order.js"></script>
+	</head>
+	<body>
+		<div class="box">
+			<div class="motify" style="display: none;"><div class="motify-inner">弹出框提示</div></div>
+			<div class="header">
+				<div class="bg"><img src="__TEMP__/{$style}/public/images/icon/bg.png"/></div>
+				<div class="title">{$order.status_name}</div>
+				{if condition="$order['order_status'] eq '0'"}
+				<div class="order-detail" id="mins"></div>
+				{/if}
+				{if condition="$order['order_status'] eq '2'"}
+				<div class="order-detail">{$confirm_remain_time}后将自动确认! </div>
+				{/if}
+			</div>
+			<div class="map">
+				{switch name="$order.shipping_type"}
+					{case value="1"}
+						<div class="mapTitle">{$order['receiver_name']}</div>
+						<div class="mapPhone cf">
+							<div class="fl mapIcon">收货地址</div>
+							<div class="fr map_phone">{$order['receiver_mobile']}</div>
+						</div>
+						<div class="mapDetail">{$order['address']}&nbsp;{$order['receiver_address']}{if condition="$order['receiver_zip']!=''"}&nbsp;，{$order['receiver_zip']}{/if}</div>
+					{/case}
+					{case value="2"}
+						<div class="mapPhone cf">
+							<div class="fl mapIcon">自提地址</div>
+							<div class="fr map_phone">{$order['order_pickup']['province_name']}&nbsp;{$order['order_pickup']['city_name']}&nbsp;{$order['order_pickup']['dictrict_name']}&nbsp;{$order['order_pickup']['address']}</div>
+						</div>
+					{/case}
+				{/switch}
+			</div>
+			<div class="shop">
+				<div class="shopTitle">{$order['shop_name']} </div>
+				<div class="list-myorder">
+					<ul class="ul-product">
+						{volist name="order['order_goods']" id="goodsData"}
+						<li class="cf">
+							<span class="pic fl"><img src="__ROOT__/{if condition="$goodsData.memo eq '[shop_scan_pay]'"}public/static/images/daiti.png{else /}{$goodsData.picture_info.pic_cover_micro}{/if}" /></span>
+							<div class="fl jksm">
+								<div class="namePrice cf">
+									<div class="name fl">{$goodsData.goods_name}</div>
+									<div class="price fr">￥{$goodsData.price}</div>
+								</div>
+								<div class="specificationsNumer">
+									{if condition = "$goodsData['sku_name'] neq ''"}
+									<div class="specifications fl">{$goodsData.sku_name}</div>
+									{/if}
+									<div class="numer fr">X{$goodsData.num}</div>
+								</div>
+							</div>
+						</li>
+						{if condition="$order['order_status'] eq '1' or $order['order_status'] eq '2' or $order['order_status'] eq '3'"}
+						<div class="refund "><a href="APP_MAIN/Order/refundDetail?order_goods_id={$goodsData.order_goods_id}">退款</a></div>
+						{/if}
+						{/volist}
+					</ul>
+				</div>
+			</div>
+			<div class="total">
+				<ul>
+					<li class="cf">
+						<div class="fl">商品总价</div>
+						<div class="fr">¥ {$order['goods_money']}</div>
+					</li>
+					<li class="cf">
+						<div class="fl">运费(快递)</div>
+						<div class="fr">¥ {$order['shipping_money']}</div>
+					</li>
+					{if condition="$order['user_platform_money']>0"}
+					<li class="cf">
+						<div class="fl">余额支付</div>
+						<div class="fr">¥ {$order['user_platform_money']}</div>
+					</li>
+					{/if}
+					
+					{if condition="$order['coupon_money']>0"}
+					<li class="cf">
+						<div class="fl">优惠券</div>
+						<div class="fr">¥ {$order['coupon_money']}</div>
+					</li>
+					{/if}
+					
+					{if condition="$order['promotion_money']>0"}
+					<li class="cf">
+						<div class="fl">满减优惠</div>
+						<div class="fr">¥ {$order['promotion_money']}</div>
+					</li>
+					{/if}
+					
+					{if condition="$order['point']>0"}
+					<li class="cf">
+						<div class="fl">使用积分</div>
+						<div class="fr">¥ {$order['point']}</div>
+					</li>
+					{/if}
+					<li class="cf">
+						<div class="fl">订单总价</div>
+						<div class="fr">¥ {$order['order_money']}</div>
+					</li>
+					{if condition="$order['order_status'] eq '0'"}
+					<li class="cf padder">
+						<div class="fl">需付款</div>
+						<div class="fr">¥ {$order['pay_money']}</div>
+					</li>
+					{/if}
+					{if condition="$order.payment_type neq '5'"}
+						{if condition="$order['order_status'] eq '1'"}
+						<li class="cf padder">
+							<div class="fl">实付款</div>
+							<div class="fr">¥ {$order['pay_money']}</div>
+						</li>
+						{/if}
+						{if condition="$order['order_status'] eq '2' or $order['order_status'] eq '3'or $order['order_status'] eq '4'"}
+						<li class="cf padder">
+							<div class="fl">已付款</div>
+							<div class="fr">余额:¥ {$order['user_platform_money']}&nbsp;积分:{$order['point']}</div>
+						</li>
+						{/if}
+					{else/}
+						{if condition="$order['order_status'] eq '1'"}
+						<li class="cf padder">
+							<div class="fl">实付款</div>
+							<div class="fr">¥ {$order['user_platform_money']}</div>
+						</li>
+						{/if}
+						{if condition="$order['order_status'] eq '2' or $order['order_status'] eq '3'or $order['order_status'] eq '4'"}
+						<li class="cf padder">
+							<div class="fl">已付款</div>
+							<div class="fr">余额:¥ {$order['user_platform_money']}&nbsp;积分:{$order['point']}</div>
+						</li>
+						{/if}
+					{/if}
+				</ul>
+			</div>
+			<div class="integral">
+				<ul>
+					<li class="cf">
+						<div class="fl">获得积分</div>
+						<div class="fr">{$order.give_point}</div>
+					</li>
+					<li class="cf">
+						<div class="fl">订单编号</div>
+						<div class="fr">{$order.order_no}</div>
+					</li>
+					<li class="cf">
+						<div class="fl">付款方式</div>
+						<div class="fr">{$order.payment_type_name}</div>
+					</li>
+					<li class="cf">
+						<div class="fl">交易单号</div>
+						<div class="fr">{$order.out_trade_no}</div>
+					</li>
+					{if condition="$express_name neq ''"}
+					<li class="cf">
+						<div class="fl">物流公司</div>
+						<div class="fr">{$express_name}</div>
+					</li>
+					{/if}
+					{if condition="$express_code neq ''"}
+					<li class="cf">
+						<div class="fl">快递单号</div>
+						<div class="fr">{$express_code}</div>
+					</li>
+					{/if}
+					<li class="cf">
+						<div class="fl">下单时间</div>
+						<div class="fr">{$order.create_time}</div>
+					</li>
+					{if condition="$order['order_status'] neq 0"}
+					<li class="cf">
+						<div class="fl">支付时间</div>
+						<div class="fr">{$order.pay_time}</div>
+					</li>
+					{/if}
+					{if condition="$order['order_status'] eq 4"}
+					<li class="cf">
+						<div class="fl">成交时间</div>
+						<div class="fr">{$order.sign_time}</div>
+					</li>
+					{/if}
+				</ul>
+			</div>
+		</div>
+		<div class="footer">
+			{if condition="$order['order_status'] eq '0'"}
+			<div class="payment"><!--待付款--->
+				<a href="javascript:void(0)" class="button close" onclick="operation('close','{$order.order_id}')">取消订单</a>
+				<a href="javascript:void(0)" class="button" onclick="operation('pay','{$order.order_id}')">立即付款</a>
+			</div>
+			{/if}
+			{if condition="$order['order_status'] eq '1'"}
+			<div class="payment"><!--待发货--->
+				<a href="javascript:void(0)" class="button close" onclick="operation('close','{$order.order_id}')">取消订单</a>
+			</div>
+			{/if}
+			{if condition="$order['order_status'] eq '2'"}
+			<div class="collect_goods"><!--待收货--->
+				{if condition="$express_code neq ''"}
+					<a href="http://m.kuaidi100.com/result.jsp?nu={$express_code}" class="button close">查看物流</a>
+				{/if}
+				<a href="javascript:void(0)" class="button" onclick="operation('getdelivery','{$order.order_id}')">确认收货</a>
+			</div>
+			{/if}
+			{if condition="$order['order_status'] eq '4' or $order['order_status'] eq '3'"}
+			<div class="collect"> <!--已完成--->
+				{if condition="$express_code neq ''"}
+					<a href="http://m.kuaidi100.com/result.jsp?nu={$express_code}" class="button close">查看物流</a>
+				{/if}
+				{if condition="$order['is_evaluate'] eq '0'"}
+				<a href="APP_MAIN/member/reviewCommodity?orderid={$order.order_id}" class="button">评价</a>
+				{/if}
+			</div>
+			{/if}
+			{if condition="$order['order_status'] eq '5'"}
+			<div class="collect"> <!--已关闭--->
+				<!--<a href="javascript:void(0)" class="button close" onclick="operation('delete','{$order.order_id}')">删除订单</a>-->
+			</div>
+			{/if}
+			{if condition="$order['order_status'] eq '-1' or $order['order_status'] eq '-2'"}
+			<div class="collect"> <!--查看退款情况--->
+				<a href="APP_MAIN/Order/refundDetail?order_goods_id={$goodsData.order_goods_id}" class="button close">退款信息</a>
+			</div>
+			{/if}
+		</div>
+	</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/ktvDetails.css" />
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<title>ktv会员详情</title>
+	</head>
+	<body>
+		{block name="main"}
+			{include file="wap/default/Goods/controlDetail" /}
+		{/block}
+		<div class="box">
+			<div class="goldktvImg" id="gold">
+				<img src="__TEMP__/{$style}/public/images/default/gold.png" width="100%"/>
+			</div>
+		</div>
+		<div class="contentBtn">
+			<div class="link">
+				<a href="APP_MAIN/Index/giftBag">查看更多 >></a>
+			</div>
+			<div class="jiesuan" id="J_gold">
+				<a href="APP_MAIN/Index/ktvDetials">立即购买</a>
+			</div>
+		</div>
+		<input type="hidden" id="goosId"/>
+		<input type="hidden" id="price"/>
+	</body>
+	<script>
+		$(function(){
+			$('#J_gold').click(function(){
+				var goosId = $('#goosId').val();
+				var price = $('#price').val();
+				$.ajax({
+					type:"get",
+					url:"",
+					async:true,
+					data:{
+						'price':price,
+						'id':goosId
+					},
+					success:function(data){
+						if(data)
+						location.href="APP_MAIN/order/myorderlist"
+					},
+					error:function(data){
+						
+					}
+				});
+			})
+		})
+//	$(function() {
+//		var url = location.search; //获取url中"?"符后的字串
+//	    	var theRequest = new Object();
+//		if(url.indexOf("?") != -1) {
+//			var str = url.substr(1);
+//		   		strs = str.split("&");
+//		   for(var i = 0; i < strs.length; i ++) {
+//		      theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+//		   }
+//		}
+//		if(theRequest.price != '' || theRequest.price != null || theRequest.price != undefined){
+//			if(theRequest.price == 298){     //黄金
+//				$('.goldktvImg').hide();
+//				$('.jiesuan').hide();
+//				$('#gold').show();
+//				$('#J_gold').show();
+//			}else if(theRequest.price == 1680){   //铂金
+//				$('.goldktvImg').hide();
+//				$('.jiesuan').hide();
+//				$('#bojin').show();
+//				$('#J_bojin').show();
+//			}else if(theRequest.price == 2980){   //钻石
+//				$('.goldktvImg').hide();
+//				$('.jiesuan').hide();
+//				$('#zuanshi').show();
+//				$('#J_zuanshi').show();
+//			}else if(theRequest.price == 12800){   //超级
+//				$('.goldktvImg').hide();
+//				$('.jiesuan').hide();
+//				$('#super').show();
+//				$('#J_super').show();
+//			}
+//			
+//		}
+//	   return ;
+//	});
+	</script>
+</html>

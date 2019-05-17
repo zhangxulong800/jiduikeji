@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" type="text/css" href="__PCMOB__/css/font.css">
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/ranking.css" />
+		<link rel="shortcut icon" type="image/x-icon" href="__TEMP__/{$style}/public/images/icon.ico" media="screen"/>
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<title>历史排行</title>
+	</head>
+	<body>
+		<div class="box">
+			<div class="cf btn">
+				<div class="fl sale tab" onclick="rankingData(0)">销售排行</div>
+				<div class="fr number" onclick="rankingData(1)">人数排行</div>
+			</div>
+			<div class="top3">
+				<div class="bg"><img src="__TEMP__/{$style}/public/images/index/bg_01.png" width="100%"/></div>
+				<div class="rankingTop3"></div>
+			</div>
+			<div class="J_ranking">
+				<ul id="indexJanking"></ul>
+			</div>
+		</div>
+		<div class="meRanking">
+			<ul>
+				{volist name="userinfo" id="vo"}
+				<li class="cf">
+					{if condition="$vo.num1 eq '无'"}
+						<span class="J_placings fl">未上榜</span>
+					{else/}
+						<span class="placings fl">{$vo.num1}</span>
+					{/if}
+					<span class="placingImg fl">
+						{if condition="$vo.user_headimg eq ''"}
+							<img src="__TEMP__/{$style}/public/images/member_default.png" width="46px"/>
+						{else/}
+							<img src="/{$vo.user_headimg}" width="46px"/>
+						{/if}
+						{$vo.user_name}
+					</span>
+					<span class="fr redsored">￥{$vo.order_moneys}</span>
+				</li>
+				{/volist}
+			</ul>
+		</div>
+		<div class="meRanking2">
+			<ul>
+				{volist name="userinfo" id="vo"}
+				<li class="cf">
+					{if condition="$vo.num2 eq '无'"}
+						<span class="J_placings fl">未上榜</span>
+					{else/}
+						<span class="placings fl">{$vo.num2}</span>
+					{/if}
+					<span class="placingImg fl">
+						{if condition="$vo.user_headimg eq ''"}
+							<img src="__TEMP__/{$style}/public/images/member_default.png" width="46px"/>
+						{else/}
+							<img src="/{$vo.user_headimg}" width="46px"/>
+						{/if}
+						{$vo.user_name}
+					</span>
+					<span class="fr redsored userXiaji">{$vo.num3}</span>
+				</li>
+				{/volist}
+			</ul>
+		</div>
+	</body>
+	<script>
+		$(function(){
+			$('.btn div').click(function(){
+				$('.btn div').removeClass('tab');
+				$(this).addClass('tab');
+				if($(this).html() == '销售排行'){
+					$('.btn div').css('margin','');
+					$(this).css('margin','10px 0px 10px 50px');
+					$('.meRanking2').hide();
+					$('.meRanking').show();
+				}else{
+					$('.meRanking').hide();
+					$('.meRanking2').show();
+					$('.btn div').css('margin','');
+					$(this).css('margin','10px 50px 10px 0px');
+				}
+			})
+			rankingData(0);
+		})
+		function rankingData(num){
+			if(num==0){
+				$.ajax({
+					type:"post",
+					url:"APP_MAIN/member/ranking",
+					data:{'type':num},
+					success:function(msg){
+						var html = '';
+						var nkin = '';
+						if(msg.length>0){
+							for (var i = 0;i<1;i++) {
+								for (var k= 0;k<msg[0].length;k++) {
+									html+='<div class="frist">'
+										+'<div class="king">'
+										+'<img src="__TEMP__/{$style}/public/images/index/king.png" width="22px"/></div>'
+										+'<div class="userImg">'
+										if(msg[0][0].user_headimg == ''){
+											html+='<img src="__TEMP__/{$style}/public/images/member_default.png" width="76px"/>'
+										}else{
+											html+='<img src="/'+msg[0][0].user_headimg+'" width="76px"/>'
+										}
+										html+='</div>'
+										+'<div class="userName">'+msg[0][0].user_name+'</div>'
+										+'<div class="userPrecie">￥'+msg[0][0].order_moneys+'</div>'
+										+'</div>'
+								}
+								for (var j= 0;j<msg[1].length;j++) {
+									html+='<div class="two">'
+										+'<div class="king">2</div>'
+										+'<div class="userImg">'
+										if(msg[1][0].user_headimg == ''){
+											html+='<img src="__TEMP__/{$style}/public/images/member_default.png" width="76px"/>'
+										}else{
+											html+='<img src="/'+msg[1][0].user_headimg+'" width="76px"/>'
+										}
+										html+='</div>'
+										+'<div class="userName">'+msg[1][0].user_name+'</div>'
+										+'<div class="userPrecie">￥'+msg[1][0].order_moneys+'</div>'
+										+'</div>'
+								}
+								for (var n= 0;n<msg[2].length;n++) {
+									html+='<div class="three">'
+										+'<div class="king">3</div>'
+										+'<div class="userImg">'
+										if(msg[2][0].user_headimg == ''){
+											html+='<img src="__TEMP__/{$style}/public/images/member_default.png" width="76px"/>'
+										}else{
+											html+='<img src="/'+msg[2][0].user_headimg+'" width="76px"/>'
+										}
+										html+='</div>'
+										+'<div class="userName">'+msg[2][0].user_name+'</div>'
+										+'<div class="userPrecie">￥'+msg[2][0].order_moneys+'</div>'
+										+'</div>'
+								}
+							}
+							$('.rankingTop3').html(html);
+							for (var index = 0;index<msg.length - 3;index++) {
+								var p = index+4;
+								nkin+='<li class="cf">'
+									+'<span class="placing fl">'+ p +'</span>'
+									+'<span class="placingImg fl">'
+									if(msg[index+3][0].user_headimg == ''){
+										nkin+='<img src="__TEMP__/{$style}/public/images/member_default.png" width="46px"/>'
+									}else{
+										nkin+='<img src="/'+msg[index+3][0].user_headimg+'" width="46px"/>'
+									}
+									nkin+=''+msg[index+3][0].user_name+''
+									+'</span>'
+									+'<span class="fr redsored">￥'+msg[index+3][0].order_moneys+'</span></li>'
+							}
+							$('#indexJanking').html(nkin);
+						}
+					}
+				});
+			}else{
+				$.ajax({
+					type:"post",
+					url:"APP_MAIN/member/ranking",
+					data:{'type':num},
+					success:function(msg){
+						console.log(msg);
+						var html = '';
+						var nkin = '';
+						if(msg.length>0){
+							for (var i = 0;i<1;i++) {
+								for (var k= 0;k<msg[0].length;k++) {
+									html+='<div class="frist">'
+										+'<div class="king">'
+										+'<img src="__TEMP__/{$style}/public/images/index/king.png" width="22px"/></div>'
+										+'<div class="userImg">'
+										if(msg[0][0].user_headimg == ''){
+											html+='<img src="__TEMP__/{$style}/public/images/member_default.png" width="76px"/>'
+										}else{
+											html+='<img src="/'+msg[0][0].user_headimg+'" width="76px"/>'
+										}
+										html+='</div>'
+										+'<div class="userName">'+msg[0][0].user_name+'</div>'
+										+'<div class="userPrecie userXiaji">'+msg[0][0].num+'</div>'
+										+'</div>'
+								}
+								for (var j= 0;j<msg[1].length;j++) {
+									html+='<div class="two">'
+										+'<div class="king">2</div>'
+										+'<div class="userImg">'
+										if(msg[1][0].user_headimg == ''){
+											html+='<img src="__TEMP__/{$style}/public/images/member_default.png" width="76px"/>'
+										}else{
+											html+='<img src="/'+msg[1][0].user_headimg+'" width="76px"/>'
+										}
+										html+='</div>'
+										+'<div class="userName">'+msg[1][0].user_name+'</div>'
+										+'<div class="userPrecie userXiaji">'+msg[1][0].num+'</div>'
+										+'</div>'
+								}
+								for (var n= 0;n<msg[2].length;n++) {
+									html+='<div class="three">'
+										+'<div class="king">3</div>'
+										+'<div class="userImg">'
+										if(msg[2][0].user_headimg == ''){
+											html+='<img src="__TEMP__/{$style}/public/images/member_default.png" width="76px"/>'
+										}else{
+											html+='<img src="/'+msg[2][0].user_headimg+'" width="76px"/>'
+										}
+										html+='</div>'
+										+'<div class="userName">'+msg[2][0].user_name+'</div>'
+										+'<div class="userPrecie userXiaji">'+msg[2][0].num+'</div>'
+										+'</div>'
+								}
+							}
+							$('.rankingTop3').html(html);
+							for (var index = 0;index<msg.length - 3;index++) {
+								var p = index+4;
+								nkin+='<li class="cf">'
+									+'<span class="placing fl">'+ p +'</span>'
+									+'<span class="placingImg fl">'
+									if(msg[index+3][0].user_headimg == ''){
+										nkin+='<img src="__TEMP__/{$style}/public/images/member_default.png" width="46px"/>'
+									}else{
+										nkin+='<img src="/'+msg[index+3][0].user_headimg+'" width="46px"/>'
+									}
+									nkin+=''+msg[index+3][0].user_name+''
+									+'</span>'
+									+'<span class="fr redsored userXiaji">'+msg[index+3][0].num+'</span></li>'
+							}
+							$('#indexJanking').html(nkin);
+						}
+					}
+				});
+			}
+			
+		}
+	</script>
+</html>

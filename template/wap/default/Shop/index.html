@@ -1,0 +1,223 @@
+{extend name="wap/default/Shop/shopBase" /}
+{block name="resources"}
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/swiper.js" ></script>
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/swiper.css" />
+		<script src="__TEMP__/{$style}/public/js/showBox.js"></script>
+		<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/showbox.css">
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/collection_goods_or_shop.js"></script>
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/shop_index.js"></script>
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/ktv.css" />
+		<link rel="stylesheet" type="text/css" href="__PCMOB__/css/font.css">
+		<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/shop_index.css">
+		<title>积分呗商城</title>
+		<script>
+			var is_member_fav_shop = "{$is_member_fav_shop}";
+			var APPMAIN='APP_MAIN';
+			var imgUrl ='__TEMP__/{$style}';
+		</script>
+{/block}
+{block name="goodsHead"}
+	<div class="motify" style="display: none;"><div class="motify-inner">弹出框提示</div></div>
+	<div class="header">
+		<div class="banner">
+	        <div class="swiper-wrapper">
+	        	{if condition="$shop_info['shop_avatar'] !=''"}
+				<div class="swiper-slide"><img class="user-bg" src="__UPLOAD__/{$shop_info['shop_avatar']}"></div>
+				{else/}
+				<div class="swiper-slide"><img class="user-bg" src="__TEMP__/{$style}/public/images/default/default_shop_avatar.png"></div>
+				{/if}
+	        </div>
+	        <div class="swiper-pagination"></div>
+	    </div>
+	    <div class="hgfikj">
+		    <div class="position cf">
+		    	<div class="titleImg">
+		    		{if condition="$shop_info['shop_logo'] !=''"}
+					<img class="user-logo" src="/{$shop_info['shop_logo']}">
+					{else/}
+					<img class="user-logo" src="__TEMP__/{$style}/public/images/default/default_shop_logo.png">
+					{/if}
+		    	</div>
+		    	<div class="title">
+		    		{$shop_info['shop_name']}
+		    		<span onclick="collectionGoodsOrShop('.js-collection',{$shop_id},'shop','')">
+						<a href="javascript:;">
+							<span class="js-collection">
+								{if condition="$is_member_fav_shop ==0"}
+									<img src="__TEMP__/{$style}/public/images/heart01.png" width="18px"/>
+								{else/}
+									<img src="__TEMP__/{$style}/public/images/heart.png" width="18px"/>
+								{/if}
+							</span>
+						</a>
+					</span>
+		    	</div>
+		    	<div class="ress fl">
+		    		<div class="J_ress">{$shop_info.live_store_address}</div>
+		    		<div class="distance">{$shop_info.live_store_tel}</div>
+		    	</div>
+		    	<div class="daohang fr">
+		    		<!--<a href="https://uri.amap.com/marker?position=经度,纬度&name=湖南大学">-->
+		    		<a href="https://uri.amap.com/marker?position={$shop_info.latitude_longitude}&name={$shop_info.shop_name}">
+		    			<img src="__TEMP__/{$style}/public/images/icon/daohang.png"/>
+		    		</a>
+		    	</div>
+		    </div>
+	    </div>
+    </div>
+	<div class="content">
+    	<div class="newest">
+    		<div class="swiper-container banners-container">
+				<ul class="cf swiper-wrapper">
+					{if condition="count($recommend_block) >0"}
+					{foreach name="recommend_block" item="recommend_detail" key="k"}
+					{foreach name="recommend_detail['goods_list']" item="goods_list"}
+					<li class="col-sm-4 swiper-slide">
+						<a href="APP_MAIN/Goods/goodsDetail?id={$goods_list.goods_info.goods_id}&shop_id={$goods_list.goods_info.shop_id}">
+							<img src="__UPLOAD__/{$goods_list.picture_info.pic_cover_mid}" />
+							<div class="vacuum">{$goods_list.goods_info.goods_name}</div>
+							<div class="price">
+								<span class="original">￥{$goods_list.goods_info.promotion_price}</span>
+							</div>
+						</a>
+					</li>
+					{/foreach}
+					{/foreach}
+					{/if}
+				</ul>
+			</div>
+    	</div>
+    </div>
+    <!--{if condition="count($discount_info['data']) >0"}
+	    <div class="special_area">优惠券专区</div>
+	    <div class="coupon">
+	    	<ul class="cf">
+	    		{volist name = "discount_info['data']" id="vo"}
+	    		<li onclick="coupon_receive(this,'{$vo.coupon_type_id}')">
+	    			<div class="money"><font>¥</font>{$vo.money}</div>
+	    			<div class="full">满{$vo.at_least}可用</div>
+	    			<div class="date"></div>
+	    			<div class="receive"></div>
+	    			<input class="J_date" value="{$vo.end_time}" type="hidden"/>
+	    		</li>
+	    		{/volist}
+	    	</ul>
+	    </div>
+    {/if}-->
+    <div class="special_area">商品列表<a href="APP_MAIN/shop/goodslist?shop_id={$shop_id}" class="shopLink">更多 ></a></div>
+    <div class="shop_commodity">
+    	<ul class="cf">
+    		{foreach name = "goods_sheet" item="vo"}
+    		{if condition="$vo.state = '1'"}
+	    		<li class="col-cx-3">
+	    			<a href="APP_MAIN/goods/goodsdetail?id={$vo.goods_id}">
+		    			<div class="shopsImg"><img src="__UPLOAD__/{$vo.pic_cover_mid}" width="100%"/></div>
+		    			<div class="shopsContent">
+		    				<div class="title">{$vo.goods_name}</div>
+		    				<div class="goTo cf">
+	    						<div class="shop_price">¥ {$vo['price']}</div>
+	    					</div>
+		    				<div class="goTo cf">
+		    					<img src="__TEMP__/{$style}/public/images/jplus.png" width="32px" height="14px" class="fl"/>
+		    					<div class="fl market_price">¥ {$vo['market_price']}</div>
+		    					<div class="fr shop_yishou">已售{$vo.sales}</div>
+		    				</div>
+		    			</div>
+	    			</a>
+	    		</li>
+    		{/if}
+    		{/foreach}
+    	</ul>
+    </div>
+    {if condition="$shop_info['shop_hint'] !=''"}
+	    <div class="special_area">商家提示</div>
+	    <div class="shopHint">{$shop_info['shop_hint']}</div>
+    {/if}
+    <div class="special_area">周边商铺</div>
+    <div class="shops">
+    	<ul class="cf">
+    		<li class="col-cx-3">
+    			<div class="shopsImg"><img src="__TEMP__/{$style}/public/images/pic08.png" width="100%"/></div>
+    			<div class="shopsContent">
+    				<div class="title">城市花园酒店</div>
+    				<div class="goTo cf">
+    					<div class="fl">商务酒店</div>
+    				</div>
+    			</div>
+    		</li>
+    		<li class="col-cx-3">
+    			<div class="shopsImg"><img src="__TEMP__/{$style}/public/images/lofko.png" width="100%"/></div>
+    			<div class="shopsContent">
+    				<div class="title">悦·酒店</div>
+    				<div class="goTo cf">
+    					<div class="fl">主题酒店</div>
+    				</div>
+    			</div>
+    		</li>
+    	</ul>
+    </div>
+</body>
+<script>
+	/*轮播*/
+    var swiper = new Swiper('.banner', {
+        pagination: '.swiper-pagination',
+        slidesPerView: 1,
+        autoplay: 5000,
+        paginationClickable: true,
+        spaceBetween: 30,
+        loop: true
+    });
+	var swiper1 = new Swiper('.banners-container', {
+        slidesPerView:2.5,
+        spaceBetween: 15,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+    });
+  	$(function(){
+		if($(document.body).height() == '554'){
+			$('.shops').css('padding-bottom','80px');
+		};
+		for(var i = 0;i<$('.coupon li').length;i++){
+			var date = $('.J_date').eq(i).val();
+			console.log(date)
+			$('.coupon li').eq(i).find('.date').html(date.split(" ")[0] + '前使用');
+		}
+	})
+  	var couponObj = new Array();	
+	function coupon_receive(event,coupon_type_id){
+		var is_have = true;
+		$.each(couponObj, function(key, val) {
+			if(val == coupon_type_id){
+				is_have = false;
+			}
+		});
+		if(is_have){
+			couponObj.push(coupon_type_id);
+			$.ajax({
+				type:"post",
+				url : "APP_MAIN/index/getCoupon",
+				async: false,
+				dataType:"json",
+				data:{
+					'coupon_type_id' : coupon_type_id
+				},
+				success : function(data){   			
+					if(data['code']>0){
+						$(event).children('.receive').show();
+					}else{
+						$(event).children('.receive').show();
+					}
+				}
+			})
+		}
+	}
+</script>
+{/block}
+
+	{block name="bottom"}{/block}

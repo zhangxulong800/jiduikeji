@@ -1,0 +1,510 @@
+{extend name="wap/default/base" /}
+{block name="resources"}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<meta content="telephone=no" name="format-detection"/>
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/shopStreet.css">
+		<script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+		<script type="text/javascript" src="__PCMOB__/js/scroll.js"></script>
+		<script src="__TEMP__/{$style}/public/js/swiper.js"></script>
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/swiper.css" />
+	</head>
+{/block}
+{block name="goodsHead"}
+	<div class="head">
+		<div class="classify">
+			<form action="" method="get">
+			<input type="text" placeholder="请输入店铺名称" class="J_search" name="shop_name" value='{$shop_name}' id="shop"/>
+			<a href="javascript:void(0);" class="bg_search"></a>
+			</form>
+		</div>
+{/block}
+{block name="main" }
+		<div class="shops" style="overflow:hidden;">
+			<div class="search swiper-container-nav">
+				<ul class="cf swiper-wrapper">
+					<li class="col-sm-pull-3 swiper-slide">
+						<a href="javascript:void(0);" onclick="shopStreet('','','11',3)">
+							<img src="__TEMP__/{$style}/public/images/icon/icon_3.png" />
+							<div class="popularity">餐饮</div>
+						</a>
+					</li>
+					<li class="col-sm-pull-3 swiper-slide">
+						<a href="javascript:void(0);" onclick="shopStreet('','','7',3)">
+							<img src="__TEMP__/{$style}/public/images/icon/icon_6.png" />
+							<div class="popularity">酒店</div>
+						</a>
+					</li>
+					<li class="col-sm-pull-3 swiper-slide">
+						<a href="javascript:void(0);" onclick="shopStreet('','','12',3)">
+							<img src="__TEMP__/{$style}/public/images/icon/icon_1.png" />
+							<div class="popularity">KTV</div>
+						</a>
+					</li>
+					<li class="col-sm-pull-3 swiper-slide">
+						<a href="javascript:void(0);" onclick="shopStreet('','','13',3)">
+							<img src="__TEMP__/{$style}/public/images/icon/icon_2.png" />
+							<div class="popularity">超市</div>
+						</a>
+					</li>
+					<li class="col-sm-pull-3 swiper-slide">
+						<a href="javascript:void(0);" onclick="shopStreet('','','4',3)">
+							<img src="__TEMP__/{$style}/public/images/icon/icon_5.png" />
+							<div class="popularity">美容美发</div>
+						</a>
+					</li>
+					<li class="col-sm-pull-3 swiper-slide">
+						<a href="javascript:void(0);" onclick="shopStreet('','','9',3)">
+							<img src="__TEMP__/{$style}/public/images/icon/icon_4.png" />
+							<div class="popularity">休闲娱乐</div>
+						</a>
+					</li>
+					<li class="col-sm-pull-3 swiper-slide">
+						<a href="javascript:void(0);" onclick="shopStreet('','','14',3)">
+							<img src="__TEMP__/{$style}/public/images/icon/icon_7.png" />
+							<div class="popularity">电影</div>
+						</a>
+					</li>
+					<li class="col-sm-pull-3 swiper-slide">
+						<a href="javascript:void(0);" onclick="shopStreet('','','15',3)">
+							<img src="__TEMP__/{$style}/public/images/icon/icon_8.png" />
+							<div class="popularity">旅游</div>
+						</a>
+					</li>
+					<li class="col-sm-pull-3 swiper-slide">
+						<a href="javascript:void(0);" onclick="shopStreet('','','16',3)">
+							<img src="__TEMP__/{$style}/public/images/icon/icon_9.png" />
+							<div class="popularity">摄影</div>
+						</a>
+					</li>
+					<li class="col-sm-pull-3 swiper-slide">
+						<a href="javascript:void(0);" onclick="shopStreet('','','17',3)">
+							<img src="__TEMP__/{$style}/public/images/icon/icon_10.png" />
+							<div class="popularity">汽车服务</div>
+						</a>
+					</li>
+					<li class="col-sm-pull-3 swiper-slide">
+						<a href="javascript:void(0);" onclick="shopStreet('','','18',3)">
+							<img src="__TEMP__/{$style}/public/images/icon/icon_12.png" />
+							<div class="popularity">健身运动</div>
+						</a>
+					</li>
+					<li class="col-sm-pull-3 swiper-slide">
+						<a href="javascript:void(0);" onclick="shopStreet('','','19',3)">
+							<img src="__TEMP__/{$style}/public/images/icon/icon_21.png" />
+							<div class="popularity">花艺</div>
+						</a>
+					</li>
+					<li class="col-sm-pull-3 swiper-slide">
+						<a href="javascript:void(0);" onclick="shopStreet('','','20',3)">
+							<img src="__TEMP__/{$style}/public/images/icon/icon_16.png" />
+							<div class="popularity">服饰</div>
+						</a>
+					</li>
+					<li class="col-sm-pull-3 swiper-slide">
+						<a href="javascript:void(0);" onclick="shopStreet('','','21',3)">
+							<img src="__TEMP__/{$style}/public/images/icon/icon_11.png" />
+							<div class="popularity">教育培训</div>
+						</a>
+					</li>
+					<li class="col-sm-pull-3 swiper-slide">
+						<a href="javascript:void(0);" onclick="shopStreet('','','22',3)">
+							<img src="__TEMP__/{$style}/public/images/icon/icon_18.png" />
+							<div class="popularity">装修设计</div>
+						</a>
+					</li>
+					<li class="col-sm-pull-3 swiper-slide">
+						<a href="javascript:void(0);" onclick="shopStreet('','','23',3)">
+							<img src="__TEMP__/{$style}/public/images/icon/icon_17.png" />
+							<div class="popularity">家具建材</div>
+						</a>
+					</li>
+					<li class="col-sm-pull-3 swiper-slide">
+						<a href="javascript:void(0);" onclick="shopStreet('','','24',3)">
+							<img src="__TEMP__/{$style}/public/images/icon/icon_15.png" />
+							<div class="popularity">体检中心</div>
+						</a>
+					</li>
+					<li class="col-sm-pull-3 swiper-slide">
+						<a href="javascript:void(0);" onclick="shopStreet('','','25',3)">
+							<img src="__TEMP__/{$style}/public/images/icon/icon_20.png" />
+							<div class="popularity">配镜</div>
+						</a>
+					</li>
+					<li class="col-sm-pull-3 swiper-slide">
+						<a href="javascript:void(0);" onclick="shopStreet('','','26',3)">
+							<img src="__TEMP__/{$style}/public/images/icon/icon_19.png" />
+							<div class="popularity">西点</div>
+						</a>
+					</li>
+					<li class="col-sm-pull-3 swiper-slide">
+						<a href="javascript:void(0);" onclick="shopStreet('','','27',3)">
+							<img src="__TEMP__/{$style}/public/images/icon/icon_13.png" />
+							<div class="popularity">男鞋</div>
+						</a>
+					</li>
+					<li class="col-sm-pull-3 swiper-slide">
+						<a href="javascript:void(0);" onclick="shopStreet('','','28',3)">
+							<img src="__TEMP__/{$style}/public/images/icon/icon_14.png" />
+							<div class="popularity">女鞋</div>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="content"></div>
+	<div class="modal-sm">
+		<div class="bg"></div>
+		<div class="kinms triangle">
+			<div class="nhgth cf">
+				<label>排序</label>
+				<ul>
+					{if condition="$shop_group_name eq '' "}
+						{if condition="$order_type eq ''"}
+							<li class="select active" id="shop_group"><a href="javascript:;">综合 </a>
+						{else/}
+							<li id="shop_group" class="active"><a href="APP_MAIN/index/shopstreet">综合 </a>
+						{/if}
+					{else/}
+						<li id="shop_group" class="select">{$shop_group_name}
+					{/if}
+						</li>
+					<!-- 按销量 -->
+					{if condition="$order_type eq 1"}
+						<li class="select tab" >
+					{else /}
+						<li>
+					{/if}
+						{if condition="$order_type eq 1 && $sort eq 'desc'"}
+							<a onclick="shopStreet('1','desc','',3);">按销量<i class='desc_selected'></i></a>
+						{else /}
+							<a onclick="shopStreet('1','desc','',3);">按销量</a>
+						{/if}
+						</li>
+					<!-- 按信誉 -->
+					{if condition="$order_type eq 2"}
+						<li class="select tab" >
+					{else /}
+						<li>
+					{/if}
+				
+					{if condition="$order_type eq 2 && $sort eq 'desc'"}
+						<a onclick="shopStreet('2','asc','',3);">按信誉<i class='desc_selected'></i></a>
+						{else /}
+						<a onclick="shopStreet('2','desc','',3);">按信誉</a>
+						
+					{/if}
+					</li>
+				</ul>
+			</div>
+			<div class="zonghe cf total_content">
+				<label>种类</label>
+				<ul>
+					{if condition="$shop_group_id eq '' "}
+					<li><a target="_self" href="APP_MAIN/index/shopstreet" class="selected"><span>全部</span></a></li>
+					{else /}
+					<li><a target="_self" href="APP_MAIN/index/shopstreet" ><span>全部</span></a></li>
+					{/if}
+					{foreach $shop_group_list as $vo}
+						{if condition="$vo.shop_group_id eq $shop_group_id"}
+						<li>
+							<a  class="selected" target="_self" title="{$vo.group_name}" class="selected" onclick="shopStreet('','','{$vo.shop_group_id}',3);">
+								<span>{$vo.group_name}</span>
+							</a>
+						</li>
+						{else /}
+						<li>
+							<a target="_self" onclick="shopStreet('','','{$vo.shop_group_id}',3)"; title="{$vo.group_name}">
+								<span>{$vo.group_name}</span>
+							</a>
+						</li>
+						{/if}
+					{/foreach}
+				</ul>
+			</div>
+			<input type="hidden" id="desc" value=""/>
+			<input type="hidden" id="order_type"/>
+			<input type="hidden" id="shop_group_id" value=""/>
+			<input type="hidden" id="num"/>
+			<input type="hidden" id="lat" />
+			<input type="hidden" id="lng" />
+		</div>
+	</div>
+{/block}
+{block name="javascript"}
+<script type="text/javascript">
+	$(function() {
+		qq_position();
+		var url = location.search; //获取url中"?"符后的字串
+    	var theRequest = new Object();
+		if(url.indexOf("?") != -1) {
+			var str = url.substr(1);
+		   		strs = str.split("&");
+		   for(var i = 0; i < strs.length; i ++) {
+		      theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+		   }
+		}
+		if(theRequest.shop_group_id != '' || theRequest.shop_group_id != null || theRequest.shop_group_id != undefined){
+			if($('.tab').hasClass('select')){
+				$('#shop_group').removeClass('select')
+			}
+		}
+	   return ;
+	});
+	//导航滑动
+    var swiper1 = new Swiper('.swiper-container-nav', {
+        slidesPerView:5,
+       // spaceBetween:0,    //设置每个swiper-slide的margin-right值
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+    });
+	$('.bg_search').click(function(){
+		if($(".modal-sm").is(":hidden")){
+			$(".modal-sm").show();
+		}else{
+			$(".modal-sm").hide();
+		}
+	})
+	$('.bg').click(function(){
+		if($(".modal-sm").is(":hidden")){
+			$(".modal-sm").show();
+		}else{
+			$(".modal-sm").hide();
+		}
+	})
+	function search(){
+		var shop_name_1=$('#shop').val();
+		location.href="APP_MAIN/index/shopStreet?shop_name="+shop_name_1;
+	}
+	$(function(){
+		buttomActive('#buttom_stroe');
+	});
+	//order_type   排序方式
+	//sort         升降排序
+	//shop_group_id  筛选ID
+	//num          是否点击过筛选或者排序
+ 	var page_index = 1;
+    var page_size = 5;
+	function shopStreet(order_type,sort,shop_group_id,num){
+		if(num == 3){
+			$('.content').html('');
+			page_index = 1;
+    		page_size = 5;
+		}
+		if((sort != undefined && sort != '' && num != 1) || $('#desc').val() != ''){
+			if($('#desc').val() != ''){
+				$('#desc').val($('#desc').val());
+			}
+			if(desc != undefined && desc != ''){
+				if($('#desc').val() == 'desc'){
+					$('#desc').val('asc');
+				}else{
+					$('#desc').val('desc');
+				}
+			}
+			var sort = $('#desc').val();
+		}
+		if((order_type != undefined && order_type != '') || $('#order_type').val() != ''){
+			if($('#order_type').val() != ''){
+				$('#order_type').val($('#order_type').val());
+			}
+			if(order_type !=undefined && order_type != ''){
+				$('#order_type').val(shop_group_id);
+			}
+			var order_type = $('#order_type').val();
+		}
+		if((shop_group_id !=undefined && shop_group_id != '') || $('#shop_group_id').val() != ''){
+			if($('#shop_group_id').val() != ''){
+				$('#shop_group_id').val($('#shop_group_id').val());
+			}
+			if(shop_group_id !=undefined && shop_group_id != ''){
+				$('#shop_group_id').val(shop_group_id);
+			}
+			var shop_group_id = $('#shop_group_id').val();
+		}
+		$.ajax({
+			type:"post",
+			url:"APP_MAIN/index/shopStreet",
+			async:true,
+			data:{'shop_group_id':shop_group_id,'sort':sort,'order_type':order_type,'page_size':page_size,'page_index':page_index},
+			success:function(data){
+				if(data.data.length > 0){
+					if((page_index < data.page_count||data.page_count == page_index)&& page_index>0){
+						var html = '';
+						var msg = data.data;
+						html+='<div class="store">'
+						for (var i = 0;i< msg.length;i++) {
+							if(msg[i].shop_type != 1){
+								html+='<div class="title">'
+									+'<div class="J_headTitle cf">'
+									+'<img src="/'+msg[i].shop_logo+'" class="shop_logo"/>'
+									+'<a href="APP_MAIN/shop/index?shop_id='+msg[i].shop_id+'"  title="'+msg[i].shop_name+'">'
+									+'<div class="fl">'
+									if(msg[i].live_store_address != null){
+										html+='<div class="shop_name">'+msg[i].shop_name+'('+msg[i].live_store_address+')'+'</div>'
+									}else{
+										html+='<div class="shop_name">'+msg[i].shop_name+'</div>'
+									}
+									html+='<div class="grou_name">'+msg[i].grou_name+' 好评 80%'+'</div>'
+//									if(msg[i].promotion_discount.length > 0){
+//										if(msg[i].promotion_discount.length > 1){
+//											html+='<div class="myscroll"><ul>'
+//											for(var k = 0;k<msg[i].promotion_discount.length;k++){
+//												html+='<li>满'+msg[i].promotion_discount[k].at_least+'减'+msg[i].promotion_discount[k].money+'</li>'
+//											}
+//											html+='</ul></div>'
+//										}else{
+//											html+='<div class="myscrolls"><ul>'
+//											for(var k = 0;k<msg[i].promotion_discount.length;k++){
+//												html+='<li>满'+msg[i].promotion_discount[k].at_least+'减'+msg[i].promotion_discount[k].money+'</li>'
+//											}
+//											html+='</ul></div>'
+//										}
+//									}
+                                if(msg[i].shop_id == '55'){
+                                    html+='<div class="consumption consumptionImg">会员尊享<font color="#ff000">9.5</font>折</div>'
+                                }else if(msg[i].shop_id == '56'){
+                                    html+='<div class="consumption consumptionImg">消费满<font color="#ff000">500</font>送<font color="#ff000">20</font>积分</div>'
+                                }else{
+                                    html+='<div class="consumption consumptionImg">会员尊享<font color="#ff000">8.5</font>折</div>'
+                                }
+                                if(msg[i].shop_group_id == '7' || msg[i].shop_group_id == '9' || msg[i].shop_group_id == '11' || msg[i].shop_group_id == '12'){
+                                    if(msg[i].shop_id == '43' || msg[i].shop_id == '46'){
+										html+='<div class="consumption">消费金额的<font>15%</font>可用于会员返利，一积分约可分红<font>6</font>元</div>'
+									}else{
+										html+='<div class="consumption">消费金额的<font>10%</font>可用于会员返利，一积分约可分红<font>6</font>元</div>'
+									}
+                                }else{
+                                    html+='<div class="consumption">消费得<font>40%</font>积分,每1积分可提现约<font>6</font>元</div>'
+                                }
+									html+='</div>'
+//									if(msg[i].shop_type ==1){
+//										html+='<span class="flag-stores">直营店</span>'
+//									}
+	//							html+='<span class="flag-security">保</span>'
+								html+='</a>'
+									+'<div class="fr">'
+//									+'<span>15</span>'
+									+'<a href="https://uri.amap.com/marker?position='+msg[i].latitude_longitude+'&name='+msg[i].shop_name+'" class="latitude" data-let= '+msg[i].latitude_longitude+'>'
+									+'<img src="__TEMP__/{$style}/public/images/icon/daohang.png" class="daohang" style="width:44px"/>'
+									+'<div class="juli" style="text-align:center;color:#999;margin-top:0;"></div>'
+									+'</a>'
+									+'</div>'
+									+'</div>'
+//									+'<div class="consumption cf">'
+//									+'<div class="fl">'
+//									+'<span></span>'
+//									+'</div>'
+//									+'<div class="fr juli"></div>'
+//									+'</div>'
+									+'</div>'
+									+'<div class="J_bg">'
+								for (var j = 0;j<msg[i].goods_list.length;j++){
+									html+='<div class="J_kimg">'
+										+'<ul class="cf">'
+										+'<li class="col-sm-4">'
+										+'<a href="APP_MAIN/goods/goodsdetail?id='+msg[i].goods_list[j].goods_id+'">'
+										+'<img src="/'+msg[i].goods_list[j].pic_cover_mid+'" />'
+										+'<div class="vacuum">'+msg[i].goods_list[j].goods_name+'</div>'
+										+'<div class="price">￥'+msg[i].goods_list[j].price+'</div>'
+										+'<img src="__TEMP__/{$style}/public/images/jplus.png" width="23px" height="11px" style="width:auto;vertical-align:middle;"/>'
+        								+'<span style="height:16px;display:inline-block;padding:0 2px;line-height:16px;vertical-align:middle;font-weight:bold;font-size:10px;">￥'+msg[i].goods_list[j].market_price+'</span>'
+										+'</a>'
+										+'</li>'
+										+'</ul>'
+										+'</div>'
+								}
+								html+='</div>'
+							}
+						}
+						html+='</div>'
+						$('.content').append(html);
+						$(".modal-sm").hide();
+						latitude();
+						page_index +=1;
+						$('.myscroll').myScroll({
+							speed:100, //数值越大，速度越慢
+							rowHeight: 26 //li的高度
+						});
+		    			$(window).scroll(function(){
+					        var scrollTop = $(this).scrollTop();
+					        var scrollHeight = $(document).height();
+					        var windowHeight = $(this).height();
+					        var sort = $('#desc').val();
+				       		var order_type = $('#order_type').val();
+				       		var shop_group_id = $('#shop_group_id').val();
+					        if (scrollTop + windowHeight == scrollHeight) {
+						        if(data.data.length !=0){
+		        					shopStreet(order_type,sort,shop_group_id,1);
+		        				}
+					        }
+					    });
+				   	}
+			   	}else{
+			   		$(window).unbind ('scroll');
+			   		$(".modal-sm").hide();
+			   		page_index = -1;
+			   		if(!$('.content').find('div').hasClass('store')){
+    					$('.content').append('<div class="nothing-data" align="center"><img src="__TEMP__/{$style}/public/images/wap_nodata.png"/><div>没有找到您想要的商品…</div></div>')
+    				}
+			   	}
+			}
+		});
+	};
+	shopStreet()
+	//建立构造函数
+	function qq_position() {
+		var geolocation = new qq.maps.Geolocation("OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77", "myapp");
+		if (geolocation) {
+	        geolocation.getLocation(success, error);
+	    } else {
+	        alert("获取失败");
+	    }
+	
+	}
+	//获取当前的定位信息成功
+	function success(position) {
+		$('#lat').val(position.lat);
+		$('#lng').val(position.lng);
+	};
+	//获取当前的定位信息失败
+	function error() {
+	   document.getElementById("botn").innerHTML="定位失败";
+	};
+	function latitude(){
+		var len = $('body .latitude').length;
+		var userLat = $('#lat').val();
+		var userLng = $('#lng').val();
+		for(var i = 0;i < len; i++){
+			var num = $('body .latitude').eq(i).attr('data-let');
+			var lng = num.split(",")[0];
+			var lat = num.split(",")[1];
+			caculateLL(userLat, userLng, lat, lng,i)
+		};
+	}
+	function caculateLL(lat1, lng1, lat2, lng2,k) {
+		if(lat1 != '' && lat2 != undefined){
+			var radLat1 = lat1 * Math.PI / 180.0;
+			var radLat2 = lat2 * Math.PI / 180.0;
+			var a = radLat1 - radLat2;
+			var b = lng1 * Math.PI / 180.0 - lng2 * Math.PI / 180.0;
+			var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+			s = s * 6378.137;
+			s = Math.round(s * 10000) / 10000;
+			$('body .latitude').eq(k).find('.juli').html(s.toFixed(1) + 'km');
+			return s
+		}else{
+			$('body .latitude').eq(k).find('.juli').html(0 + 'km');
+		}
+	};
+</script>
+{/block}
+</html>

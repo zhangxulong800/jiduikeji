@@ -1,0 +1,12 @@
+@font-face{
+	font-family:"impact";
+	src:url("../font/impact_0.ttf") format('truetype');
+	font-family:"PingFang";
+	src:url("../font/PingFang_Bold.ttf") format('truetype'),
+		url("../font/PingFang_Light.ttf") format('truetype'),
+		url("../font/PingFang_Regular.ttf") format('truetype');
+	font-family:"hanyi";
+	src:url("../font/汉仪综艺体简.ttf") format('truetype');
+	font-family:"DINMittelschriftStd";
+	src: url("../font/DINMittelschriftStd.otf") format('truetype');
+}

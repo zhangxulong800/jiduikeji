@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/putForward.css" />
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/showbox.css">
+		<script src="__TEMP__/{$style}/public/js/showBox.js"></script>
+		<title>申请提现</title>
+		<script>
+			$(function(){
+				var number = $('#bank_account_number').val();
+				var cmdIcon = '__TEMP__/{$style}/public/images/bankIcon/';
+				if(number != undefined){
+					$('.bankcode').html('尾号' +number.substr(number.length-4)+ '储蓄卡');
+					$('.bankCard').html("**** **** ****" + $('.name').html() + number.substr(number.length-3));
+					bankCardAttribution(number.replace(/\s+/g,""),cmdIcon,true);
+				};
+			})
+		</script>
+		<script type="text/javascript" src="__PCMOB__/js/bankCard.js" ></script>
+	</head>
+	<body>
+		<div class="motify" style="display: none;"><div class="motify-inner">弹出框提示</div></div>
+		<div class="box" id="forwardTwo">
+			<div class="header cf">
+				{if condition="count($account_list) eq 0"}
+                	<a href="APP_MAIN/member/accountlist?shop_id={$shop_id}"><span>请添加提现账号 <br></span></a>
+                {else/}
+	                {volist name="account_list" id="vo"}
+			            <input type="hidden" value="{$vo.id}" id="bank_account_id"/>
+			            <input type="hidden" value="{$vo.account_number}" id="bank_account_number"/>
+			            <a href="APP_MAIN/member/accountlist?shop_id={$shop_id}">
+							<div class="bankIcon fl" id="bankIcon"><img src="__TEMP__/{$style}/public/images/bankIcon/CMB.png"/></div>
+							<div class="bankName fl">
+								<div class="name"></div>
+								<div class="bankcode"></div>
+							</div>
+						</a>
+	                {/volist} 
+                {/if}
+			</div>
+			<div class="content">
+				<div class="contentTitle">提现金额</div>
+				<div class="dag">¥<input type="number" placeholder="请输入提现金额" id="amount" oninput="this.value=this.value.replace(/[^0-9.]+/,'');" max="5000"/></div>
+				<div class="available">可用余额 <i id="available">{$account}</i>元</div>
+			</div>
+			<div class="rule">
+				<div>提现规则: </div>
+				<div>1. 提现周期为T+3,节假日顺延； </div>
+				<div>2. 提现金额数量必须是20的倍数；</div>
+				<div>3. 合作的支付渠道提现时会收取0.5%的手续费</div>
+				<!--<div>4. 用户在平台所有收益都会扣除需缴纳的税点</div>-->
+			</div>
+			<div class="btn">
+				<button class="but" id="availableBtn">提交申请</button>
+			</div>
+		</div>
+		<div class="box" id="sucssess">
+			<div class="sucssess">
+				<div class="sucssessIcon">等待财务审核，预计3到5个工作日</div>
+				<div class="bankCard">中国招商银行储蓄卡(153)</div>
+				<div class="btn">
+					<button class="but" id="complete">完成</button>
+				</div>
+			</div>
+		</div>
+		<!--继续提现弹窗-->
+		<div class="flag">
+			<div class="bbg"></div>
+			<div class="kimgs">
+				<div class="title">
+					<a href="javaScript:void(0);" id="close">X</a>
+					<span>确认提现</span>
+				</div>
+				<div class="H_content">
+					<div class="element">¥10.00</div>
+					<div class="mljg cf">
+						<div class="fl">订单信息</div>
+						<div class="fr">提现</div>
+					</div>
+					<div class="mljg cf">
+						<div class="fl">提现手续费</div>
+						<div class="fr" id="procedures"></div>
+					</div>
+					<div class="mljg cf">
+						<div class="fl">付款信息</div>
+						<div class="fr">余额(元)</div>
+					</div>
+				</div>
+				<div class="btn fixed">
+					<button class="but" id="continue">确定</button>
+				</div>
+			</div>
+		</div>
+		<!--继续提现弹窗end-->
+		<!--输入密码弹窗-->
+		<div class="pwdBox">
+			<div class="bbg"></div>
+			<div class="pwd-box">
+			    <div id="box-title">
+			        <span id="title-text">请输入支付密码</span>
+			    </div>
+			    <input type="tel" maxlength="6" class="pwd-input" id="pwd-input">
+			    <div class="fake-box">
+			        <input type="password" readonly="">
+			        <input type="password" readonly="">
+			        <input type="password" readonly="">
+			        <input type="password" readonly="">
+			        <input type="password" readonly="">
+			        <input type="password" readonly="">
+			    </div>
+			    <div class="forget-pwd cf">
+			        <a id="forget-pwd" href="javaScript:void(0);">忘记密码</a>
+			    </div>
+			    <div class="eudi cf">
+			    	<div class="fl">确定</div>
+			    	<div class="fr">取消</div>
+			    </div>
+		    </div>
+		<!--输入密码弹窗end-->
+		<input type="hidden" value="{$shop_id}" id="id"/>
+	</body>
+	<script >
+		$(function(){
+            $('#amount').val('');
+			var shop_id = $("#id").val();
+			var bank_account_id = $("#bank_account_id").val();
+			$("#amount").bind("input propertychange",function(event){     //监听提现输入框值得变化
+			    if($('#amount').val() ==''){
+					$('#availableBtn').prop('disabled',true)
+				}else{
+					$('#availableBtn').prop('disabled',false)
+				}
+			});
+			$('#availableBtn').click(function(){
+				if(bank_account_id == null || bank_account_id == ""){
+	            	showBox("未添加提现账号");
+		            return;
+	            }
+				if($("#amount").val() == ''){
+					showBox('请输入提现金额');
+	            	return;
+	            }
+				var mun = Number($('#amount').val());
+				var available = Number($('#available').html());
+				if(mun > 0){
+					if(mun%20 == 0){
+						if(mun <= available){
+							var procedures = mun * 0.05;      //计算提现手续费
+							$('#amount').val(mun.toFixed(2));
+							$('.flag').show();
+							$('.element').html('¥' + mun.toFixed(2));
+							$('#procedures').html(procedures.toFixed(2) + ' 元');
+						}else if(mun > 5000){
+							showBox("每次最多提现5000，多余5000，请联系客服处理!");
+						}else{
+							showBox('您好!提现余额大于可用余额,请重新输入!');
+							$('#amount').val('');
+							$('#availableBtn').prop('disabled',true)
+						}
+					}else{
+						showBox("提现金额必须是20的整数倍,请重新输入!");
+						$('#amount').val('');
+						$('#availableBtn').prop('disabled',true)
+                        return false;
+					}
+				}else{
+					showBox('请输入大于0的提现金额!');
+					$('#amount').val('');
+					$('#availableBtn').prop('disabled',true)
+				}
+			})
+			$('#complete').click(function(){
+				window.location.href = "APP_MAIN/member/balanceWater?shop_id="+shop_id ;
+			})
+			$('#close').click(function(){
+				$('.flag').hide();
+			})
+			$('#continue').click(function(){
+				$.ajax({
+                	type:"post",
+                    url: "APP_MAIN/member/towithdraw",
+                    data: { "bank_account_id": bank_account_id, "cash": $('#amount').val()},
+                    success: function (res) {
+                        if (res.code >0) {
+                        	$('#forwardTwo').hide();
+							$('.flag').hide();
+							$('#sucssess').show();
+                        } else {
+                        	showBox(res.message);
+                        } 
+                    }
+                })
+			})
+            var $input = $(".fake-box input");
+            $("#pwd-input").on("input", function() {
+                var pwd = $(this).val().trim();
+                for (var i = 0, len = pwd.length; i < len; i++) {
+                    $input.eq("" + i + "").val(pwd[i]);
+                }
+                $input.each(function() {
+                    var index = $(this).index();
+                    if (index >= len) {
+                        $(this).val("");
+                    }
+                });
+            });
+            $('.eudi .fr').click(function(){
+            	$('.pwdBox').hide();
+            	$('#pwd-input').val('');
+            	$(".fake-box input").each(function() {
+                    $(this).val("");
+                });
+            })
+	})
+	</script>
+</html>

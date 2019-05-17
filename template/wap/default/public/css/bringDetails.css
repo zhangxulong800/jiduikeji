@@ -1,0 +1,40 @@
+/*common style*/
+*,body{
+	padding: 0;
+	margin: 0;
+	font: normal 100% 'Microsoft Yahei', Arial, sans-serif;
+}
+html, body { width:100%; height:100%; margin:0; padding:0; font-size: 12px;}
+body{background:#fff;min-width:320px;max-width:640px;margin:0 auto;}
+li{list-style:none}
+a:active,a:hover {outline: 0;text-decoration:none;}
+a, li, a:hover, a:active, a:focus {text-decoration:none;}
+a{border: none;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;outline: none;}
+.fl { float: left;}
+.fr { float: right;}
+/*清除浮动*/
+.cf:before,.cf:after{display:table;line-height:0;content:"";}
+.cf:after{clear:both;}
+*.cf{zoom:1;}
+.content{
+	padding:10px 14px;
+	border-bottom:1px solid #F6F5FA;
+}
+.content .forward{
+	font-size:14px;
+}
+.content .forward .J_forward{
+	font-size:16px;
+	margin-bottom:4px;
+}
+.stateDate{
+	text-align: center;
+}
+.stateDate .date{
+	color:#797979;
+	padding-bottom:8px;
+}
+.stateDate .state{
+	color:#F83271;
+	font-size:14px;
+}

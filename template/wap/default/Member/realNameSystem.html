@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/realNameSystem.css" />
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<script>
+			var urls = 'APP_MAIN/Member/realNameSystem';
+		</script>
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/realNameSystem.js" ></script>
+		<title>实名制认证</title>
+	</head>
+	<body>
+	{if condition="$member_info.user_info.card_state eq 0 or $member_info.user_info.card_state eq 2"}
+		{if condition="$member_info.user_info.card_state eq 2"}
+		<div class="success">
+			<img src="__TEMP__/{$style}/public/images/Close_delete.png" />您的实名认证未通过，请重新提交。
+		</div>
+		{/if}
+		<form name="formEdit" method="POST" id="formEdit" enctype="multipart/form-data">
+			<div class="box" id="frist">
+				<div class="head">
+					<div class="system">
+						<label><font>*</font>姓名</label>
+						<input type="text" name="real_name" value="" placeholder="请输入您的姓名" id="userName"/>
+					</div>
+					<div class="system">
+						<label><font>*</font>身份证号</label>
+						<input type="text" name="ID_card" placeholder="请输入您的身份证号" value="" id="userCard" maxlength="18"/>
+					</div>
+				</div>
+				<div class="content">
+					<div class="title">身份证正反面照片</div>
+					<div class="tips">温馨提示:请上传原始比例的身份证正反面，请勿裁剪涂改，保证身份信息清晰显示，否则无法通过审核</div>
+					<div class="photo">
+						<ul class="cf">
+							<li class="col-cx-3">
+								<span class="fileImg">
+									<span>身份证正面</span>
+									<input type="file" value="" name="ID_card_positive" id="positiveImg" accept="image/*" multiple/>
+									<img src="/" />
+								</span>
+							</li>
+							<li class="col-cx-3" style="margin-left:20px;">
+								<span class="fileImg">
+									<span>身份证反面</span>
+									<input type="file" value="" name="ID_card_reverse" id="oppositeImg" accept="image/*" multiple/>
+									<img src="/" />
+								</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="badgeBtn">
+					<div class="msg"></div>
+					<button class="but" type="button" name="submit" id="submit">保存</button>
+				</div>
+			</div>
+		</form>
+	{elseif condition="$member_info.user_info.card_state eq 1"/}
+		<!--认证审核中-->
+		<div class="box" id="two">
+			<div class="examine cf">
+				<div class="fl img"><img src="__TEMP__/{$style}/public/images/circle.png"/></div>
+				<div class="fl J_examine">
+					<div class="H_examine">您的身份证认证正在审核中， 请耐心等候</div>
+					<div class="jmkf">审核日期为三个工作日</div>
+				</div>
+			</div>
+			<div class="badgeBtn">
+				<a class="but" id="J_badgeBtn" onclick="window.history.go(-1)" href="javascript:void(0)">返回</a>
+			</div>
+		</div>
+		<!--认证审核中end-->
+	{elseif condition="$member_info.user_info.card_state eq 3"/}
+		<!--认证通过-->
+		<div class="box" id="three">
+			<div class="success">
+				<img src="__TEMP__/{$style}/public/images/success.png" />您的实名认证已通过验证
+			</div>
+			<div class="badgeBtn">
+				<a class="but" id="J_badgeBtn" onclick="window.history.go(-1)" href="javascript:void(0)">返回</a>
+			</div>
+		</div>
+		<!--认证通过end-->
+	{/if}
+	</body>
+</html>

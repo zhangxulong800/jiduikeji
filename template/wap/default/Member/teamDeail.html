@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta content="yes" name="apple-mobile-web-app-capable"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+	<link rel="shortcut icon" type="image/x-icon" href="__TEMP__/{$style}/public/images/icon.ico" media="screen"/>
+	<link rel="stylesheet" type="text/css" href="__PCMOB__/css/font.css">
+	<link rel="stylesheet" href="__TEMP__/{$style}/public/css/Mdate.css" />
+	<link rel="stylesheet" href="__TEMP__/{$style}/public/css/team.css" />
+	<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+	<script type="text/javascript" src="__TEMP__/{$style}/public/js/iScroll.js" ></script>
+	<script type="text/javascript" src="__TEMP__/{$style}/public/js/Mdate.js" ></script>
+	<title>我的团队</title>
+</head>
+<body>
+<div class="box">
+	<header class="header cf">
+		<div class="fl">
+			<input type="text" value="" id="" name="" class="search" placeholder="搜索"/>
+		</div>
+		<div class="fr"><img src="__TEMP__/{$style}/public/images/icon/calendar.png" id="dateShowBtn"/></div>
+	</header>
+	<div class="direct-team">
+		<div class="J_teamDeail cf">
+			<div class="J_team fl">
+				<div class="cf">
+					{if condition="$res.user_headimg eq '' "}
+					<img src="__TEMP__/{$style}/public/images/member_default.png" width="48px"  class="fl"/>
+					{else/}
+					<img src="__UPLOAD__/{$res.user_headimg}" width="48px" style="border-radius:100%;"  class="fl"/>
+					{/if}
+					<!-- <img src="{notempty name="user_headimg"}/{$user_headimg}{else /}__TEMP__/{$style}/public/images/headicon.png{/notempty}" width="44px" class="fl"/> -->
+					<span class="userName fl">
+						<div>{$res.user_name}</div>
+						<div>{$res.telephone}</div>
+					</span>
+				</div>
+				<div class="J_teamTotal">
+					<div>销售总金额: <span id="mem_sale">0.00</span>元</div>
+					<div>销售总佣金: <span id="mem_commission">0.00</span>元</div>
+				</div>
+			</div>
+			<div class="user-head fr">
+				<div class="user-headName">{$res.user_name}团队</div>
+				<div class="cf teamNumber">
+					<div class="fl"><span class="dian"></span><span class="jkons">团队人数</span></div>
+					<div class="fr">{$res.team_num}人</div>
+				</div>
+				<div class="cf teamNumber">
+					<div class="fl"><span class="dian"></span><span class="jkons">团队销售总金额</span></div>
+					<div class="fr" id="team_sale_tot">0.0元</div>
+				</div>
+				<div class="cf teamNumber">
+					<div class="fl"><span class="dian"></span><span class="jkons">团队销售总佣金</span></div>
+					<div class="fr" id="team_commission">0.0元</div>
+				</div>
+			</div>
+		</div>
+		<div class="content">
+			<div class="conter-info">
+
+			</div>
+		</div>
+	</div>
+</div>
+<input type="hidden" id="dateSelectorTwo" />
+<script type="application/javascript">
+    $(function(){
+		new Mdate("dateShowBtn", {
+			acceptId: "dateSelectorTwo",
+			beginYear: "2018",      //此项为Mdate的初始年份，不填写默认为2000
+			beginMonth: "1",       //此项为Mdate的初始月份，不填写默认为1
+			beginDay: "1",        //此项为Mdate的初始日期，不填写默认为1
+			endYear: "2099",     //此项为Mdate的结束年份，不填写默认为当年
+			endMonth: "12",       //此项为Mdate的结束月份，不填写默认为当月
+			endDay: "",        //此项为Mdate的结束日期，不填写默认为当天
+			format: "-"     //此项为Mdate需要显示的格式，可填写"/"或"-"或".",不填写默认为年月日
+		})
+		getData();
+	})
+	$('body').on('click','#dateSure',function(){
+		getData();
+	})
+	function getData(){
+		var year=$('#dateSelectorTwo').val();
+		if(year=='' || year==undefined){
+			var ymd = '';
+		}else {
+			var ymd = year.substring(4,0) + '-' + year.substring(7,5);
+		}  
+		$.ajax({
+			type:"post",
+			url:"APP_MAIN/member/teamDeail?uid="+GetQueryString("uid"),
+			data:{
+				'date':ymd,
+			},
+			success:function(data){
+				$('#mem_sale').html(data.mem_sale);
+				$('#mem_commission').html(data.mem_commission);
+				$('#team_sale_tot').html(data.team_sale_tot+'元');
+				$('#team_commission').html(data.team_commission+'元');
+				var html = '';
+				if(data.new_arr.length> 0 ){
+					for(var i= 0;i<data.new_arr.length;i++){
+						if(i>0){
+							if(data.new_arr[i-1].create_time.substring(7,5) != data.new_arr[i].create_time.substring(7,5) ||  data.new_arr[i-1].create_time.substring(4,0) != data.new_arr[i].create_time.substring(4,0)){
+								html+='<div class="beginYear">'+data.new_arr[i].create_time.substring(4,0)+"年"+data.new_arr[i].create_time.substring(7,5)+"月"+'</div>';
+							};
+						}else{
+							html+='<div class="beginYear">'+data.new_arr[i].create_time.substring(4,0)+"年"+data.new_arr[i].create_time.substring(7,5)+"月"+'</div>';
+						}
+						html+='<div class="userOrder cf">'
+							+'<div class="fl Order_number">'
+							+'<div>订单编号:'+(data.new_arr[i].order_no).substr(0,6)+'******'+(data.new_arr[i].order_no).substr(18,4)+'</div>'
+							+'<div>订单时间:'+data.new_arr[i].create_time+'</div>'
+							+'<div>佣金状态:'+data.new_arr[i].status_name+'</div>'
+							+'</div>'
+							+'<div class="userPrecie fr">'
+							+'<div>金额</div>'
+							+'<div>¥'+data.new_arr[i].order_money+'</div>'
+							+'<div>佣金</div>';
+							var num=new Number(data.new_arr[i].number);
+							html+='<div>¥'+num.toFixed(2)+'</div>'
+							+'</div>'
+							+'</div>';
+					}
+					$('.conter-info').html(html);
+				}else{
+					$('.conter-info').html('<div class="conter-info nodate" style="text-align:center;">暂无记录！</div>');
+				}
+			}
+		});
+	}
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);//search,查询？后面的参数，并匹配正则
+     if(r!=null)return  unescape(r[2]); return null;
+}
+</script>
+</body>
+</html>

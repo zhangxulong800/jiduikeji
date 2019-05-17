@@ -1,0 +1,118 @@
+/*common style*/
+*,body{
+	padding: 0;
+	margin: 0;
+	font: normal 100% 'Microsoft Yahei', Arial, sans-serif;
+}
+html, body { width:100%; margin:0; padding:0; font-size: 12px;}
+body{background:#fff;min-width:320px;max-width:640px;margin:0 auto;}
+li{list-style:none}
+a:active,a:hover {outline: 0;text-decoration:none;}
+a, li, a:hover, a:active, a:focus {text-decoration:none;}
+a,input,button{border: none;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;outline: none;}
+.fl { float: left;}
+.fr { float: right;}
+/*清除浮动*/
+.cf:before,.cf:after{display:table;line-height:0;content:"";}
+.cf:after{clear:both;}
+*.cf{zoom:1;}
+.box {
+	width: 95%;
+	margin:20px auto 14px auto;
+}
+.box .title{
+	margin: 0 0 14px 8px;
+	background: url(../images/tixian.png)no-repeat left center;
+	height:18px;
+	padding-left:30px;
+	font-size:16px;
+	line-height:18px;
+}
+.myBagImg{
+	text-align: center;
+    margin: 0 auto;
+}
+.myBagImg a {
+	display:inline-block;
+	position:relative;
+}
+.myBagImg a img{
+	width:100%;
+}
+.myBagImg a .date{
+	color:#8B7D5C;
+	font-size:14px;
+	position: absolute;
+    top: 42%;
+    left: 21%;
+}
+.quan{
+	border-top:14px solid #F6F5FA;
+	padding:20px 10px;
+}
+.quan .title a{
+	color:#000;
+}
+.quan .title a .fl{
+	margin: 0 0 14px 8px;
+	background: url(../images/pay/icon.png)no-repeat left center;
+	height:18px;
+	padding-left:40px;
+	font-size:16px;
+	line-height:18px;
+	background-size:27px 18px;
+}
+.quan .title a .fr{
+	margin: 0 0 14px 8px;
+	background: url(../images/arrow.png)no-repeat right center;
+	height:18px;
+	padding-right:18px;
+	font-size:16px;
+	line-height:18px;
+}
+.voucher{
+	margin:4px 6px;
+	background:url(../images/pay/quan.png)no-repeat center;
+	padding-left:100px;
+	padding-top:30px;
+	padding-bottom:30px;
+	background-size:100%;
+}
+.voucher .money{
+	color:#fff;
+	font-size:16px;
+	padding-right:14px;
+}
+.voucher .money font{
+	font-size:22px;
+}
+.voucher .full{
+	color:#FFFDE9;
+	font-size:16px;
+}
+.voucher .date{
+	color:#FFFDE9;
+}
+@media only screen and (max-width: 320px) {
+	.voucher{
+		padding-left:84px;
+	}
+	.voucher .money {
+	    padding-top: 6px;
+        padding-right: 6px;
+	}
+	.voucher .money font {
+	    font-size: 22px;
+	}
+}
+@media only screen and (min-width:376px) and (max-width:414px) {
+	.voucher .msju{
+	    padding-top: 4px;
+	}
+	.voucher .money font {
+	    font-size:30px;
+	}
+	.voucher{
+		padding-left:116px;
+	}
+}

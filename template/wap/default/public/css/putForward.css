@@ -1,0 +1,361 @@
+/*common style*/
+*,body{
+	padding: 0;
+	margin: 0;
+	font: normal 100% 'Microsoft Yahei', Arial, sans-serif;
+}
+html, body { width:100%; margin:0; padding:0; font-size: 12px;}
+body{background:#F9FAFB;min-width:320px;max-width:640px;margin:0 auto;}
+li{list-style:none}
+a:active,a:hover {outline: 0;text-decoration:none;}
+a, li, a:hover, a:active, a:focus {text-decoration:none;}
+a,input,button{border: none;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;outline: none;}
+.fl { float: left;}
+.fr { float: right;}
+/*清除浮动*/
+.cf:before,.cf:after{display:table;line-height:0;content:"";}
+.cf:after{clear:both;}
+*.cf{zoom:1;}
+.head{
+	padding-top:20px;
+	background: url(../images/bbg.png)no-repeat center center;
+}
+.head .forward{
+	color:#fff;
+	font-size:14px;
+	padding-left:20px;
+	text-align: center;
+}
+.head .money{
+	color:#fff;
+	font-size:36px;
+	padding:8px 0 20px 20px;
+	text-align: center;
+}
+.head .J_forward{
+	background: rgba(255,255,255,.5);
+	padding-left:20px;
+	padding-top:14px;
+	padding-bottom: 14px;
+	font-size:14px;
+}
+.forwardBtn{
+	border-bottom:1px solid #F6F5FA;
+	padding:14px;
+	background:#fff url(../images/tixian.png)no-repeat 20px center;
+}
+.forwardBtn a{
+	color:#000;
+	padding-left:30px;
+	font-size:16px;
+	background:url(../images/ARROW.png)no-repeat right center;
+	width:calc(100% - 30px);
+	display:inline-block;
+}
+.putBtn{
+	border-bottom:1px solid #F6F5FA;
+	padding:14px;
+	background:#fff url(../images/Calendar.png)no-repeat 20px center;
+}
+.putBtn a{
+	color:#000;
+	padding-left:30px;
+	font-size:16px;
+	background:url(../images/ARROW.png)no-repeat right center;
+	width:calc(100% - 30px);
+	display:inline-block;
+}
+
+
+
+/*提现第二步*/
+#sucssess{
+	display: none;
+}
+.header{
+	background: #fff;
+	margin:14px 0;
+	padding:10px 16px;
+}
+.header a{
+	background:url(../images/ARROW.png)no-repeat right center;
+	width:100%;
+	display:inline-block;
+}
+.header a .bankIcon{
+	width:41px;
+	height: 41px;
+	border-radius:50%;
+	padding-top: 6px;
+}
+.header a img{
+	width:100%;
+	height: 100%;
+}
+.header a .bankName .name{
+	color: #000;
+	font-size:16px;
+	padding-left:10px;
+	padding-bottom:6px;
+}
+.header a .bankName .bankcode{
+	color:#5A5A5A;
+	font-size:13px;
+	padding-left:10px;
+}
+.content{
+	background:#fff;
+	padding:10px 16px;
+}
+.content .contentTitle{
+	color: #757575;
+	font-size:16px;
+	padding-bottom:14px;
+}
+.content .dag {
+	font-size:38px;
+	padding-bottom:10px;
+	border-bottom:1px solid #F5F5F5;
+}
+.content .dag input{
+	margin-left:10px;
+	width:80%;
+	height:50px;
+	line-height:50px;
+	font-size:38px;
+	border:none;
+}
+ input::-webkit-input-placeholder {
+    color:#dedede;
+    font-size:20px;
+    font-weight:normal;
+}
+.content .available{
+	color:#767676;
+	font-size:14px;
+	padding:6px 0;
+}
+.rule{
+	margin: 14px 0 0 16px;
+	color:#757575;
+	font-size:13px;
+}
+.btn{
+	width:90%;
+	margin:20px auto;
+	text-align:center;
+}
+.btn button{
+	width:100%;
+	border-radius:8px;
+	height:40px;
+	line-height:30px;
+	color:#fff;
+	border:1px solid #F83271;
+	background: #F83271;
+	font-size:16px;
+}
+@media only screen and (max-width:320px ) {
+	.btn button{
+		width:300px;
+	}
+}
+.btn button:disabled{
+	background:#F780A8;
+	border:1px solid #F780A8;
+}
+.sucssess{
+	background:#fff;
+	padding:14px 0;
+}
+.sucssess .sucssessIcon{
+	font-size:16px;
+	padding-left:54px;
+	background:url(../images/circle.png)no-repeat 16px center;
+	background-size:24px;
+	height:30px;
+	line-height:30px;
+}
+.sucssess .bankCard{
+	padding-left:54px;
+	color:#A7A7A7;
+	font-size:14px;
+}
+/*继续提现弹窗*/
+.flag{
+	position:fixed;
+	bottom:0;
+	width:100%;
+	max-width:640px;
+	min-width: 320px;
+	height: 100%;
+	z-index: 10;
+	display: none;
+}
+.bbg{
+	background:rgba(0,0,0,.5);
+	height:100%;
+}
+.kimgs{
+	height:60%;
+	position:fixed;
+	bottom:0;
+	width:100%;
+	max-width:640px;
+	min-width: 320px;
+	z-index: 11;
+	background: #fff;
+}
+.kimgs .title{
+	text-align:center;
+	position: relative;
+	border-bottom:1px solid #F6F5FA;
+	padding:10px 0;
+}
+.kimgs .title a{
+    position: absolute;
+    left: 20px;
+    color: #333;
+    font-size: 14px;
+}
+.kimgs .title span{
+	font-size:16px;
+}
+.H_content .element{
+	text-align: center;
+	margin:14px 0 4px 0;
+	font-size:28px;
+}
+.H_content .mljg{
+	margin-left:14px;
+	padding-bottom:10px;
+	border-bottom:1px solid #F6F5FA;
+	font-size:14px;
+	padding-top: 10px;
+}
+.H_content .mljg .fl{
+	color:#7E7E7F;
+}
+.H_content .mljg .fr{
+	padding-right:10px;
+}
+.kimgs .fixed{
+	position:fixed;
+	bottom:10px;
+	left:0;
+	right:0;
+	margin:auto;
+	max-width:600px;
+	min-width: 320px;
+}
+/*支付密码弹出层*/
+.pwdBox{
+	position:fixed;
+	bottom:0;
+	width:100%;
+	max-width:640px;
+	min-width: 320px;
+	height: 100%;
+	z-index: 10;
+	display:none;
+}
+.pwd-box{
+    width:310px;
+    height: 220px;
+    left:50%;
+    top:10%;
+    margin-left: -155px;
+    position: absolute;
+    border: none;
+    background: white;
+    z-index: 101;
+}
+.pwd-box input[type="tel"]{
+	width: 99%;
+	height: 42px;
+	color: transparent;
+	position: absolute;
+	top:79px;
+	left: 0;
+	border: none;
+	font-size: 18px;
+	opacity: 0;
+	z-index: 1;
+	letter-spacing: 35px;
+	padding-left:15px;
+}
+.fake-box{
+    width: 280px;
+    margin-left: 15px;
+    bottom: 2px;
+    height: 41px;
+    margin-top: 30px;
+    border:1px solid #bfb6b6;
+}
+.fake-box input{
+    width: 41px;
+    height: 41px;
+    border: none;
+    border-right: 1px solid #e5e5e5;
+    text-align: center;
+    font-size: 30px;
+    margin:0 !important;
+    border-top-right-radius: inherit;
+    border-bottom-right-radius: inherit;
+}
+.fake-box input:nth-last-child(1){
+    border:none;
+}
+#box-title{
+    height: 40px;
+    width:100%;
+    border-bottom: 0.2px solid #e5e5e5;
+}
+#title-text{
+    height: 30px;
+    width: 200px;
+    text-align: center;
+    line-height: 27px;
+    display: block;
+    margin-left: 55px;
+    margin-top: 10px;
+    font-size:14px;
+}
+#money-box{
+    width: 100%;
+    height: 50px;
+}
+#content-text{
+    height: 30px;
+    width: 200px;
+    text-align: center;
+    line-height: 27px;
+    display: block;
+    margin-left: 55px;
+    margin-top: 10px;
+    font-size: 22px;
+}
+#forget-pwd{
+    margin-top:5px;
+    margin-right: 15px;
+    float: right;
+    text-decoration:none;
+    color: #666;
+}
+.eudi{
+	margin-top:30px;
+}
+.eudi .fl{
+	border-right:1px solid #F5F5F5;
+	width:calc(50% - 1px);
+}
+.eudi .fr{
+	width:50%;
+}
+.eudi .fl,.eudi .fr{
+	font-size:16px;
+	border-top:1px solid #F5F5F5;
+	text-align: center;
+	height:40px;
+	line-height:40px;
+}

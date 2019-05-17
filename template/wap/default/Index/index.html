@@ -1,0 +1,1548 @@
+{extend name="wap/default/base" /}
+{block name="resources"}
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/rem.css">
+<link rel="stylesheet" type="text/css" href="__PCMOB__/css/font.css">
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/index.css">
+<!--<script src="__TEMP__/{$style}/public/js/flexible.js"></script>-->
+<script type="text/javascript" src="__TEMP__/{$style}/public/js/nav.js"></script>
+<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp&libraries=convertor"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+<script src="__TEMP__/{$style}/public/js/swiper.js"></script>
+<script src="__TEMP__/{$style}/public/js/index.js"></script>
+{/block}
+{block name="goodsHead"}
+<!-- 标识：是否显示顶部关注  0：[隐藏]，1：[显示]-->
+<!--{if condition="$is_subscribe == 1"}
+<div class="fixed-focus-on">
+	<i class="close" onclick="$('.fixed-focus-on').hide();">x</i>
+	<div class="foucs-on-block">
+		{if condition="$source_img_url != ''"}
+		<img class="user-bg" src="__UPLOAD__/{$source_img_url}">
+		{else/}
+		<img class="user-bg" src="__TEMP__/{$style}/public/images/default/default_shop_avatar.png">
+		{/if}
+		{if condition="$source_user_name != ''"}
+		<p>我是你的好友<span>{$source_user_name}</span>,推荐给您让生意从此做好</p>
+		{else/}
+		<p>您当前还未关注微信公众账号，请点击关注</p>
+		{/if}
+		<button id="subscribe">点击关注</button>
+	</div>
+</div>
+{/if}-->
+<!-- 遮罩层 -->
+<div class="shade" style="position:fixed;top:0px;left:0px;width:100%;height:100%;margin-top:0;background: rgba(0, 0, 0, 0.7);z-index: 999;display:none;"><span style="float: right; padding: 15px;font-size: 22px;color: #fff;background: transparent;" id="close">X</span></div>
+<!-- 弹出层 -->
+<div class="popup" style="position:fixed;top: 36%;left: 0px;width: 100%;height: 100%;margin-left:0px;display:none;">
+	<div class="code">
+		<div style="overflow: hidden;">
+			<img src="__ROOT__/{$web_info.web_qrcode}"  style="max-width: 100%;margin-top: 10px;"/>
+			<div style="color:#666; margin-bottom: 10px;">长按二维码关注公众微信</div>
+		</div>
+	</div>
+</div>
+{/block}
+{block name="main" }
+<div class="com-content">
+	<div class="header">
+		<div class="search cf">
+			<!--<span class="pic" id="turnTheLight"><img src="__TEMP__/{$style}/public/images/pic.png" width="22px" height="20px"/></span>-->
+
+			<!--<div id="btn-area"><div id="botn" onClick="qq_position()">定位</div></div>-->
+			<div id="btn-area"><div id="positionAdd" onClick="init()">定位</div></div>
+			<!-- 搜索 -->
+			<div class="search-top-box" style="width:72%;float:left;background-color: #fff;">
+				{include file='wap/default/Index/controlSearch'/}
+				<style>.custom-search .custom-search-button{top:0;}</style>
+			</div>
+			<span class="message">
+					<div class="messageImg">
+						<a href="APP_MAIN/member/pointRule">
+							<img src="__TEMP__/{$style}/public/images/newIndex/question.png" width="20px"/>
+							<!--							<img src="__TEMP__/{$style}/public/images/message_have.png"  width="7px" height="7px" class="message_have"/>-->
+						</a>
+					</div>
+				</span>
+		</div>
+		<div class="userName width-Fixed cf">
+			<!--<div class="userName-inner white-bg">-->
+			<!--<a href="/wap/member/balanceWater">-->
+			<!--<span class="balance">-->
+			<!--<div class="J_balancea">￥{$member_info.balance}</div>-->
+			<!--<div class="J_balance">消费收益</div>-->
+			<!--</span>-->
+			<!--</a>-->
+			<!--<a href="/wap/member/integralWater">-->
+			<!--<span class="integral">-->
+			<!--<div class="J_balancea">{php}echo round($member_info['point']['point'],2);{/php}</div>-->
+			<!--<div class="J_integral">通证积分</div>-->
+			<!--</span>-->
+			<!--</a>-->
+			<!--<a href="/wap/member/tdPointWater">-->
+			<!--<span class="integral">-->
+			<!--<div class="J_balancea">{php}echo round($member_info['point']['point'],2);{/php}</div>-->
+			<!--<div class="J_integral">通兑积分</div>-->
+			<!--</span>-->
+			<!--</a>-->
+			<!--</div>-->
+			<div class="userName-inner white-bg">
+				<a href="/wap/member/integralWater">
+					<span class="balance">
+					 <div class="J_balance">通证积分</div>
+					 <div class="J_balancea">
+						 <i class="icon-tonzheng-bg icon-index-bg"></i>
+						 <!--						 <img class="extra-icon" src="/template/wap/default/public/images/icon01.png" alt="">-->
+						 <i>{php}echo round($member_info['point']['point'],2)+round($experiencePoint,2);{/php}</i>
+					 </div>
+				  </span>
+				</a>
+				<a href="/wap/member/balanceWater" class="total-receive-area">
+					<span class="balance">
+					 <div class="total-receive-text">消费收益</div>
+					 <div class="total-receive-data">￥{$member_info.balance}</div>
+					 <div class="last-receive">
+						<img class="last-receive-icon" src="/template/wap/default/public/images/newIndex/receive.png" alt="">
+						<i class="last-receive-text">昨日收益</i>
+						<i class="last-receive-data">￥{$members}</i>
+					 </div>
+			  		</span>
+				</a>
+				<a href="/wap/member/tdPointWater">
+					<span class="integral">
+					 <div class="J_integral">通兑积分</div>
+					 <div class="J_balancea">
+						 <i class="icon-tondui-bg icon-index-bg"></i>
+						 <!--						 <img class="extra-icon" src="/template/wap/default/public/images/newIndex/pointimg.png" alt="">-->
+						 <i>{$member_info.exc_point.exc_point}</i>
+
+					 </div>
+				  </span>
+				</a>
+			</div>
+		</div>
+
+		<!--工厂团区-->
+		<!--<div class="park">
+            <img src="__TEMP__/{$style}/public/images/index/bg_big.png" width="100%"/>
+            <div class="discount">限时优惠</div>
+        </div>-->
+		<!-- 轮播图 -->
+		{include file='wap/default/Index/controlSlide'/}
+		<div class="panorama width-Fixed">
+			<ul class="cf">
+				<li>积分全景通付</li>
+				<li>持有每积分赚¥6</li>
+				<li>100%集采低价</li>
+				<li>7天无理由退换货</li>
+			</ul>
+		</div>
+		<!-- 导航 -->
+		{include file='wap/default/Index/controlNav'/}
+		<!--下面注释掉的是团购活动展示区-->
+		<!--<div class="park_product">-->
+		<!--<div class="mining">工厂集采 平台补贴</div>-->
+		<!--<ul class="swiper-wrapper" id="buying"></ul>-->
+		<!--<div class="swiper-button-prev"></div>-->
+		<!--<div class="swiper-button-next"></div>-->
+		<!--</div>-->
+		<!--<span class="control_l_content cf" style="font-weight:bold;color:#666666 !important;">荐人拼团专区<a style="color:#666666;" href="/wap/goods/zeroAssemble">更多</a></span>-->
+		<div class="goods-swiper-content width-Fixed">
+			<div class="goods-swiper-block">
+				<a class="shoudang" href="/wap/goods/firstFree">
+					<span class="shoudang-text">— &nbsp;首单全免&nbsp; —</span>
+					<img class="dot-three" src="/template/wap/default/public/images/newIndex/gd.png" width="25" height="5" alt="" />
+				</a>
+				<div class="picplay">
+					<div class="swiper-container swiper-container2" id="miandanArea">
+
+					</div>
+				</div>
+			</div>
+			<div class="goods-swiper-block hotel-swiper-block">
+				<a class="shoudang" href="/wap/index/shopstreet">
+					<span class="shoudang-text">— &nbsp;酒店住宿&nbsp; —</span>
+					<img class="dot-three" src="/template/wap/default/public/images/newIndex/gd.png" width="25" height="5" alt="" />
+				</a>
+				<div class="picplay">
+					<div class="swiper-container swiper-container1" id="hotelArea">
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--<div class="nav_menu1"><ul class="cf"></ul></div>-->
+		<!--		<div class="picplay">-->
+		<!--			<a href="" id="imghref"><img src="" id="imgplay"></a>-->
+		<!--			<div id="playgoodsname"></div>-->
+		<!--			<div style="margin-top:10px"><img src="/template/wap/default/public/images/index/jplus.png" /><span id="playcontent"></span></div>-->
+		<!--		<div>-->
+		<!-- 0元兑换开始 -->
+		<div class="width-Fixed duihuan-wrap white-bg">
+			<div class="duihuang">
+				<img class="duiimg" src="/template/wap/default/public/images/newIndex/duihuang.png" />
+				<a href="/wap/member/newMember" class="morestr">更多<img src="/template/wap/default/public/images/newIndex/gd_rk.png" /></a>
+			</div>
+			<div class="excimg">
+				<div class="duihuan-imgbox">
+					<div class="top-three-box">
+						<div class="col-width-8 three-box-item">
+							<a href="/wap/goods/excdetail?id={$newuser_list['data'][1]['goods_id']}">
+								<div class="col-width-8-box">
+									<img src="/upload/goods/5d0b620a91a6634a8e5912ee7ba18a4c1.jpg" alt="">
+									<div class="float-mask">{$newuser_list['data'][1]['goods_name']}</div>
+								</div>
+								<div class="duihuan-text-wrap">
+									<div class="duihuan-text">{$newuser_list['data'][1]['price']*$newuser_list['data'][1]['zero_point_num']}积分</div>
+									<div class="remain-text">剩余{$newuser_list['data'][1]['stock']}件</div>
+								</div>
+							</a>
+
+						</div>
+						<div class="col-width-4 three-box-item">
+							<div class="col-width-4-img">
+								<a href="/wap/goods/excdetail?id={$newuser_list['data'][0]['goods_id']}">
+									<div class="col-width-4-box">
+										<img src="/{$newuser_list['data'][0]['picture_info']['pic_cover_small']}" alt="">
+										<div class="float-mask">{$newuser_list['data'][0]['goods_name']}</div>
+									</div>
+									<div class="duihuan-text-wrap">
+										<div class="duihuan-text">{$newuser_list['data'][0]['price']*$newuser_list['data'][1]['zero_point_num']}积分</div>
+										<div class="remain-text">剩余{$newuser_list['data'][0]['stock']}件</div>
+									</div>
+								</a>
+							</div>
+							<div class="col-width-4-img">
+								<a href="/wap/goods/excdetail?id={$newuser_list['data'][2]['goods_id']}">
+									<div class="col-width-4-box">
+										<img src="/{$newuser_list['data'][2]['picture_info']['pic_cover_small']}" alt="">
+										<div class="float-mask">{$newuser_list['data'][2]['goods_name']}</div>
+									</div>
+									<div class="duihuan-text-wrap">
+										<div class="duihuan-text">{$newuser_list['data'][2]['price']*$newuser_list['data'][2]['zero_point_num']}积分</div>
+										<div class="remain-text">剩余{$newuser_list['data'][2]['stock']}件</div>
+									</div>
+								</a>
+
+							</div>
+						</div>
+					</div>
+					<div class="bottom-two-box">
+						<div class="bottom-box-item">
+							<a href="/wap/goods/excdetail?id={$newuser_list['data'][3]['goods_id']}">
+								<div class="box-item-img">
+									<img src="/{$newuser_list['data'][3]['picture_info']['pic_cover_small']}" alt="">
+									<div class="float-mask">{$newuser_list['data'][3]['goods_name']}</div>
+								</div>
+								<div class="duihuan-text-wrap">
+									<div class="duihuan-text">{$newuser_list['data'][3]['price']*$newuser_list['data'][3]['zero_point_num']}积分</div>
+									<div class="remain-text">剩余{$newuser_list['data'][3]['stock']}件</div>
+								</div>
+							</a>
+						</div>
+						<div class="bottom-box-item">
+							<a href="/wap/goods/excdetail?id={$newuser_list['data'][4]['goods_id']}">
+								<div class="box-item-img">
+									<img src="/{$newuser_list['data'][4]['picture_info']['pic_cover_small']}" alt="">
+									<div class="float-mask">{$newuser_list['data'][4]['goods_name']}</div>
+								</div>
+								<div class="duihuan-text-wrap">
+									<div class="duihuan-text">{$newuser_list['data'][4]['price']*$newuser_list['data'][4]['zero_point_num']}积分</div>
+									<div class="remain-text">剩余{$newuser_list['data'][4]['stock']}件</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--直供专区-->
+		<div class="width-Fixed duihuan-wrap white-bg">
+			<div class="duihuang">
+				<img class="duiimg" src="/template/wap/default/public/images/newIndex/zg_zq.png" />
+				<a href="/wap/goods/goodsClassificationList" class="morestr">更多<img src="/template/wap/default/public/images/newIndex/gd_rk.png" /></a>
+			</div>
+			<div class="zhigong-wrapper">
+				<ul class="zhigong-list">
+					{volist name="goodsList['data']" id="vo" }
+					<li class="zhigong-item">
+						<a href="/wap/goods/goodsdetail?id={$vo.goods_id}">
+							<img class="goods-image" src="{$vo.pic_cover_small}" alt="">
+							<div class="zhigong-goods-name">{$vo.goods_name}</div>
+							<div class="zhigong-goods-price">
+								<img class="plus-img" src="/template/wap/default/public/images/newIndex/plus.png" alt="">
+								<div class="red-font-price">
+									<span class="small-red-font">¥</span>{$vo.market_price}
+								</div>
+								<div class="grey-font-price">
+									<span class="small-red-font">¥{$vo.price}</span>
+								</div>
+							</div>
+							<div class="jifen-profit-item mtop">
+								<img src="/template/wap/default/public/images/newIndex/icon-jifen.png" class="img-icon" width="12" alt="">
+								<span>返<i class="red-font">{$vo.pointNum}</i>积分</span>
+							</div>
+							<div class="jifen-profit-item">
+								<img src="/template/wap/default/public/images/newIndex/icon-wallet.png" class="img-icon" width="12" alt="">
+								<span>积分收益<i class="red-font">￥{$vo.pointNum*6}</i></span>
+
+								<!-- <span>返<i class="red-font">{$vo.point}</i>积分</span>
+							</div>
+							<div class="jifen-profit-item">
+								<img src="/template/wap/default/public/images/newIndex/icon-wallet.png" class="img-icon" width="12" alt="">
+								<span>积分收益<i class="red-font">￥{$vo.point*6}</i></span> -->
+							</div>
+						</a>
+					</li>
+					{/volist}
+				</ul>
+			</div>
+		</div>
+		<!--		猜你喜欢-->
+		<div class="duihuan-wrap recommend-container white-bg">
+			<div class="duihuang no-border-bottom duihuang-recommend">
+				<img class="duiimg recommend-title" src="/template/wap/default/public/images/newIndex/cn_xh.png" />
+			</div>
+			<div class="recommend-wrapper">
+				<ul class="recommend-list">
+					{volist name="youlike" id="likedata"}
+					<li class="recommend-item">
+						<a href="/wap/goods/goodsdetail?id={$likedata.goods_id}">
+							<img class="recommend-image" src="/{$likedata.picturedis}" alt="">
+							<div class="recomment-infos">
+								<div class="infos-top">
+									<div class="recomment-info-name">{$likedata.goods_name}</div>
+									<div class="zhigong-goods-price">
+										<img class="plus-img" src="/template/wap/default/public/images/newIndex/plus.png" alt="">
+										<div class="red-font-price">
+											<span class="small-red-font">¥</span>{$likedata.market_price}
+										</div>
+										<!--<div class="grey-font-price">¥{$likedata.price}-->
+										<div class="grey-font-price">
+											¥{$likedata.price}
+										</div>
+									</div>
+									<div class="jifen-area jifen-area-two">
+										<div class="jifen-area-item">
+											<img src="/template/wap/default/public/images/newIndex/icon-jifen.png" class="img-icon" width="12" alt="">
+											<span>返<i class="red-font">{$likedata.point}</i>积分</span>
+										</div>
+										<div class="jifen-area-item">
+											<img src="/template/wap/default/public/images/newIndex/icon-wallet.png" class="img-icon" width="12" alt="">
+											<span>积分收益<i class="red-font">￥{$likedata.point*6}</i></span>
+										</div>
+									</div>
+								</div>
+								<div class="infos-bottom">{$likedata.sales}人付款</div>
+							</div>
+							<!--</div>-->
+						</a>
+					</li>
+					{/volist}
+				</ul>
+			</div>
+		</div>
+		<!-- 0元兑换结束 -->
+		<!-- 旗舰商铺 -->
+		<!--<div class="flagship">-->
+		<!--<span class="control_l_content cf">-->
+		<!--<span id="jiudian">酒店住宿</span>-->
+		<!--<a href="/wap/index/shopstreet">更多</a>-->
+		<!--</span>-->
+		<!--<div class="navigation cf">-->
+		<!--<div class="delicious_food">-->
+		<!--<ul class="drop-down">-->
+		<!--{foreach name="shop_group_list" item = "shop_group_list" key = "k"}-->
+		<!--<li id="{$shop_group_list.shop_group_id}">{$shop_group_list.group_name}</li>-->
+		<!--{/foreach}-->
+		<!--</ul>-->
+		<!--</div>-->
+		<!--&lt;!&ndash;<div class="popularity fr">-->
+		<!--<div class="theme2">周边</div>-->
+		<!--<ul class="drop-down2">-->
+		<!--<li>周边</li>-->
+		<!--<li>人气</li>-->
+		<!--<li>收藏</li>-->
+		<!--<li>历史</li>-->
+		<!--</ul>-->
+		<!--</div>&ndash;&gt;-->
+		<!--</div>-->
+		<!--<div id="column"></div>-->
+		<!--</div>-->
+		{if condition="count($disscount_list) >0"}  <!--限时抢购-->
+		{include file='wap/default/Index/controlDiscount'/}
+		{/if}
+	</div>
+	<!-- 每日上新 -->
+	<!--<div class="today">
+        <span class="control_l_content cf">
+            <span><img src="__TEMP__/{$style}/public/images/navimg/new.png"></span>
+            <a href="javascript:void(0);">更多</a>
+        </span>
+        <div class="index-today">
+            <ul class="cf">
+                <li class="col-sm-4">
+                    <a href="javascript:void(0);">
+                        <img src="__TEMP__/{$style}/public/images/navimg/pic03.png" />
+                        <div class="product_name">结头系带德比男鞋</div>
+                        <div class="J_price">￥540</div>
+                        <span class="plus_p">￥540+</span>
+                        <span class="jf">30</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>-->
+	<!-- 排行榜 -->
+	<!--<div class="pankings">
+        <span class="control_l_content cf">
+            <span><img src="__TEMP__/{$style}/public/images/navimg/bang.png"></span>
+            <a href="javascript:void(0);">更多</a>
+        </span>
+        <div class="j_Rankings">
+            <ul class="cf">
+                <li>
+                    <a href="javascript:void(0);"><img src="__TEMP__/{$style}/public/images/navimg/hot.png" /></a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);"><img src="__TEMP__/{$style}/public/images/navimg/hot_search.png" /></a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);"><img src="__TEMP__/{$style}/public/images/navimg/good.png" /></a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);"><img src="__TEMP__/{$style}/public/images/navimg/internaet.png" /></a>
+                </li>
+            </ul>
+        </div>
+    </div>-->
+	<!-- 优惠券领取 -->
+	<span style="display:none;">
+			 	{if condition="count($coupon_list) gt '0'"}
+			 		{include file='wap/default/Index/controlCoupon'/}
+			    {/if}
+			</span>
+	<!--<span class="control_l_content cf" style="padding-top:14px;">
+			<span><img src="__TEMP__/{$style}/public/images/navimg/center.png"></span>
+		</span>-->
+</div>
+<!--通证红包弹窗-->
+<div class="envelopes" style="display:none;">
+	<div class="redBg"></div>
+	<div class="closeRed">X</div>
+	<div class="red_envelopes">
+		<div class="jine" id="jine"></div>
+		{if condition="$member_info.jplus_status eq '10'"}
+		<div class="seniority seniority1"></div>
+		<div class="seniority seniority2">您的分销佣金累计为<span>{$member_info.point_not_add}</span>元</div>
+		<div class="seniority seniority3">(体验期内成为正式会员佣金可提现)</div>
+		<div class="deposit1">存入余额</div>
+		{/if}
+		{if condition="$member_info.jplus_status eq '20'"}
+		<div class="deposit1" style="bottom:24%">存入余额</div>
+		{/if}
+	</div>
+</div>
+<!--积分红包弹窗-->
+<!-- <div class="bonusPoints">
+	<div class="redBg"></div>
+	<div class="red_envelopes">
+		<div class="bonusClose"><img src="__TEMP__/{$style}/public/images/index/close.png" width="24px"/></div>
+		<div class="receive">点击领取</div>
+	</div>
+</div> -->
+<input type="hidden" id="lat" />
+<input type="hidden" id="lng" />
+
+<!--弹框红包-->
+<div class="get-redbag-mask">
+	<div class="get-redbag-inner">
+		<div class="get-redbag" id="getRedbag">
+			<img src="/template/wap/default/public/images/newIndex/hb_tc.png" alt="">
+		</div>
+		<div class="close-btns" id="closeRedbag">
+			<img src="/template/wap/default/public/images/newIndex/closeMask.png" alt="">
+		</div>
+	</div>
+</div>
+
+<div class="right-float-box animate-bounce-down" id="signCorner">
+	<a href="APP_MAIN/member/invitationFriends?id={$member_info.user_info.user_tel}">
+		<img src="/template/wap/default/public/images/newIndex/hb.png" width="50">
+	</a>
+</div>
+
+
+
+<div class="myscroll"></div>
+<!--用户绑定-->
+<div class="binding" style="display: none;">
+	<div class="redBg"></div>
+	<div class="btnzhang">
+		<div class="zhanghu" id="existing">已有账户</div>
+		<div class="zhanghu" id="haveNot">未有账户</div>
+		<div style="color:red;">是否在本商场有账户?</div>
+	</div>
+	<div class="existing" style="height:240px;display: none;">
+		<div class="existingTitle">已 有 账 户</div>
+		<div class="reksm cf">
+			<label class="fl">手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机</label>
+			<input type="text" name="phone" placeholder="请输入手机号码" maxlength="11" class="fl nameInput" id="existingPhone"/>
+		</div>
+		<div class="reksm cf" >
+			<label class="fl">动&nbsp;&nbsp;态&nbsp;&nbsp;码 </label>
+			<input type="text" name="captcha" id="existingCaptcha" maxlength="4"  placeholder="请输入动态码" class="fl nameInput" style="width:100px">
+			<img class="verifyimg" style="width:75px!important;float: right;margin:0 12px;" src="/captcha.html" onclick="this.src='/captcha.html'"  alt="captcha" style="vertical-align: middle; cursor: pointer; height: 35px;" />
+		</div>
+		<div class="reksm cf">
+			<label class="fl">验&nbsp;&nbsp;证&nbsp;&nbsp;码</label>
+			<input type="text" name="code" placeholder="请输入验证码" maxlength="6" class="fl nameInput" id="existingCode"/>
+			<button type="button" id="btns" onClick="sendemail(1)"/>发送验证码 </button>
+		</div>
+		<div class="fig" id="fig">确定</div>
+	</div>
+	<div class="existings"  style="display: none;">
+		<div class="existingTitle">未 有 账 户</div>
+		<div class="register cf">
+			<div class="reksm cf">
+				<label class="fl">推&nbsp;&nbsp;荐&nbsp;&nbsp;人: </label>
+				<input type="text" name="pid" placeholder="推荐人账号/手机号" class="fl nameInput" id="pid"/>
+			</div>
+			<div class="reksm cf">
+				<label class="fl">用&nbsp;&nbsp;户&nbsp;&nbsp;名: </label>
+				<input type="text" name="name" placeholder="请输入用户名" class="fl nameInput" id="userName" maxlength="16"/>
+			</div>
+			<div class="reksm cf">
+				<label class="fl">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:</label>
+				<input type="password" name="password" placeholder="输入6-16位数字+字母组成的密码" min="6" maxlength="16" class="fl nameInput" id="oldPwa"/>
+			</div>
+			<div class="reksm cf">
+				<label class="fl">确认密码:</label>
+				<input type="password" name="password" placeholder="请确认密码" min="6" maxlength="16" class="fl nameInput" id="newsPwa"/>
+			</div>
+			<div class="reksm cf">
+				<label class="fl">手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机</label>
+				<input type="text" name="phone" placeholder="请输入手机号码" maxlength="11" class="fl nameInput" id="phone"/>
+			</div>
+			<div class="reksm cf" >
+				<label class="fl">动&nbsp;&nbsp;态&nbsp;&nbsp;码 </label>
+				<input type="text" name="captcha" id="captcha" maxlength="4"  placeholder="请输入动态码" class="fl nameInput" style="width:100px">
+				<img class="verifyimgs" style="width:75px!important;float: right;margin:0 12px;" src="/captcha.html" onclick="this.src='/captcha.html'"  alt="captcha" style="vertical-align: middle; cursor: pointer; height: 35px;" />
+			</div>
+			<div class="reksm cf">
+				<label class="fl">验&nbsp;&nbsp;证&nbsp;&nbsp;码</label>
+				<input type="text" name="code" placeholder="请输入验证码" maxlength="6" class="fl nameInput" id="code"/>
+				<button type="button" id="btn" onClick="sendemail(2)"/>发送验证码 </button>
+			</div>
+		</div>
+		<div class="badgeBtn">
+			<button class="but" type="submit" id="submit">完成</button>
+		</div>
+	</div>
+	
+
+</div>
+{/block}
+{block name="javascript"}
+<script>
+    /*首单全免*/
+    var imgArr = ['/upload/goods/beizi.jpg','/upload/goods/DWshoubiao.jpg','/upload/goods/Hoo.jpg'] ;
+    var html = '';
+    html += '<div class="swiper-wrapper">\n';
+    {volist name="goods_list['data']" id="vo" key="k"}
+    html += '	<a href="/wap/goods/goodsdetail?id={$vo.goods_id}&type=1" class="swiper-slide">\n';
+    html += '		<img class="slider-img" src="'+imgArr[{$k-1}]+'" height="100%"/>\n';
+    html += '		<div class="hotel-name-area"><span>{$vo.goods_name}</span></div>\n';
+    html += '		<div style="margin-top:2px" class="price-area">\n';
+    html += '			<div class="price-area-item">\n';
+    html += '				<img class="plus-img" src="/template/wap/default/public/images/newIndex/plus.png" alt="">\n';
+    html += '				<div class="area-item-inner"><span class=\'icoprice\'><i class=\'smaller-font-red\'>￥</i>{$vo.market_price}</span></div>\n';
+    html += '				<span class="plus-area-inner plus-area-sale"><i class="smaller-font-grey">¥{$vo.price}</i></span>\n';
+    html += '			</div>\n';
+    html += '		</div>\n';
+    html += '		<div class="jifen-area">\n';
+    html += '			<div class="jifen-area-item">\n';
+    html += '				<img src="/template/wap/default/public/images/newIndex/icon-jifen.png" class="img-icon" width="12" alt="">\n';
+    html += '				<span>返<i class="red-font">{$vo.pointNum}</i>积分</span>\n';
+    html += '			</div>\n';
+    html += '			<div class="jifen-area-item">\n';
+    html += '				<img src="/template/wap/default/public/images/newIndex/icon-wallet.png" class="img-icon" width="12" alt="">\n';
+    html += '				<span>积分收益<i class="red-font">￥{$vo.pointNum*6}</i></span>\n';
+    html += '			</div>\n';
+    html += '		</div>\n';
+    html += '	</a>\n';
+    {/volist}
+        html += '</div>\n';
+        html += '<div class="swiper-pagination swiper-pagination2"></div>\n';
+
+
+        $("#miandanArea").html(html);
+        var miandanSwiper = new Swiper('.swiper-container2', {
+            pagination: '.swiper-pagination2',
+            slidesPerView: 1,
+            autoplay: 5000,
+            paginationClickable: true,
+            spaceBetween: 30,
+            loop: true
+        });
+
+
+        (function (docs, win) {
+            var docEls = docs.documentElement,
+                resizeEvts = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalcs = function () {
+
+                    //getBoundingClientRect()这个方法返回一个矩形对象
+
+                    /*window.rem = docEls.getBoundingClientRect().width/25;
+                    docEls.style.fontSize = window.rem + 'px';*/
+                    var winWidth = docEls.getBoundingClientRect().width*0.94-20;
+                    var colWidth8 = winWidth*0.68;
+                    var colWidth4 = winWidth*0.298;
+                    $(".col-width-8").css("width",colWidth8)
+                    $(".col-width-4").css("width",colWidth4)
+
+                };
+            recalcs();
+            if (!docs.addEventListener) return;
+            win.addEventListener(resizeEvts, recalcs, false);
+        })(document, window);
+
+
+
+</script>
+
+<script src="http://api.map.baidu.com/api?type=quick&ak=cEjqQ50OUUrZHOGGSGprGHfyQnRLpPpV&v=1.0"></script>
+<script>
+    var map = null;
+    //驾驶服务
+    var drivingService = null;
+    //信息窗口
+    var infoWindow = null;
+    //驾驶策略
+    var policys = ["LEAST_TIME","LEAST_DISTANCE","AVOID_HIGHWAYS","REAL_TRAFFIC"];
+    //当前位置的marker
+    var curr_marker = null;
+    //当前位置坐标
+    var curr = null;
+    $(function() {
+        //初始化地图
+        //init();
+
+		var url = location.search; //获取url中"?"符后的字串
+		var theRequest = new Object();
+		if(url.indexOf("?") != -1) {
+			var str = url.substr(1);
+			strs = str.split("&");
+			for(var i = 0; i < strs.length; i ++) {
+				theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+			}
+		}
+		if(theRequest.id != '' || theRequest.id != null || theRequest.id != undefined){
+			var id =theRequest.id;
+		}
+
+		if(id != undefined && id != '' && id != null){
+			//alert(id)
+			$(".get-redbag-mask").show();
+			$("#getRedbag").on('click',function () {
+				window.location.href="APP_MAIN/login/register?id="+id+"";
+			})
+
+			$("#closeRedbag").on('click',function () {
+				$(".get-redbag-mask").hide();
+			})
+		}else {
+			// $(".get-redbag-mask").hide();
+		}
+
+
+		/*拖拽到旁边隐藏*/
+		/*var dragBox = document.getElementById('signCorner');
+		//拖拽中
+		dragBox.addEventListener('touchmove', function(event) {
+			event.preventDefault(); //阻止其他事件
+			// 如果这个元素的位置内只有一个手指的话
+			if (event.targetTouches.length == 1) {
+				var touch = event.targetTouches[0];
+				// 元素与手指位置同步
+				dragBox.style.left = touch.clientX + 'px';
+				dragBox.style.top = touch.clientY + 'px';
+				//由于页面中会有滚动，所以在这不能用pageX和pageY,要用clientX  clientY
+
+			}
+		}, false);
+
+		//拖拽结束，放手
+		dragBox.addEventListener('touchend', function(event) {
+			// 如果这个元素的位置内只有一个手指的话
+			//拖拽结束，changedTouches列表是涉及当前事件的列表
+			var boxWidth = 26;
+			if (event.changedTouches.length == 1) {
+				var touch = event.changedTouches[0];
+				// 判断手指位置，放置元素，如果大于浏览器宽度的一半，则右贴边，小于等于则左贴边
+				var halfViewWidth = window.innerWidth / 2;
+				var halfWidth = $(dragBox).width() / 2;
+				console.log(halfViewWidth,halfWidth)
+				// 手指位置判断,竖直方向，超出屏幕的贴边，水平方向，超出屏幕贴边，
+				//左边左贴边，右边右贴边
+				if(halfWidth < boxWidth){
+					$("#signCorner").removeClass("animate-bounce-down").addClass("fadeout")
+				}else if(halfWidth > halfViewWidth) {
+					$("#signCorner").removeClass("animate-bounce-down").addClass("fadeout-left")
+				}
+				/!* if ((touch.clientX < 0) || (touch.clientX >= 0 && touch.clientX <= (halfViewWidth - halfWidth))) {
+                    // dragBox.style.left = 20 + 'px';
+                    alert(111)
+
+                    // dragBox.style.display = "none"
+                } else if (touch.clientX >= (halfViewWidth - halfWidth)) {
+                    // dragBox.style.display = "none"
+                    // $("#signCorner").fadeOut();
+                    dragBox.style.left = (window.innerWidth - 20 - $(dragBox).width()) + 'px';
+                } *!/
+				if (touch.clientY < 0) {
+					dragBox.style.top = 20 + 'px';
+				} else if (touch.clientY >= window.innerHeight - $(dragBox).height()) {
+					dragBox.style.top = (window.innerHeight - $(dragBox).height() - 20) + 'px';
+				}
+			}
+			dragBox.touchmove = null;
+			dragBox.touchend = null;
+		}, false);*/
+    })
+    //初始化
+    function init(){
+        //初始化微信定位接口
+        initWxLocation();
+    }
+    function initWxLocation(){
+        //配置微信定位功能 start
+        $.ajax({
+            type:"post",
+            url : "APP_MAIN/share/index",
+            success:function (data) {
+                wx.config({
+                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    appId: data.appId, // 必填，公众号的唯一标识
+                    timestamp: data.timestamp, // 必填，生成签名的时间戳
+                    nonceStr:  data.noncestr, // 必填，生成签名的随机串
+                    signature: data.sign,// 必填，签名，见附录1
+                    jsApiList : [ 'checkJsApi', 'openLocation', 'getLocation' ]
+                });//end_config
+                wx.error(function(res) {
+                    //alert("出错了：" + res.errMsg);
+                });
+
+                wx.ready(function() {
+                    //判断当前客户端版本是否支持指定JS接口
+                    wx.checkJsApi({
+                        jsApiList : ['getLocation'],
+                        success : function(res) {
+                        }
+                    });
+
+                    //获取位置信息
+                    wx.getLocation({
+                        type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                        success: function (res) {
+                            var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                            var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                            var speed = res.speed; // 速度，以米/每秒计
+                            var accuracy = res.accuracy; // 位置精度
+                            //alert("纬度:" + latitude + ", 经度:" + longitude);
+                            //循环定位，每隔一段时间会自动定位一次
+                            //转换gps坐标为腾讯坐标
+                            //curr = new qq.maps.LatLng(latitude, longitude);
+
+                            $('#lat').val(res.latitude);
+                            $('#lng').val(res.longitude);
+							
+							$("#positionAdd").html('定位中')
+							
+							appendHotelSwiper(hotelInfo)
+                            //shop(7)
+							//alert($(".distanceArea")[0])
+                            /*var map = new BMap.Map("allmap");
+                            var point = new BMap.Point(latitude,longitude);
+                            var gc = new BMap.Geocoder();
+                            alert(point)
+                            gc.getLocation(point, function(rs){
+                               var addComp = rs.addressComponents;
+                               alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+                            });*/
+                            
+                            $.ajax({
+                                url: 'http://api.map.baidu.com/geocoder/v2/?ak=cEjqQ50OUUrZHOGGSGprGHfyQnRLpPpV&callback=renderReverse&location=' + latitude + ',' + longitude + '&output=json&pois=1',
+                                type: "get",
+                                dataType: "jsonp",
+                                jsonp: "callback",
+                                success : function(data){
+                                    $("#positionAdd").html(data.result.addressComponent.city)
+                                },
+                                fail:function(error){
+                                    //alert(error)
+                                }
+                            })
+
+                        },
+                        cancel: function (res) {
+                            //alert('用户拒绝授权，获取地理位置失败');
+                        },
+                        fail: function(error) {
+                            //alert('获取地理位置失败，请确保开启GPS且允许微信获取您的地理位置！');
+							appendHotelSwiper(hotelInfo)
+                        }
+                    });
+                }); //配置微信定位功能 end
+            },
+			fail: function(error) {
+				//alert('获取地理位置失败，请确保开启GPS且允许微信获取您的地理位置！');
+				appendHotelSwiper(hotelInfo)
+			}
+        })
+
+    }
+</script>
+<script type="text/javascript">
+    /*首单包邮全免*/
+    var k=0;  //当前的索引
+    var ss = new Array(); //数组，用来存放图片
+    var hrefarr = new Array();
+    var namearr = new Array();
+    var contentarr = new Array();
+    {volist name="goods_list['data']" id="vo" key="k"}
+    ss[{$k-1}] = "/{$vo.picture_info.pic_cover_small}";
+    hrefarr[{$k-1}] = "/wap/goods/goodsdetail?id={$vo.goods_id}&type=1";
+    namearr[{$k-1}] = "{$vo.goods_name}";
+    contentarr[{$k-1}] = "<span class='icoprice'><i class='smaller-font-red'>￥</i>{$vo.market_price}</span>￥{$vo.price}元";
+    contentarr[{$k-1}] = "<span class='icoprice'><i class='smaller-font-red'>￥</i>{$vo.market_price}</span>  ￥{$vo.price}元";
+    {/volist}
+        /*document.getElementById("imgplay").src=ss[0]; //改变图片路径
+        document.getElementById("imghref").href=hrefarr[0];
+        document.getElementById("playgoodsname").innerHTML =namearr[0];
+        document.getElementById("playcontent").innerHTML =contentarr[0];*/
+        /*function scrollPic(){
+                if(k>ss.length-1){ //如果当前函数超过数组下标的最大值，k=0
+                    k=0;
+                }
+                for(var i=0;i<ss.length;i++){ //遍历数组
+                    if(i==k){ //如果当前索引等于当前数组下标
+                        document.getElementById("imgplay").src=ss[i]; //改变图片路径
+                        document.getElementById("imghref").href=hrefarr[i];
+                        document.getElementById("playgoodsname").innerHTML =namearr[i];
+                        document.getElementById("playcontent").innerHTML =contentarr[i];
+                    }
+                }
+                k++; //k++,执行下一次操作
+            }
+            setInterval("scrollPic()",1800); //设置定时器*/
+        /*首单包邮全免结束*/
+
+        //用户微信绑定
+        $(function(){
+            $('#existing').click(function(){
+                $('.btnzhang').hide();
+                $('.existing').show();
+            })
+            $('#haveNot').click(function(){
+                $('.btnzhang').hide();
+                $('.existings').show();
+            });
+            var mobile = /^1[34578]\d{9}$/;              //手机号码正则
+            var chinese = /^[\u0391-\uFFE5]+$/;        //纯文字正则
+            var regex = /^[0-9]+$/;                   //纯数字正则
+            $('#submit').click(function(){            //未有账户
+                if($('#userName').val().replace(/\s/g,"") == ''){
+                    showBox('请填写您的用户名!');
+                    $("#userName").focus();
+                }else if($("#oldPwa").val() == ''){
+                    showBox('请输入密码!');
+                    $("#oldPwa").focus();
+                }else if($("#oldPwa").val().length < 6){
+                    showBox('请输入6-16位密码!');
+                    $("#oldPwa").val('');
+                    $("#oldPwa").focus();
+                }else if($("#newsPwa").val() ==''){
+                    showBox('请确认密码!');
+                    $("#newsPwa").focus();
+                }else if($("#newsPwa").val() != $("#oldPwa").val()){
+                    showBox('两次密码不一致,请重新输入!');
+                    $("#newsPwa").val('');
+                    $("#newsPwa").focus();
+                }else if($("#phone").val() == ''){
+                    showBox('请输入手机号!');
+                    $("#phone").focus();
+                }else if(!mobile.test($("#phone").val())){
+                    showBox('请填写有效的手机号!');
+                    $("#phone").val('');
+                    $("#phone").focus();
+                }else if($("#code").val() == ''){
+                    showBox('请输入动态验证码!');
+                    $("#code").focus();
+                }else if(!$("#checked").is(':checked')){
+                    showBox('请选中用户协议');
+                }else{
+                    $.ajax({
+                        type : "post",
+                        url : "register",
+                        async : true,
+                        data : {
+                            "username" : $('#userName').val().replace(/\s/g,""),
+                            "password" : $("#oldPwa").val(),
+                            "pid" :$("#pid").val(),
+                            "code" :$("#code").val(),
+                            "mobile" :$("#phone").val(),
+                        },
+                        success : function(data) {
+                            if(data["code"] > 0 ){
+                                showBox(data["message"]);
+                            }else{
+                                if(data["code"] == -2004){
+                                    showBox('设置成功');
+                                    location.href = "APP_MAIN";
+                                }else{
+                                    showBox(data["message"]);
+                                }
+                            }
+                        },
+                        error:function(data){
+                            console.log(data);
+                        }
+                    });
+                }
+            });
+        })
+        $('#fig').click(function(){              //已有账户
+            $.ajax({
+                type : "post",
+                url : "",
+                async : true,
+                data : {
+                    "code" :$("#existingCode").val(),
+                    "mobile" :$("#existingPhone").val(),
+                },
+                success : function(data) {
+                    if(data["code"] > 0 ){
+                        showBox(data["message"]);
+                    }else{
+                        if(data["code"] == -2004){
+                            showBox('设置成功');
+                            location.href = "APP_MAIN";
+                        }else{
+                            showBox(data["message"]);
+                        }
+                    }
+                },
+                error:function(data){
+                    console.log(data);
+                }
+            });
+        })
+        var countdown=60;
+        function sendemail(num){
+            var mobile = /^1[34578]\d{9}$/;
+            var regStr = /^(?=.*[a-zA-Z]+)(?=.*[0-9]+)[a-zA-Z0-9]+$/;    //字母加数字正则
+            if(num == 1){
+                var obj = $("#btns");
+                if($("#existingPhone").val() == ''){
+                    showBox('请填写您的手机号!');
+                    $("#existingPhone").focus();
+                }else if(!mobile.test($("#existingPhone").val())){
+                    showBox('请填写有效的手机号!');
+                    $("#existingPhone").val('');
+                    $("#existingPhone").focus();
+                }else if($("#existingCaptcha").val() == ''){
+                    showBox('请输入动态码!');
+                    $("#existingCaptcha").val('');
+                    $("#existingCaptcha").focus();
+                }else{
+                    $.ajax({
+                        type: "post",
+                        url: "APP_MAIN/Login/sendSmsRegisterCode",                     //判断验证码
+                        data: {"vertification":$("#existingCaptcha").val(),"mobile" :$("#existingPhone").val()},
+                        success: function(data){
+                            if(data.code == '0'){
+                                settime(obj,num);
+                            }else{
+                                if(data.code == '2'){              //动态码有错
+                                    showBox(data.message);
+                                    $(".verifyimg").attr("src",'/captcha.html'); //'{:captcha_src()}'
+                                }else{                 //后台返回的报错
+                                    showBox(data.message);
+                                    return false;
+                                }
+                            }
+                        }
+                    });
+                }
+            }else{
+                var obj = $("#btn");
+                if(!regStr.test($("#oldPwa").val())){
+                    showBox('密码必须是字母加数字!');
+                    $("#oldPwa").focus();
+                }else if($("#newsPwa").val() != $("#oldPwa").val()){
+                    showBox('两次密码不一致,请重新输入!');
+                    $("#newsPwa").val('');
+                    $("#newsPwa").focus();
+                }else if($("#phone").val() == ''){
+                    showBox('请填写您的手机号!');
+                    $("#phone").focus();
+                }else if(!mobile.test($("#phone").val())){
+                    showBox('请填写有效的手机号!');
+                    $("#phone").val('');
+                    $("#phone").focus();
+                }else if($("#captcha").val() == ''){
+                    showBox('请输入动态码!');
+                    $("#captcha").val('');
+                    $("#captcha").focus();
+                }else{
+                    $.ajax({
+                        type: "post",
+                        url: "APP_MAIN/Login/sendSmsRegisterCode",                     //判断验证码
+                        data: {"vertification":$("#captcha").val(),"mobile" :$("#phone").val()},
+                        success: function(data){
+                            if(data.code == '0'){
+                                settime(obj,num);
+                            }else{
+                                if(data.code == '2'){              //动态码有错
+                                    showBox(data.message);
+                                    $(".verifyimgs").attr("src",'/captcha.html'); //'{:captcha_src()}'
+                                }else{                 //后台返回的报错
+                                    showBox(data.message);
+                                    return false;
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        }
+        function settime(obj,num) {     //发送验证码倒计时
+            if(num == 1){
+                if(countdown == 0) {
+                    obj.attr('disabled',false);
+                    //obj.removeattr("disabled");
+                    obj.html("发送验证码");
+                    countdown = 60;
+                    $("#btns").css('background','');
+                    return;
+                }else {
+                    obj.attr('disabled',true);
+                    obj.html("重新发送(" + countdown + ")");
+                    countdown--;
+                    $("#btns").css('background','#c5c5c5');
+                    setTimeout(function() {
+                        settime(obj)
+                    },1000);
+                }
+            }else{
+                if(countdown == 0) {
+                    obj.attr('disabled',false);
+                    //obj.removeattr("disabled");
+                    obj.html("发送验证码");
+                    countdown = 60;
+                    $("#btn").css('background','');
+                    return;
+                }else {
+                    obj.attr('disabled',true);
+                    obj.html("重新发送(" + countdown + ")");
+                    countdown--;
+                    $("#btn").css('background','#c5c5c5');
+                    setTimeout(function() {
+                        settime(obj)
+                    },1000);
+                }
+            }
+        }
+        function publicBusi(){
+            var arrt = ['****5668十分钟前抢的***礼包一份*','****2818十分钟前成为Jplus会员','****4342十分钟前抢的***礼包一份','***6762五分钟前成为Jplus会员','****9658一小时前抢购礼包一份','****5968二分钟前参与团购','****7451三分钟前注册成功','****1405五分钟前邀请好友成为会员获得新人券','****4546十分钟前通过线下商户积分兑付成功']
+            var index = Math.floor((Math.random()*arrt.length));
+            // $('.myscroll').html(arrt[index]).toggle();
+            $('.myscroll').html(arrt[index]);
+        }
+        setInterval(publicBusi,5000);
+        function getNow(s) {
+            return s < 10 ? '0' + s: s;
+        }
+        var myDate = new Date();
+        var year=myDate.getFullYear();
+        var month=myDate.getMonth()+1;
+        var date=myDate.getDate();
+        var now=year+'-'+getNow(month)+"-"+getNow(date);
+        var assign_jplus_time = '{$member_info.assign_jplus_time}';
+        var date1=new Date(now); //开始时间
+        var date2=new Date(assign_jplus_time); //结束时间
+        var jplus_time = date2.getTime() - date1.getTime();
+        var days=Math.floor(jplus_time/(24*3600*1000));
+        $('.seniority1').html('您的Jplus会员体验资格仅剩<span>'+days+'</span>天');
+        var point_gift = '{$member_info.point_gift}';
+        //var isReceive ='{$is_receive}';           //100体验积分功能还未实行
+        var isReceive ='1'
+
+
+        if(isReceive == 1){
+            if(point_gift < 0 || point_gift == ''){
+                $('.envelopes').hide();
+            }else{
+                $('#jine').html(point_gift+'元');
+                $('.envelopes').show();
+            }
+            $('.bonusPoints').hide();
+        }else{
+            $('.bonusPoints').show();
+        }
+        $('.closeRed').click(function(){
+            $('.envelopes').hide();
+        })
+        //导航滑动
+        var swiper1 = new Swiper('.swiper-container-nav', {
+            slidesPerView: 4,
+            spaceBetween: 10,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
+        var page_index = 1;
+        var page_size = 6;
+        var p = 1;
+        $(document).ready(function(){
+            var k = 0;
+            category($('ul .categoryList').eq(0).attr('val'));
+            $('.swiper-container-nav>.swiper-wrapper>.swiper-slide>a').click(function(){
+                $('.swiper-container-nav>.swiper-wrapper>.swiper-slide>a').removeClass("tab");
+                $(this).addClass("tab");
+                var id =  $(this).attr('data-category-id');
+                var no = '-1';
+                category(id);
+                page_index = 1;
+                page_size = 10;
+            });
+            $('.category_list a').click(function(){
+                var id =  $(this).attr('data-category-id');
+                category(id);
+                $('.category_list').hide();
+            });
+        });
+        function category(id){
+            var category_html = '';
+//	 	if(k == '-1'){
+//	 		$('.nav_menu ul').html('');
+//	 	}
+            $.ajax({
+                type:'post',
+                url:'APP_MAIN/Goods/goodsList',
+                data:{'category_id':id,'page_index':1,'page_size':12},
+                success:function(msg){
+                    if(msg.data.length>0){
+                        p = 1;
+                        if(page_index > 0){
+                            for(var i = 0;i<msg.data.length;i++){
+                                if(msg.data[i].state == '1'){
+                                    category_html+='<li class="col-sm-4">'
+                                        +'<a href="APP_MAIN/goods/goodsdetail?id='+msg.data[i].goods_id+'">'
+                                        +'<img src="__UPLOAD__/'+msg.data[i].pic_cover_small+'" />'
+                                        +'<div class="product_name">'+msg.data[i].goods_name+'</div>'
+                                        +'<div class="J_price">￥'+msg.data[i].price+'</div>'
+                                        +'<div class="price cf">'
+                                        +'<img src="__TEMP__/{$style}/public/images/jplus.png" width="23px" height="11px"/>'
+                                        +'<span>￥'+msg.data[i].market_price+'</span>'
+                                        +'</div>'
+                                        +'<!--<div class="between">火拼</div>-->'
+                                        +'</a>'
+                                        +'</li>';
+                                }
+                            }
+                        }
+
+                    }else{
+
+                        category_html+='<li style="text-align:center;height: 130px;">'
+                            +'<img src="__TEMP__/{$style}/public/images/commend-type.png" style="max-width: 80px;vertical-align: middle;margin: 10px 0 2px 0;"/>'
+                            +'<div style="text-align:center;color:#666;margin-top: 10px;">还没有商品哦</div>'
+                            +'</li>';
+                    }
+                    $('.nav_menu ul').html(category_html);
+                }
+            });
+
+//      if(p == 0){
+//      	page_index = -1
+//      }else{
+//      }
+            page_index +=1;
+        }
+        /*$(document).ready(function(){
+            var k = 0;
+            category1($('ul .categoryList').eq(0).attr('val'));
+            $('.swiper-container-nav>.swiper-wrapper>.swiper-slide>a').click(function(){
+                $('.swiper-container-nav>.swiper-wrapper>.swiper-slide>a').removeClass("tab");
+                $(this).addClass("tab");
+                var id =  $(this).attr('data-category-id');
+                var no = '-1';
+                category1();
+                page_index = 1;
+                page_size = 10;
+            });
+            $('.category_list a').click(function(){
+                var id =  $(this).attr('data-category-id');
+                category1();
+                $('.category_list').hide();
+            });
+        });*/
+        //关注微信公众号弹出
+        $("#subscribe").click(function(){
+            $(".shade").show();
+            $(".popup").show();
+        })
+        //关注微信公众号关闭
+        $("#close").click(function(){
+            $(".shade").hide();
+            $(".popup").hide();
+
+        })
+        $.ajax({
+            type:"post",
+            url : "APP_MAIN/member/getShareContents",
+            success : function(data){
+                console.log('---------------------',data);
+                //alert(JSON.stringify(data));
+                //document.write(data.share_img);
+                /* $("#share_title").val(data['share_title']);
+                $("#share_desc").val(data['share_contents']);
+                $("#share_url").val(data['share_url']);
+                $("#share_img_url").val(data['share_img']);\ */
+                {include file='wap/default/shareContents'/}
+            }
+        })
+
+
+
+        $(function(){
+            //init();
+            shop(7);
+			//初始化地图
+            $('.delicious_food').click(function(){
+                var dropDown = $('.drop-down');
+                if(dropDown.is(':hidden')){
+                    dropDown.show();
+                }else{
+                    dropDown.hide();
+                }
+            });
+            $('.drop-down li').click(function(){
+                $('.theme').html($(this).html());
+                shop($(this).attr('id'));
+            })
+            $('.popularity').click(function(){
+                var dropDown = $('.drop-down2');
+                if(dropDown.is(':hidden')){
+                    dropDown.show();
+                }else{
+                    dropDown.hide();
+                }
+            });
+            $('.drop-down2 li').click(function(){
+                $('.theme2').html($(this).html());
+            })
+            // qq_position();
+
+        })
+        //建立构造函数
+        function qq_position() {
+            var geolocation = new qq.maps.Geolocation("GRIBZ-ERNK4-LRLUF-DTLZW-AFU6T-WIFVV", "myapp");
+            if (geolocation) {
+                geolocation.getLocation(success, error);
+            } else {
+                alert("失败");
+            }
+
+        }
+        //获取当前的定位信息成功
+        function success(position) {
+            var text = position.city;
+            $('#lat').val(position.lat);
+            $('#lng').val(position.lng);
+            var city = text.replace (/(.*)市.*/, '$1');
+            document.getElementById("botn").innerHTML=city;
+        };
+        //获取当前的定位信息失败
+        function error() {
+            document.getElementById("botn").innerHTML="失败";
+        };
+		var hotelInfo;
+        function shop(id){
+            var html ='';
+            $.ajax({
+                type:"post",
+                url : "APP_MAIN/index/shopStreet",
+                data:{'shop_group_id':id},
+                success : function(msg){
+                    console.log(msg);
+                    if(msg.data.length>0){
+						hotelInfo = msg.data;
+                        //appendHotelSwiper(msg.data);
+						init();
+                        for(var i=0;i<msg.data.length;i++){
+                            if(msg.data[i].shop_type != '1'){
+                                html+='<div class="column">'
+                                    +'<div class="J_column cf">'
+                                    +'<div class="fl J_columnImg"><img src="__UPLOAD__/'+msg.data[i].shop_logo+'" width="100%"/></div>'
+                                    +'<div class="fr cf J_lomjug">'
+                                    +'<div class="fl J_kimls">'
+                                    +'<a href="/wap/shop/index?shop_id='+msg.data[i].shop_id+'">'
+                                    +'<span class="tile_j">'+msg.data[i].shop_name+'</span>&nbsp;&nbsp;'
+                                    +'<span class="ki_ji">'+msg.data[i].grou_name+'</span>'
+                                if(msg.data[i].shop_id == '55'){
+                                    html+='<div class="consumption consumptionImg">会员尊享<font color="#ff000">9.5</font>折</div>'
+                                }else if(msg.data[i].shop_id == '57'){
+                                    html+='<div class="consumption consumptionImg">会员尊享<font color="#ff000">9.0</font>折</div>'
+                                }else{
+                                    html+='<div class="consumption consumptionImg">会员尊享<font color="#ff000">8.5</font>折</div>'
+                                }
+                                if(msg.data[i].shop_group_id == '7' || msg.data[i].shop_group_id == '9' || msg.data[i].shop_group_id == '11' || msg.data[i].shop_group_id == '12'){
+                                    if(msg.data[i].shop_id == '43' || msg.data[i].shop_id == '46'){
+                                        html+='<div class="consumption">消费金额的<font>15%</font>可用于会员返利，一积分约可分红<font>6</font>元</div>'
+                                    }else{
+                                        html+='<div class="consumption">消费金额的<font>10%</font>可用于会员返利，一积分约可分红<font>6</font>元</div>'
+                                    }
+                                }else{
+                                    html+='<div class="consumption">消费得<font>40%</font>积分,每1积分可提现约<font>6</font>元</div>'
+                                }
+                                html+='<div class="li_hlok">'+msg.data[i].live_store_address+'</div>'
+                                    +'</div>'
+                                    +'</a>'
+                                    +'<div class="fr J_kimls2">'
+                                    +'<a href="https://uri.amap.com/marker?position='+msg.data[i].latitude_longitude+'&name='+msg.data[i].shop_name+'" class="latitude" data-let= '+msg.data[i].latitude_longitude+'><img src="__TEMP__/{$style}/public/images/icon/daohang.png" style="width:44px"/></a>'
+                                    +'<div class="juli" style="margin-top:0">582m</div>'
+                                    +'</div>'
+                                    +'</div>'
+                                    +'</div>'
+                                    +'<div class="column_quan cf">';
+                                if(msg.data[i].promotion_discount.length>0){
+                                    var k =  msg.data[i].promotion_discount.length;
+                                    if(k>2){             //首页只显示两张优惠券
+                                        k=2;
+                                    }
+                                    for(var j=0;j<k;j++){
+                                        html+='<div class="voucher" onclick="coupon_receive(this,'+msg.data[i].promotion_discount[j].coupon_type_id+')">'
+                                            +'<a href="javascript:void(0);" class="cf">'
+                                            +'<span class="fl money">￥<font>'+msg.data[i].promotion_discount[j].money+'</font></span>'
+                                            +'<span class="fr msju">'
+                                            +'<div class="full">满'+msg.data[i].promotion_discount[j].at_least+'元可用</div>'
+                                            +'<div class="date">'+msg.data[i].promotion_discount[j].end_time.split(" ")[0]+'前使用</div>'
+                                            +'</span>'
+                                            +'</a>'
+                                            +'<div class="receive">已领取</div>'
+                                            +'</div>';
+                                    }
+                                }
+                                html+='</div>'
+                                    +'</div>'
+                            }
+                        }
+                    }else{
+                        html+='<div class="nothing" align="center" style="box-shadow: 0 6px 10px rgba(0,0,0,.1);"><img src="/template/wap/default/public/images/wap_nodata.png" width="100px"><div>没有找到您想要的商铺…</div></div>'
+                    }
+                    //$('#column').html(html);
+                    //latitude();
+                }
+            })
+        }
+
+        function appendHotelSwiper(data) {
+            var hotelHtml = '';
+            // 积分汇通暂时影藏                                      <span class="hotel-tag">积分汇通</span>
+            hotelHtml += '<div class="swiper-wrapper">\n';
+            data.forEach((item,index)=>{
+                if(item.shop_type != '1'){
+                    var distance = getDistance(item);
+                    console.log('====',item)
+                    hotelHtml += '<div class="swiper-slide hotel-slide">\n';
+                    hotelHtml += '<a href="/wap/shop/index?shop_id='+item.shop_id+'" class="hotel-link">\n';
+                    hotelHtml += '<img class="slider-img" src="__UPLOAD__/'+item.shop_logo+'" height="100%"/>\n';
+                    hotelHtml += '<div class="hotel-name-area hotel-name-area-two"><span>'+item.shop_name+'</span></div>\n';
+                    hotelHtml += '<span class="address-area-item">'+item.live_store_address+'</span>';
+                    hotelHtml += '		<div style="margin-top:2px" class="price-area-hotel">\n';
+                    hotelHtml += '			<div class="price-area-item">\n';
+                    hotelHtml += '				<div class="area-item-inner"><span class=\'icoprice\'><i class=\'smaller-font-red\'>￥</i>'+item.goods_list[0].price+'</span></div>\n';
+                    hotelHtml += '				<span class="plus-area-inner"><img class="plus-img" src="/template/wap/default/public/images/newIndex/plus.png" alt=""><i class="smaller-font-grey">¥'+item.goods_list[0].market_price+'</i></span>\n';
+                    hotelHtml += '			</div>\n';
+                    hotelHtml += '		</div>\n';
+                    hotelHtml += '		<div class="jifen-area">\n';
+                    hotelHtml += '			<div class="jifen-area-item">\n';
+                    hotelHtml += '				<img src="/template/wap/default/public/images/newIndex/icon-jifen.png" class="img-icon" width="12" alt="">\n';
+                    hotelHtml += '				<span>返<i class="red-font">'+item.goods_list[0].pointNum+'</i>积分</span>\n';
+                    hotelHtml += '			</div>\n';
+                    hotelHtml += '			<div class="jifen-area-item">\n';
+                    hotelHtml += '				<img src="/template/wap/default/public/images/newIndex/icon-wallet.png" class="img-icon" width="12" alt="">\n';
+                    hotelHtml += '				<span>积分收益<i class="red-font">￥'+item.goods_list[0].pointNum*6+'</i></span>\n';
+                    hotelHtml += '			</div>\n';
+                    hotelHtml += '		</div>\n';
+                    hotelHtml += '	</a>\n';
+                    hotelHtml += '	<a href="https://uri.amap.com/marker?position='+item.latitude_longitude+'&name='+item.shop_name+'" class="distance-area latitude distanceArea" data-let= '+item.latitude_longitude+'>距离'+distance+'km</a>\n';
+                    hotelHtml += '	</div>\n';
+                }
+            })
+            hotelHtml += '</div>\n';
+            hotelHtml += '<div class="swiper-pagination swiper-pagination1"></div>\n';
+
+            $("#hotelArea").html(hotelHtml);
+            var hotelSwiper = new Swiper('.swiper-container1', {
+                pagination: '.swiper-pagination1',
+                slidesPerView: 1,
+                autoplay: 5000,
+                paginationClickable: true,
+                spaceBetween: 30,
+                loop: true,
+				observer: true,//修改swiper自己或子元素时，自动初始化swiper
+				observeParents: true,//修改swiper的父元素时，自动初始化swiper
+				allowTouchMove: false, // 不允许鼠标拖动
+				preventClicks: false,//默认true
+				autoplayDisableOnInteraction: false,
+            });
+			//init();
+        }
+
+
+
+
+        var couponObj = new Array();
+        function coupon_receive(event,coupon_type_id){
+            var is_have = true;
+            $.each(couponObj, function(key, val) {
+                if(val == coupon_type_id){
+                    is_have = false;
+                }
+            });
+            if(is_have){
+                couponObj.push(coupon_type_id);
+                $.ajax({
+                    type:"post",
+                    url : "APP_MAIN/index/getCoupon",
+                    async: false,
+                    dataType:"json",
+                    data:{
+                        'coupon_type_id' : coupon_type_id
+                    },
+                    success : function(data){
+                        if(data['code']>0){
+                            $(event).children('.receive').show();
+                        }else{
+                            $(event).children('.receive').show().text(data['message']);
+                        }
+                    }
+                })
+            }
+        }
+        function latitude(){
+            var len = $('body .latitude').length;
+            var userLat = $('#lat').val();
+            var userLng = $('#lng').val();
+            for(var i = 0;i < len; i++){
+                var num = $('body .latitude').eq(i).attr('data-let');
+                var lng = num.split(",")[0];
+                var lat = num.split(",")[1];
+                caculateLL(userLat, userLng, lat, lng,i)
+            };
+        }
+        function caculateLL(lat1, lng1, lat2, lng2,k) {
+            if(lat1 != '' && lat2 != undefined){
+                var radLat1 = lat1 * Math.PI / 180.0;
+                var radLat2 = lat2 * Math.PI / 180.0;
+                var a = radLat1 - radLat2;
+                var b = lng1 * Math.PI / 180.0 - lng2 * Math.PI / 180.0;
+                var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+                s = s * 6378.137;
+                s = Math.round(s * 10000) / 10000;
+                $('.juli').eq(k).html(s.toFixed(1) + 'km');
+                return s
+            }else{
+                $('.juli').eq(k).html(0 + 'km');
+            }
+        };
+
+
+        function getDistance(item){
+            var userLat = $("#lat").val();
+            var userLng = $("#lng").val();
+            var distance;
+            var num = item.latitude_longitude;
+            var lng = num.split(",")[0];
+            var lat = num.split(",")[1];
+            if(userLat!= '' && lat != undefined){
+                var radLat1 = userLat * Math.PI / 180.0;
+                var radLat2 = lat * Math.PI / 180.0;
+                var a = radLat1 - radLat2;
+                var b = userLng * Math.PI / 180.0 - lng * Math.PI / 180.0;
+                var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+                s = s * 6378.137;
+                s = Math.round(s * 10000) / 10000;
+                distance = s.toFixed(1)
+            }else{
+                distance = 0;
+            }
+            return distance
+        }
+        $('document').ready(function() {
+            updateEndTime();
+        });
+        //倒计时函数
+        function updateEndTime() {
+            var date = new Date();
+            var time = date.getTime(); //当前时间距1970年1月1日之间的毫秒数
+
+            $(".settime").each(function(i) {
+                var endDate = this.getAttribute("endTime"); //结束时间字符串
+
+                //转换为时间日期类型
+                var endDate1 = eval('new Date(' + endDate.replace(/\d+(?=-[^-]+$)/, function(a) {
+                    return parseInt(a, 10) - 1;
+                }).match(/\d+/g) + ')');
+
+                var endTime = endDate1.getTime(); //结束时间毫秒数
+
+                var lag = ((endTime - time) / 1000);        //当前时间和结束时间之间的秒数
+                if (lag > 0) {
+                    var second = Math.floor(lag % 60);
+                    var minite = Math.floor((lag / 60) % 60);
+                    var hour = Math.floor(lag / 3600);    //没有将小时转换成天
+                    //var hour = Math.floor((lag / 3600) % 24);    //多少个小时
+                    //var day = Math.floor((lag / 3600) * 24);   //多少天
+                    var hour = hour<10?"0"+hour:hour;
+                    var minite = minite<10?"0"+minite:minite;
+                    var second = second<10?"0"+second:second;
+                    $('.js-hour').html(hour);
+                    $('.js-min').html(minite);
+                    $('.js-sec').html(second);
+                } else{
+                    $(this).html("活动已经结束啦！");
+                }
+            });
+            setTimeout("updateEndTime()", 1000);
+        }
+        //积分红包js部分
+        $(".bonusClose").click(function(){
+            $('.bonusPoints').hide();
+        })
+        $('.receive').click(function(){
+            $.ajax({
+                type:'post',
+                url:'APP_MAIN/index/getSharePoint',
+                success:function(msg){
+                    if(msg == 0){                  //msg等于0是未领取，等于1是已经领取过
+                        location.href = "APP_MAIN";
+                        return;
+                    }
+                    if(msg == -1){
+                        window.location.href = 'APP_MAIN/login/index'
+                    }
+                }
+            })
+        })
+</script>
+{/block}
+
+

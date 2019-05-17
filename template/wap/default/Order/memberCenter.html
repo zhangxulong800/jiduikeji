@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" type="text/css" href="__PCMOB__/css/font.css">
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/memberCenter.css" />
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<link rel="shortcut  icon" type="image/x-icon" href="__TEMP__/{$style}/public/images/icon.ico" media="screen"/>
+		<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/showbox.css">
+		<script src="__TEMP__/{$style}/public/js/showBox.js"></script>
+		<title>会员中心</title>
+	</head>
+	<body>
+		<div class="box">
+			<div class="head">
+				<div class="J_title">
+					<img src="__TEMP__/{$style}/public/images/pay/card02.png" width="100%" />
+					<div class="userimg">
+						{if condition="$user_info.user_headimg eq '' "}
+							<img src="__TEMP__/{$style}/public/images/member_default.png" width="48px"/>
+						{else/}
+							<img src="__UPLOAD__/{$user_info.user_headimg}" width="48px"/>
+						{/if}
+					</div>
+					<div class="name">{$user_info.user_name}</div>
+					<div class="userId" style="display: none;">NO.0731 0000 002</div>
+					<div class="price">2018-12-31到期续费 ></div>
+				</div>
+				<div class="unstable">
+					<ul class="cf">
+						<li style="width:26%;">
+							<div>赠送</div>
+							<div>50积分</div>
+							<a href="javascript:void(0);">领取</a>
+						</li>
+						<li>
+							<div>领取</div>
+							<div>15爆品系列产品</div>
+							<a href="javascript:void(0);">领取</a>
+						</li>
+						<li>
+							<div>获得</span>
+							<div>17项尊享权益</div>
+							<a href="javascript:void(0);">领取</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="equity">
+				<div class="J_equity cf">
+					<div class="fl Jplus_equity">白金JPLUS权益</div>
+				</div>
+				<ul class="cf">
+					<li>JPLUS<br />专属会员价</li>
+					<li>10款<br />会员礼包</li>
+					<li>100% <br />积分收益率</li>
+					<li>6倍<br />积分现金奖 </li>
+					<li>100/月<br />专属积分券</li>
+					<li>1对1<br />专属客服</li>
+				</ul>
+				<div class="limited_time">
+					<a href="javascript:void(0);">邀请好友开通会员</a>
+					<span>获得30-90元随机奖励</span>
+				</div>
+			</div>
+			<div class="zengping">
+				<div class="J_shopping cf">
+					<div class="Jplus_zengping"><img src="__TEMP__/{$style}/public/images/pay/zengping.png" width="221px"/></div>
+					<div class="dizhi">3大系共10款商品购买会员即可选择一款免费获取</div>
+				</div>
+			</div>
+			<div class="zengping_wu">
+				<ul class="cf">
+					<li><img src="__TEMP__/{$style}/public/images/pay/bg01.png"/></li>
+					<li><img src="__TEMP__/{$style}/public/images/pay/bg02.png"/></li>
+					<li><img src="__TEMP__/{$style}/public/images/pay/bg03.png"/></li>
+					<li><img src="__TEMP__/{$style}/public/images/pay/bg04.png"/></li>
+					<li><img src="__TEMP__/{$style}/public/images/pay/bg05.png"/></li>
+					<li><img src="__TEMP__/{$style}/public/images/pay/bg06.png"/></li>
+				</ul>
+				<a href="javascript:void(0);">赠品详情 ></a>
+			</div>
+			<div class="shopping">
+				<div class="J_shopping cf">
+					<div class="Jplus_shopping"><img src="__TEMP__/{$style}/public/images/pay/zhuanshu.png" width="221px"/></div>
+					<div class="dizhi">最低低至三折</div>
+				</div>
+			</div>
+			<div class="choose">
+				<div class="J_choose">
+					<ul class="cf">
+						<li class="cf">
+							<div class="fl">
+								<div class="selected">会员精选购物</div>
+								<div class="lable">精选平台专属会员商品</div>
+								<a href="javascript:void(0);">立即抢购</a>
+							</div>
+							<div class="fr">
+								<img src="__TEMP__/{$style}/public/images/pay/pic.png" width="60px"/>
+							</div>
+						</li>
+						<li class="cf">
+							<div class="fl">
+								<div class="selected">会员优先购</div>
+								<div class="lable">精选平台商品优先购买</div>
+								<a href="javascript:void(0);">立即抢购</a>
+							</div>
+							<div class="fr">
+								<img src="__TEMP__/{$style}/public/images/pay/pic.png" width="60px"/>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col4">
+				<ul class="cf">
+					<li>
+						<div class="title">生日赠品</div>
+						<div class="bale">选你所爱</div>
+						<img src="__TEMP__/{$style}/public/images/pay/icon011.png" width="34"/>
+					</li>
+					<li>
+						<div class="title">专属券</div>
+						<div class="bale">优惠更多</div>
+						<img src="__TEMP__/{$style}/public/images/pay/icon02.png" width="34"/>
+					</li>
+					<li>
+						<div class="title">合作商家</div>
+						<div class="bale">爆品优惠</div>
+						<img src="__TEMP__/{$style}/public/images/pay/icon03.png" width="34"/>
+					</li>
+					<li>
+						<div class="title">积分专区</div>
+						<div class="bale">不差钱</div>
+						<img src="__TEMP__/{$style}/public/images/pay/icon04.png" width="34"/>
+					</li>
+				</ul>
+			</div>
+			<div class="increment">
+				<div class="J_increment cf">
+					<div class="Jplus_increment" style="text-align: center;"><img src="__TEMP__/{$style}/public/images/pay/zengzhi.png" width="171px"/></div>
+				</div>
+				<div class="kilo bottom">
+					<div class="kilo_title">《知检》<span>6</span> 次免费体检 </div>
+					<div class="kilo_laebel">专利测试 精准便捷 提前预警 人体四大健康问题 </div>
+				</div>
+				<div class="jiak bottom">
+					<div class="kilo_title">线下 <span>60</span> 家美容院每年每家提供<span>1</span>次免费项目</div>
+					<div class="kilo_laebel">重塑最美的自己 一场华美的蜕变</div>
+				</div>
+				<div class="komj bottom">
+					<div class="kilo_title">每月 <span>1</span> 次百家知名美食品牌通用7折优惠</div>
+					<div class="kilo_laebel">民以食为天 食以味当先</div>
+				</div>
+				<div class="qizhu bottom">
+					<div class="kilo_title">每月20家合作酒店任选1家  <span>3</span> 折起住 </div>
+					<div class="kilo_laebel">专利测试 精准便捷 提前预警 人体四大健康问题 </div>
+				</div>
+				<div class="baoxiang bottom">
+					<div class="kilo_title">30家KTV任选1家会员生日当日 <span>免</span> 包厢费</div>
+					<div class="kilo_laebel">重塑最美的自己 一场华美的蜕变</div>
+				</div>
+				<div class="koishui bottom">
+					<div class="kilo_title">30家KTV任意包厢酒水一律 <span>7</span> 折(限500元内)</div>
+					<div class="kilo_laebel">民以食为天 食以味当先</div>
+				</div>
+			</div>
+			<div class="purchase">
+				<div class="J_purchase cf">
+					<div class="Jplus_increment"  style="text-align: center;"><img src="__TEMP__/{$style}/public/images/pay/fugou.png" width="171px"/></div>
+				</div>
+			</div>
+			<div class="park_product">
+				<a href="javascript:void(0);" class="cf">
+					<div class="fl">
+						<img src="/template/wap/default/public/images/index/12.png" width="70%" />
+						<div class="park_price">剩余 18 件</div>
+					</div>
+					<div class="fr">
+						<div class="title">玛歌纳德庄园 红酒   赤霞珠750ml</div>
+						<div class="original_price">原价 :<span class="decoration">¥399</span></div>
+						<div class="jplus_price">JPLUS价 :<span>¥</span><span>229</span></div>
+					</div>
+					<div class="goumai">立即购买</div>
+				</a>
+				
+				<div class="more">更多复购 ></div>
+			</div>
+			<div class="other">
+				<div class="J_increment cf">
+					<div class="Jplus_increment"><div class="Jplus_increment"  style="text-align: center;"><img src="__TEMP__/{$style}/public/images/pay/qiyu.png" width="113px"/></div></div>
+				</div>
+				<div class="J_other">
+					<ul class="cf">
+						<li class="zhuanshu">
+							<div class="title">1对1专属客服</div>
+							<div class="fuwu">竭诚为您服务</div>
+							<a href="javascript:void(0);">立即抢购</a>
+						</li>
+						<li class="xuyuan">
+							<div class="title">会员积分商学院</div>
+							<div class="fuwu">玩转积分，每天躺赚</div>
+							<a href="javascript:void(0);">立即抢购</a>
+						</li>
+						<li class="shangping">
+							<div class="title">会员积分商品专区</div>
+							<div class="fuwu">不花钱也能买</div>
+							<a href="javascript:void(0);">立即抢购</a>
+						</li>
+						<li class="jidui">
+							<div class="title">更多特权</div>
+							<div class="fuwu">敬请期待</div>
+							<a href="javascript:void(0);">立即抢购</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

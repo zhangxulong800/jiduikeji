@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/pro-detail.css">
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/balanceExchangeIntegral.css" />
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/showbox.css">
+		<script src="__TEMP__/{$style}/public/js/showBox.js"></script>
+		<title>购买积分</title>
+	</head>
+	<body>
+		<div class="box">
+			<div class="bbg"></div>
+			<div class="motify" style="display: none;"><div class="motify-inner">弹出框提示</div></div>
+			<div class="content_bg">
+				<div class="contentImg"><img src="__TEMP__/{$style}/public/images/icon/bg2.png"/></div>
+				<div class="contentcontent">积分 (分)</div>
+	          	<div class="shop_balance">{$conponSum.point}</div>
+				<div class="shop_transaction"></div>
+			</div>
+			<div class="chongzhi">
+				<span data-sum='10' class="ther tab">10.00</span>
+				<span data-sum='100' class="ther">100.00</span>
+				<span class="other" data-sum='0'>其他金额</span>
+			</div>
+			<div class="rule">一元等于一积分</div>
+			<div class="payment">
+				余额支付:
+				<span class="pliy_payment">10元</span>
+			</div>
+			<section class="s-btn" style="margin-top:60px; text-align: center;">
+				<button class="alipay" type="button" onclick="calculateRecharge()">下一步</button>
+			</section>
+		</div>
+		<input type="hidden" id="pay" value="{$balance}"/>
+		<input type="hidden" id="recharge_pay" value="10"/>
+		<input type="hidden" id="id" value="{$shop_id}"/>
+		<div class="popup">
+			<div class="bg"></div>
+			<div class="popup_content">
+				<div class="introduce">输入充值金额</div>
+				<div class="cf sda">
+					<span>￥</span>
+					<input class="pay-money" id="pay_money"  type="number" placeholder ="请输入充值金额" oninput="this.value=this.value.replace(/[^0-9.]+/,'');">
+				</div>
+				<div class="suc">确定</div>
+			</div>
+		</div>
+		<!--输入密码弹窗-->
+		<div class="pwdBox">
+			<div class="pwd-box">
+			    <div id="box-title">
+			        <span id="title-text">请输入支付密码</span>
+			    </div>
+			    <div class="price-pay">积分呗商城</div>
+			    <div class="price">￥10</div>
+			    <input type="tel" maxlength="6" class="pwd-input" id="pwd-input">
+			    <div class="fake-box">
+			        <input type="password" readonly="">
+			        <input type="password" readonly="">
+			        <input type="password" readonly="">
+			        <input type="password" readonly="">
+			        <input type="password" readonly="">
+			        <input type="password" readonly="">
+			    </div>
+			    <div class="forget-pwd cf">
+			        <a id="forget-pwd" href="APP_MAIN/Member/forgetPassword">忘记密码</a>
+			    </div>
+			    <div class="eudi cf">
+			    	<div class="fl" onclick="post_paypw()">确定</div>
+			    	<div class="fr">取消</div>
+			    </div>
+		    </div>
+	    </div>
+	<!--输入密码弹窗end-->
+		<script type="text/javascript">
+			var num = false;
+			$(function(){
+				function getNow(month) {
+				    return month < 10 ? '0' + month: month;
+				}
+				function getNow(date) {
+				    return date < 10 ? '0' + date: date;
+				}
+				var myDate = new Date();
+				var year=myDate.getFullYear();//获取当前年
+				var month=myDate.getMonth()+1;//获取当前月
+				var date=myDate.getDate(); //获取当前日
+				$('.shop_transaction').html(year+'-'+getNow(month)+"-"+getNow(date))
+				$('.suc').click(function(){
+					var money = Number($('#pay_money').val());
+					if(money !=''){
+						$('.pliy_payment').html(money + '元');
+						$('.price').html('￥' + money);
+						$('#recharge_pay').val(money);
+					}else{
+						$('.pliy_payment').html('10元');
+						$('.chongzhi span').removeClass('tab');
+						$('.chongzhi span').eq(0).addClass('tab');
+						$('.price').html('￥10');
+						$('#recharge_pay').val('10');
+					}
+					$('#pay_money').val('')
+					$('.popup').hide();
+				})
+				$('.chongzhi span').click(function(){
+					var sum = $(this).attr('data-sum');
+					$('.chongzhi span').removeClass('tab');
+					$(this).addClass('tab')
+					if(sum !='0'){
+						$('.pliy_payment').html(sum + '元');	
+						$('.price').html('￥' + sum);
+						$('#recharge_pay').val(sum);
+					}else{
+						$('.popup').show();
+					}
+				});
+				var $input = $(".fake-box input");
+				$("#pwd-input").on("input", function() {
+				    var pwd = $(this).val().trim();
+				    for (var i = 0, len = pwd.length; i < len; i++) {
+				        $input.eq("" + i + "").val(pwd[i]);
+				    }
+				    $input.each(function() {
+				        var index = $(this).index();
+				        if (index >= len) {
+				            $(this).val("");
+				        }
+				    });
+				});
+				$('.eudi .fr').click(function(){
+					$('.pwdBox').hide();
+					$('#pwd-input').val('');
+					$('.bbg').hide();
+					num = false;
+					$(".fake-box input").each(function() {
+				        $(this).val("");
+				    });
+				})
+			})
+			function calculateRecharge(){
+				var flag = Number($('#pay').val()) >= Number($('#recharge_pay').val());
+				var re= /^[1-9]\d*$/;    //正整数规则          
+				if(flag == true){
+					if(!re.test($('#recharge_pay').val())){
+						showBox("输入的购买数值有误,请重新输入!");
+					}else{
+						$('.pwdBox').show();
+						$('.bbg').show();
+					}
+				}else{
+					showBox("余额不足，请先充值！");
+				}
+			}
+			/*校验支付密码*/
+			function post_paypw() {
+				if(num){
+					return;
+				}
+				num = true;
+				var paypassword=$('#pwd-input').val();
+				var amount = $('#recharge_pay').val();
+				var id= $('#id').val();
+				$.ajax({
+					url :"APP_MAIN/member/check_paypassword",
+					type : "post",
+					data : {
+						'paypassword' : paypassword,
+					},
+					success : function(res) {
+						if (res.code > 0) {
+							$.ajax({
+								type:"post",
+								url:"APP_MAIN/member/balanceExchangeIntegral",
+								data:{'amount':amount,'shop_id':id},
+								success:function(msg){
+									if(msg.code > 0){
+										showBox('购买积分成功');
+							    	 	setTimeout(function(){
+							    		 	location.href="APP_MAIN/member/integral?shop_id={$shop_id}"
+							            },1000);
+									}else {
+										num = false;
+										showBox(msg.message);
+									}
+									$('.pwdBox').hide();
+									$('#pwd-input').val('');
+									$('.bbg').hide();
+									$(".fake-box input").each(function() {
+								        $(this).val("");
+								    });
+								}
+							});
+						} else {
+							num = false;
+							showBox(res.message);
+						}
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

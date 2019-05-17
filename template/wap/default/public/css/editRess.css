@@ -1,0 +1,84 @@
+.box{
+	padding:10px 0 4px 0;
+	background:#fff;
+}
+*.cf {
+    zoom: 1;
+}
+.cf:before, .cf:after {
+    display: table;
+    line-height: 0;
+    content: "";
+}
+.cf:after {
+    clear: both;
+}
+.ressTable{
+	width:90%;
+	margin:0 auto;
+	border-bottom: 1px solid #F0F0F0;
+	padding:14px 0;
+}
+.ressTable label{
+	color:#424242;
+	font-size:14px;
+	font-weight:bold;
+	float: left;
+	margin-right:10px;
+}
+.ressTable input,.ressTable select{
+	border:none;
+	font-size:14px;
+	color:#424242;
+	height:22px;
+	line-height: 22px;
+    padding-left: 4px;
+    width: calc(100% - 86px);
+}
+.labelBtn {
+    float: left;
+    width: 74%;
+}
+.labelBtn div{
+    color: #424242;
+    border-radius: 6px;
+    border: 1px solid #DDDDDD;
+    padding: 8px 20px;
+    display: inline-block;
+    margin-bottom: 6px;
+    cursor: pointer;
+    text-align: center;
+}
+.labelBtn div.active{
+	background:#3392ff;
+	color:#fff;
+	border: 1px solid #3392ff;
+}
+.deleteRess{
+	cursor:pointer;
+	background:#fff;
+	height:30px;
+	line-height:30px;
+	padding-left:16px;
+	color: #FC3301;
+	margin-top:20px;
+}
+.addRessBth{
+	position: fixed;
+	bottom:4px;
+	width:200px;
+	left:0;
+	right:0;
+	margin: 0 auto;
+	text-align: center;
+}
+.addRessBth a{
+	color:#fff;
+	background:#ff3074;
+	display: block;
+	height:34px;
+	line-height:34px;
+	border-radius:30px;
+	font-size:14px;
+}
+

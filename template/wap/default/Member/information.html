@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/personalInformation.css" />
+		<title>个人信息</title>
+	</head>
+	<body>
+		<div class="box">
+			<ul>
+				<li>
+					<a href="javascript:void(0);" class="cf">
+						<span class="title fl">头像</span>
+						<!--<span class="icon fr">-->
+						<span class="fr">
+							{empty name="$member_info.user_info.user_headimg"}
+								<img src="__TEMP__/{$style}/public/images/member_default.png" />
+							{else /}
+								<img src="__UPLOAD__/{$member_info.user_info.user_headimg}" />
+							{/empty}
+						</span>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);" class="cf padding">
+						<span class="title fl">昵称</span>
+						<span class="J_skcjs fr J_rightIcon">{$member_info.user_info.nick_name}</span>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);" class="cf padding">
+						<span class="title fl">ID</span>
+						<span class="J_skcjs fr">{$real_num}</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="box">
+			<ul>
+				<li>
+					{if condition="$member_info.user_info.card_state eq 0"}
+					<a href="APP_MAIN/Member/realNameSystem" class="cf padding">
+						<span class="title fl">身份认证</span>
+						<span class="J_skcjs fr J_rightIcon">待认证</span>
+					</a>
+					{elseif condition="$member_info.user_info.card_state eq 1"}
+					<a href="APP_MAIN/Member/realNameSystem" class="cf padding">
+						<span class="title fl">身份认证</span>
+						<span class="J_skcjs fr J_rightIcon">审核中</span>
+					</a>
+					{elseif condition="$member_info.user_info.card_state eq 2"}
+					<a href="APP_MAIN/Member/realNameSystem" class="cf padding">
+						<span class="title fl">身份认证</span>
+						<span class="J_skcjs fr J_rightIcon">未通过</span>
+					</a>
+					{else/}
+					<a href="APP_MAIN/Member/realNameSystem" class="cf padding">
+						<span class="title fl">身份认证</span>
+						<span class="J_skcjs fr J_rightIcon">已认证</span>
+					</a>
+					{/if}
+				</li>
+				<li>
+					<a href="APP_MAIN/Member/cellPhone" class="cf padding">
+					<!--<a href="javascript:void(0);" class="cf padding">-->
+						<span class="title fl">手机</span>
+						<span class="J_skcjs fr J_rightIcon">
+							{if condition="$member_info.user_info.user_tel neq ''"}
+								<span class="value" id="mobilephone">{$member_info.user_info.user_tel}&nbsp;</span>
+							{else/}
+								<span class="value set_a" id="mobilephone">绑定手机号</span>
+							{/if}
+						</span>
+					</a>
+				</li>
+				<li>
+					<a href="APP_MAIN/member/accountList?flag=1" class="cf padding">
+						<span class="title fl">银行卡</span>
+						<span class="J_skcjs fr J_rightIcon">{$account_tot}张</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="box">
+			<ul>
+				<li>
+					<a href="javascript:void(0);" class="cf padding">
+						<span class="title fl">邀请人</span>
+						{if condition="$member_info['pid'] eq 0 or $member_info['pid'] eq ''"}
+							<span class="J_skcjs fr">无推荐人</span>	
+						{else/}
+							<span class="J_skcjs fr">ID:{$real_num1}</span>	
+						{/if}
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);" class="cf padding">
+						<span class="title fl">团队</span>
+						<span class="J_skcjs fr">{$totle}人</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<!--<div class="box">
+			<ul>
+				<li>
+					<a href="APP_MAIN/Member/securityCenter" class="cf padding">
+						<span class="title fl">安全中心</span>
+						<span class="J_skcjs fr rightIcon J_rightIcon"></span>
+					</a>
+				</li>
+			</ul>
+		</div>-->
+	</body>
+</html>

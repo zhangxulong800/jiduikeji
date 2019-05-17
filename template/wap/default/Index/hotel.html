@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/swiper.js" ></script>
+		<link rel="stylesheet" type="text/css" href="__PCMOB__/css/font.css">
+		<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/hotel.css">
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/swiper.css" />
+		<script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+		<title>精品酒店</title>
+	</head>
+	<body>
+		<div class="box">
+			<div class="cf title">
+				<div class="fl location" id="botn" onClick="geolocation.getLocation(showPosition,showErr,options)">定位</div>
+				<div class="fr search"><input type="text" placeholder="搜索酒店"/></div>
+			</div>
+			<div class="banner park_product">
+				<div class="swiper-wrapper">
+					<div class="J_banner swiper-slide">
+						<img src="__TEMP__/{$style}/public/images/index/banner.png" width="100%"/>
+						<div class="cf price">
+							<div class="fl">
+								<div class="hotelLable">
+									<span class="hotelName">华天大酒店</span>
+									<span class="hotelPrice">¥289 - ¥486</span>
+								</div>
+								<div class="hotelPhone">0731-99999999</div>
+							</div>
+							<div class="fr">
+								<a href="https://uri.amap.com/marker?position=''">
+									<img src="__TEMP__/{$style}/public/images/daohang.png" class="daohang" />
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="travel">
+				<div class="J_title">旅游资讯</div>
+				<div class="cf information">
+					<div class="fl J_information"><img src="__TEMP__/{$style}/public/images/index/pic_01.png" width="100%"/></div>
+					<div class="fr J_information2">
+						<div class="zhutu"><img src="__TEMP__/{$style}/public/images/index/pic_02.png" width="100%"/></div>
+						<div class="iconImg cf">
+							<div class="fl kig"><img src="__TEMP__/{$style}/public/images/index/pic_03.png" width="100%"/></div>
+							<div class="fr shell"><img src="__TEMP__/{$style}/public/images/index/pic_04.png" width="100%"/></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="groom">
+				<div class="J_title">酒店推荐</div>
+				<div class="cf">
+					<div class="J_total fl">
+						<div class="J_totalImg"><img src="__TEMP__/{$style}/public/images/index/hotel_01.png" width="100%"/></div>	
+						<div class="J_totalName">华天大酒店（岳麓分店）</div>
+						<div class="J_totalDistance">距离当前位置500m</div>
+					</div>
+					<div class="J_total fr">
+						<div class="J_totalImg"><img src="__TEMP__/{$style}/public/images/index/hotel_01.png" width="100%"/></div>	
+						<div class="J_totalName">华天大酒店（岳麓分店）</div>
+						<div class="J_totalDistance">距离当前位置500m</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<input type="hidden" id="lat" />
+		<input type="hidden" id="lng" />
+	</body>
+	<script>
+		$(function(){
+			qq_position();
+			var swiper = new Swiper('.park_product', {
+			    slidesPerView: 1,
+			    autoplay:4000,
+		     	centeredSlides: true,
+			    paginationClickable: true,
+			    autoplayDisableOnInteraction: false,
+			    spaceBetween: 30,
+			    loop: true,
+			});
+		})
+		var geolocation = new qq.maps.Geolocation("OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77", "myapp");
+		var options = {timeout: 8000};
+		function qq_position() {
+			if (geolocation) {
+		        geolocation.getLocation(success, error);
+		    } else {
+		        alert("获取失败");
+		    }
+		
+		}
+		//获取当前的定位信息成功
+		function success(position) {
+			var text = position.city;
+			$('#lat').val(position.lat);
+			$('#lng').val(position.lng);
+		    var city = text.replace (/(.*)市.*/, '$1');
+			document.getElementById("botn").innerHTML=city;
+		};
+		//获取当前的定位信息失败
+		function error() {
+		   document.getElementById("botn").innerHTML="定位失败";
+		};
+		//建立构造函数
+		//获取当前的定位信息成功
+		function showPosition(position) {
+			var text = position.city;
+			$('#lat').val(position.lat);
+			$('#lng').val(position.lng);
+		    var city = text.replace (/(.*)市.*/, '$1');
+			document.getElementById("botn").innerHTML=city;
+		};
+		//获取当前的定位信息失败
+		function showErr() {
+		   document.getElementById("botn").innerHTML="定位失败";
+		};
+	</script>
+</html>

@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/showbox.css">
+		<script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+		<script src="__TEMP__/{$style}/public/js/showBox.js"></script>
+		<title>我的收藏</title>
+		<style>
+			a,input,button{border: none;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;outline: none;}
+			.cf:before,.cf:after{display:table;line-height:0;content:"";}
+			a:active,a:hover {outline: 0;text-decoration:none;}
+			a, li, a:hover, a:active, a:focus {text-decoration:none;}
+			.cf:after{clear:both;}
+			*.cf{zoom:1;}
+			*, body {
+			    padding: 0;
+			    margin: 0;
+			    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+			}
+			.fl { float: left;}
+			.fr { float: right;}
+			html, body { width:100%; margin:0; padding:0; font-size: 12px;}
+			body{background:#F6F5FA ;min-width:320px;max-width:640px;margin:0 auto;}
+			li{	
+				list-style:none;
+				margin-bottom: 4px;
+    			display: inline-block;
+    			width: 100%;
+			}
+			a:active,a:hover {outline: 0;text-decoration:none;}
+			.J_product{margin-top:10px;}
+			.J_product .information{
+				float:left;
+			    width:calc(100% - 12px);
+				background:#fff;
+				box-shadow: 0px 0px 12px rgba(0,0,0,.1);
+				padding:6px;
+			}
+			.J_product .information .things{
+				width:110px;
+				height:110px;
+				float:left;
+			}
+			.J_name{
+				padding-left:4px;
+				float: left;
+				margin-top: 8px;
+			}
+			.J_name .H_name{
+				color:#050505;
+				font-weight:bold;
+				font-size:14px;
+			    width: 182px;
+			    overflow: hidden;
+			    text-overflow: ellipsis;
+			    white-space: nowrap;
+			}
+			.J_name .J_jianjie{
+				color:#B3B3B3;
+				font-size:12px;
+			}
+			.J_name .J_paci {
+				color:#FC3301;
+				font-weight:bold;
+				font-size:14px;
+			}
+			.J_name .J_paci .J_zj{
+				font-weight:bold;
+				font-size:14px;
+				margin-top:50px;
+				display:inline-block;
+			}
+			.J_name .J_paci .J_kz{
+				color:#B3B3B3;
+				font-weight:bold;
+				font-size:12px;
+				margin-top:30px;
+				display:inline-block;
+				margin-left:6px;
+				text-decoration: line-through;
+			}
+			.list li i{
+				float:right;
+				width:60px;
+				text-align:center;
+				background:#FC3301;
+				color:#fff;    
+				height: 122px;
+			    line-height: 110px;
+			    position: absolute;
+			    display: none;
+			    font-style: normal;
+			}
+			.swipeleft{
+				position: relative;
+			    left: -60px;
+			    display: inline-block;
+			    width: 100%;
+			}
+			.emptyFrame{text-align: center;}
+			.emptyFrame i{display: block;}
+			.emptyFrame span{font-size:14px; color: #8B8B8B;}
+			.navigation{
+				width:40%;
+				margin:10px auto;
+				font-size:14px;
+			}
+			.navigation .shop{width:50%;text-align: center;padding-bottom:6px;}
+			.navigation .commodity{width:50%;text-align: center;padding-bottom:6px;}
+			.navigation .active{
+				border-bottom:4px solid #FC3301;
+			}
+			#column>.column:first-child {
+			    border-top: none;
+			    box-shadow: 0 6px 10px rgba(0,0,0,.1);
+			}
+			.column .J_column {
+			    width:calc(100% - 12px);
+			    padding:14px 6px;
+			    border-bottom: 1px solid #EAEAEA;
+			    border-top: 1px solid #EAEAEA;
+			    box-shadow: 0 0 10px rgba(0,0,0,.1);
+		        background: #fff;
+		        float: left;
+	            height: 94px;
+			}
+			.column .J_column .J_columnImg {
+			    width: 81px;
+			    height: 81px;
+			    line-height: 80px;
+			}
+			.column .J_column .J_columnImg img {
+			    vertical-align: middle;
+			}
+			.column .J_column .J_lomjug {
+			    margin-left: 6px;
+			    width: calc(100% - 87px);
+			    border-bottom: 1px solid #E7E7E7;
+			    padding-bottom:6px;
+			}
+			.column .J_column .J_lomjug .J_kimls {
+			    width: 81%;
+			}
+			.column .J_column .J_lomjug .J_kimls .tile_j {
+			    font-family: 'pingfang';
+			    font-size: 16px;
+			    color: #0E0E0E;
+			}
+			.column .J_column .J_lomjug .J_kimls .ki_ji {
+			    color: #B7B7B7;
+			    padding-bottom: 2px;
+			    font-family: 'pingfang';
+			    font-size: 10px;
+			}
+			.J_kimls .consumption {
+			    background: url(__TEMP__/{$style}/public/images/icon01.png)no-repeat left center;
+			    background-size: 14px 13px;
+			    font-size: 10px;
+			    padding-left: 20px;
+			    margin-bottom: 4px;
+			    color: #242424;
+			}
+			.J_kimls .consumptionImg {
+			    background: url(__TEMP__/{$style}/public/images/icon/apply.png)no-repeat left center;
+			    background-size: 14px 13px;
+			}
+			.column .J_column .J_lomjug .J_kimls .li_hlok {
+			    background: url(__TEMP__/{$style}/public/images/store_uncheck.png)no-repeat left top;
+			    padding-left: 20px;
+			    background-size: 15px 15px;
+			    font-family: 'pingfang';
+			    font-size: 12px;
+			    color: #333;
+			}
+			.column .J_column .J_lomjug .J_kimls2 {
+			    width: 16%;
+			    text-align: center;
+			    margin-top: 10px;
+			}
+			.column .J_column .J_lomjug .J_kimls2 div {
+			    color: #999;
+			    margin-top: 14px;
+			    font-size: 10px;
+			}
+			.custom-search-button {
+			    position: absolute;
+			    top:9px;
+			    right:32px;
+			    border: 0px none;
+			    border-radius: 4px;
+			    height: 35px;
+			    line-height: 35px;
+			    width: 22px;
+			    padding: 0;
+			    color: #fff;
+			    font-size: 14px;
+			    text-indent: -9999px;
+			    background: url(__TEMP__/{$style}/public/images/search_icon_2.png) right center no-repeat;
+			    background-size: 14px 14px;
+			    border-radius: 5px 0 0 5px;
+			    border: 0px none;
+			}
+			.custom-search .custom-search-input {
+			    margin: 0;
+			    padding: 8px;
+			    -webkit-appearance: none;
+			    -moz-appearance: none;
+			    line-height: 20px;
+			    height: 35px;
+			    width: 100%;
+			    -webkit-box-sizing: border-box;
+			    -moz-box-sizing: border-box;
+			    box-sizing: border-box;
+			    border: 1px solid #e5e5e5;
+			    border-radius: 4px;
+			    outline: none;
+			    font-size: 14px;
+			    -webkit-box-shadow: 0 0 0 0;
+			    box-shadow: 0 0 0 0;
+			}
+			.editing{
+				width:88%;
+				margin:0 auto;
+			}
+			.consumption font {
+			    color: #F83271;
+			}
+		</style>
+	</head>
+	{if condition="$total_count eq '0'"}
+	<body style="background:#fff;">
+	{else/}
+	<body>
+	{/if}	
+		<div class="box">
+			<input type="hidden" id="lat" />
+			<input type="hidden" id="lng" />
+			<div class="motify" style="display: none;"><div class="motify-inner">弹出框提示</div></div>
+			<div style="background:#F6F5FA;padding-top:10px;">
+				<div class="editing">
+					<div class="control-group">
+						<div class="custom-search" >
+							<input type="text" class="custom-search-input" id="searchGoods" placeholder="搜索商品" style="background:#fff;border:none;padding-right:10%;">
+							<button type="button" class="custom-search-button">搜索</button>
+						</div>
+						<div class="component-border"></div>
+					</div>
+				</div>
+				<div class="navigation cf">
+					<div class="shop fl active btn">商铺</div>
+					<div class="commodity fr btn">商品</div>
+				</div>
+			</div>
+			<div class="shopCollection list">
+				<ul class="cf" id="shopList"></ul>
+			</div>
+			<div class="J_product cf" style="display: none;">
+				<div class="list">
+				    <ul class="cf" id="goodsList"> </ul>
+				</div>
+			</div>
+		</div>
+		<script>
+			$(function(){
+				qq_position();
+				goods();
+				shop();
+				$('.navigation .btn').click(function(){
+					$('.navigation div').removeClass('active');
+					$(this).addClass('active');
+				})
+				$('.shop').click(function(){
+					$('.shopCollection').show();
+					$('.J_product').hide();
+					shop();
+				})
+				$('.commodity').click(function(){
+					$('.shopCollection').hide();
+					$('.J_product').show();
+					goods();
+				});
+				$('.custom-search-button').click(function(){
+					goodsList();
+				})
+					//回车快捷查询
+				$(document).keyup(function(event){
+				  if(event.keyCode ==13){
+				    goodsList();
+				  }
+				});
+				function goodsList(){
+					var searchGoods = $('#searchGoods').val();
+					var goodsHtml ='';
+					$.ajax({
+						url : "APP_MAIN/member/collection",
+						type : "post",
+						data : {"goods_name" : searchGoods,"fav_type" : 'goods'},
+						success : function(msg) {
+							var data = msg.data;
+							var goodsHtml = '';
+							if(data.length>0){
+								for(var i = 0;i<data.length;i++){
+									goodsHtml+='<li><span class="sasd">'
+				        			+'<a href="APP_MAIN/goods/goodsdetail?id='+data[i].goods_id+'">'
+									+'<div class="information cf">'
+									+'<span><img src="/'+data[i].goods_image+'" class="things"/></span>'
+									+'<span class="J_name">'
+									+'<div class="H_name">'+data[i].goods_name+'</div>'
+									+'<!--<div class="J_jianjie">三只家庭装</div>-->'
+									+'<div class="J_paci">¥'
+									+'<span class="J_zj">'+data[i].market_price+'</span>'
+									+'<span class="J_zj" style="text-decoration:line-through;font-size: 12px;color: #B3B3B3;">¥'+data[i].price+'</span>'
+									+'</div>'
+									+'</span>'
+									+'</div>'
+						        	+'</a>'
+									+'<i class="J_delete" onclick="javascript:cancelCollection('+data[i].fav_id+',1,this);">删除</i>'
+					        		+'</span>'
+					       			+'</li>'
+								}
+							}else{
+								goodsHtml+='<a href="APP_MAIN/"><div class="emptyFrame clearfix"><i class="icon i-order"><img src="__TEMP__/{$style}/public/images/icon/save.png" width="118px"/></i>'
+								+'<span>这里空空的，赶快收藏自己喜爱的商品吧！</span></div></a>'
+							}
+							$('#goodsList').html(goodsHtml);
+							$('.navigation div').removeClass('active');
+							$('.commodity').addClass('active')
+							$('.shopCollection').hide();
+							$('.J_product').show();
+							expansion();
+						}
+					});
+				}
+				function shop(){
+					$.ajax({
+						url : "APP_MAIN/member/collection",
+						type : "post",
+						data : {"fav_type" : 'shop'},
+						success : function(msg) {
+							var data = msg.data;
+							var shopHtml = '';
+							if(data.length>0){
+								for(var i = 0;i<data.length;i++){
+									shopHtml+='<li class="column"><span class="sasd"><div class="J_column cf">'
+									+'<div class="fl J_columnImg">'
+									+'<img src="/'+data[i].shop_logo+'" width="100%"></div>'
+									+'<div class="fr cf J_lomjug">'
+									+'<div class="fl J_kimls">'
+									+'<a href="APP_MAIN/shop/index?shop_id='+data[i].shop_id+'">'
+									+'<span class="tile_j">'+data[i].shop_name+'</span>&nbsp;&nbsp;'
+									+'<span class="ki_ji">'+data[i].group_name+'</span>'
+									if(data[i].shop_id == '55'){
+	                                    shopHtml+='<div class="consumption consumptionImg">会员尊享<font color="#ff000">9.5</font>折</div>'
+	                                }else if(data[i].shop_id == '56'){
+	                                    shopHtml+='<div class="consumption consumptionImg">消费满<font color="#ff000">500</font>送<font color="#ff000">20</font>积分</div>'
+	                                }else{
+	                                    shopHtml+='<div class="consumption consumptionImg">会员尊享<font color="#ff000">8.5</font>折</div>'
+	                                }
+                                    if(data[i].shop_group_id == '7' || data[i].shop_group_id == '9' || data[i].shop_group_id == '11' || data[i].shop_group_id == '12'){
+                                        if(data[i].shop_id == '43' || data[i].shop_id == '46'){
+											shopHtml+='<div class="consumption">消费金额的<font>15%</font>可用于会员返利，一积分约可分红<font>6</font>元</div>'
+										}else{
+											shopHtml+='<div class="consumption">消费金额的<font>10%</font>可用于会员返利，一积分约可分红<font>6</font>元</div>'
+										}
+                                    }else{
+                                        shopHtml+='<div class="consumption">消费得<font>40%</font>积分,每1积分可提现约<font>6</font>元</div>'
+                                    }
+                                    if(data[i].live_store_address != null){
+                                        shopHtml+='<div class="li_hlok">'+data[i].live_store_address+'</div>'
+                                    }
+                                    shopHtml+='</a></div><div class="fr J_kimls2">'
+									+'<a href="https://uri.amap.com/marker?position='+data[i].latitude_longitude+'&amp;name='+data[i].shop_name+'" class="latitude" data-let="'+data[i].latitude_longitude+'">'
+									+'<img src="__TEMP__/{$style}/public/images/icon/daohang.png" style="width:44px">'
+									+'<div class="juli" style="margin-top:0"></div></a>'
+									+'</div></div></div>'
+									+'<i class="J_delete"  onclick="javascript:cancelCollection('+data[i].fav_id+',2,this);">删除</i>'
+									+'</span></li>'
+								}
+							}else{
+								shopHtml+='<a href="APP_MAIN/index/shopStreet"><div class="emptyFrame clearfix"><i class="icon i-order"><img src="__TEMP__/{$style}/public/images/icon/save.png" width="118px"/></i>'
+								+'<span>这里空空的，赶快收藏自己喜爱的商铺吧！</span></div></a>'
+							}
+							$('#shopList').html(shopHtml);
+							expansion();
+                            latitude();
+						}
+					});
+				}
+				function goods(){
+					var goods = 'goods';
+					$.ajax({
+						url : "APP_MAIN/member/collection",
+						type : "post",
+						data : {"fav_type" : goods},
+						success : function(msg) {
+							var data = msg.data;
+							var goodsHtml = '';
+							if(data.length>0){
+								for(var i = 0;i<data.length;i++){
+									goodsHtml+='<li><span class="sasd">'
+				        			+'<a href="APP_MAIN/goods/goodsdetail?id='+data[i].goods_id+'">'
+									+'<div class="information cf">'
+									+'<span><img src="/'+data[i].goods_image+'" class="things"/></span>'
+									+'<span class="J_name">'
+									+'<div class="H_name">'+data[i].goods_name+'</div>'
+									+'<!--<div class="J_jianjie">三只家庭装</div>-->'
+									+'<div class="J_paci">¥'
+									+'<span class="J_zj">'+data[i].market_price+'</span>'
+									+'<span class="J_zj" style="text-decoration:line-through;font-size: 12px;color: #B3B3B3;">¥'+data[i].price+'</span>'
+									+'</div>'
+									+'</span>'
+									+'</div>'
+						        	+'</a>'
+									+'<i class="J_delete" onclick="javascript:cancelCollection('+data[i].fav_id+',1,this);">删除</i>'
+					        		+'</span>'
+					       			+'</li>'
+								}
+							}else{
+								goodsHtml+='<a href="APP_MAIN/"><div class="emptyFrame clearfix"><i class="icon i-order"><img src="__TEMP__/{$style}/public/images/icon/save.png" width="118px"/></i>'
+								+'<span>这里空空的，赶快收藏自己喜爱的商品吧！</span></div></a>'
+							}
+							$('#goodsList').html(goodsHtml);
+							expansion();
+						}
+					});
+				}
+				//侧滑显示删除按钮
+				function expansion(){
+					var expansion = null; //是否存在展开的list
+					var container = document.querySelectorAll('.list li .sasd');
+					for(var i = 0; i < container.length; i++){    
+					    var x, y, X, Y, swipeX, swipeY;
+					    container[i].addEventListener('touchstart', function(event) {
+					        x = event.changedTouches[0].pageX;
+					        y = event.changedTouches[0].pageY;
+					        swipeX = true;
+					        swipeY = true ;
+					    });
+					    container[i].addEventListener('touchmove', function(event){     
+					        X = event.changedTouches[0].pageX;
+					        Y = event.changedTouches[0].pageY;        
+					        // 左右滑动
+					        if(swipeX && Math.abs(X - x) - Math.abs(Y - y) > 0){
+					            // 阻止事件冒泡
+					            event.stopPropagation();
+					            if(X - x > 10){   //右滑
+					                event.preventDefault();
+					                this.className = "";    //右滑收起
+					                this.children[1].style.display="none";
+					            }
+					            if(x - X > 10){   //左滑
+					                event.preventDefault();
+					                this.className = "swipeleft";   //左滑展开
+					                expansion = this;
+					              	this.children[1].style.display="inline";
+					            }
+					            swipeY = false;
+					        }
+					    });
+					}
+				}
+			})
+			function cancelCollection(fav_id, fav, obj){
+				if(fav == 1){
+					var fav_type = 'goods';
+					var len =$('.list #goodsList').children('li').length;
+				}else{
+					var fav_type = 'shop';
+					var shoplen =$('.list #shopList').children('li').length;
+				}
+				$.ajax({
+					url : "APP_MAIN/components/cancelcollgoodsorshop",
+					type : "post",
+					data : {
+						"fav_id" : fav_id,
+						"fav_type" : fav_type
+					},
+					success : function(data) {
+						showBox("取消收藏成功");
+						$(obj).parents('li').remove();
+						setTimeout(function(){
+							window.location.reload()
+						},3000);
+					}
+				});
+			}
+			//建立构造函数
+			function qq_position() {
+				var geolocation = new qq.maps.Geolocation("OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77", "myapp");
+				if (geolocation) {
+			        geolocation.getLocation(success, error);
+			    } else {
+			        alert("获取失败");
+			    }
+			
+			}
+			//获取当前的定位信息成功
+			function success(position) {
+				$('#lat').val(position.lat);
+				$('#lng').val(position.lng);
+				latitude();
+			};
+			//获取当前的定位信息失败
+			function error() {
+			   document.getElementById("botn").innerHTML="失败";
+			};
+			function latitude(){
+				var len = $('body .latitude').length;
+				var userLat = $('#lat').val();
+				var userLng = $('#lng').val();
+				for(var i = 0;i < len; i++){
+					var num = $('body .latitude').eq(i).attr('data-let');
+					var lng = num.split(",")[0];
+					var lat = num.split(",")[1];
+					caculateLL(userLat, userLng, lat, lng,i)
+				};
+			}
+			function caculateLL(lat1, lng1, lat2, lng2,k) {
+				if(lat1 != '' && lat2 != undefined){
+					var radLat1 = lat1 * Math.PI / 180.0;
+					var radLat2 = lat2 * Math.PI / 180.0;
+					var a = radLat1 - radLat2;
+					var b = lng1 * Math.PI / 180.0 - lng2 * Math.PI / 180.0;
+					var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+					s = s * 6378.137;
+					s = Math.round(s * 10000) / 10000;
+					$('body .latitude').eq(k).find('.juli').html(s.toFixed(1) + 'km');
+					return s
+				}else{
+					$('body .latitude').eq(k).find('.juli').html(0 + 'km');
+				}
+			};
+		</script>
+	</body>
+</html>

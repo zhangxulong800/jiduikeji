@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/reset-mobile.css" />
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/register.css" />
+		<script src="__TEMP__/{$style}/public/js/rem.js"></script>
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<script src="__TEMP__/{$style}/public/js/showBox.js"></script>
+		<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/showbox.css">
+		<title>注册</title>
+	</head>
+	<body class="grey-body">
+		<div class="motify" style="display: none;"><div class="motify-inner">弹出框提示</div></div>
+		<input type="hidden" id="register" />
+		<!--<header class="wrap-header">
+			<a href="javascript:history.back(-1)" class="return-btn flex-center">
+				<img src="/template/wap/default/public/images/newIndex/icon-return.png" alt="">
+			</a>
+			<h1 class="header-title flex-center">注册</h1>
+		</header>-->
+		<div class="box wrap-main" id="first">
+			<div class="register cf">
+				<div class="register-item cf">
+					<label class="fl">用户名 :</label>
+					<input type="text" name="name" placeholder="请输入用户名" class="fl nameInput" id="userName" maxlength="16"/>
+				</div>
+				<div class="register-item cf">
+					<label class="fl">手机号 :</label>
+					<input type="text" name="phone" placeholder="请输入手机号码" maxlength="11" class="fl nameInput" id="phone"/>
+				</div>
+				<div class="register-item three-inputs cf" >
+					<label class="fl">动态验证码 :</label>
+					<input type="text" name="captcha" id="captcha" maxlength="4"  placeholder="请输入动态码" class="fl nameInput" style="width:100px">
+					<img class="verifyimg three-inputs-item" style="width:75px!important;float: right;margin:0 12px;" src="/captcha.html" onclick="this.src='/captcha.html'"  alt="captcha" style="vertical-align: middle; cursor: pointer; height: 35px;" />
+				</div>
+				<div class="register-item cf">
+					<label class="fl">密码 :</label>
+					<input type="password" name="password" placeholder="请输入6-16位数字加字母组成的密码" min="6" maxlength="16" class="fl nameInput" id="oldPwa"/>
+				</div>
+				<div class="register-item cf">
+					<label class="fl">确认密码 :</label>
+					<input type="password" name="password" placeholder="请确认密码" min="6" maxlength="16" class="fl nameInput" id="newsPwa"/>
+				</div>
+				<div class="register-item cf three-inputs">
+					<label class="fl min-width-label">短信验证码 :</label>
+					<input type="text" name="code" placeholder="请输入验证码" maxlength="6" class="fl nameInput" id="code"/>
+					<button type="button" id="btn" class="sendCode-btn three-inputs-item" onClick="sendemail()"/>发送验证码</button>
+				</div>
+				<div class="register-item three-inputs cf">
+					<label class="fl">推荐人ID :</label>
+					<input type="text" name="pid" placeholder="推荐人账号/手机号" class="fl nameInput" id="pid"/>
+					<span class="extra-text three-inputs-item">选填</span>
+				</div>
+				<div class="already">
+<!--					<input class="already-check" type="checkbox" checked="checked" id="checked"/>-->
+<!--					<input type="checkbox" checked>-->
+					<span class="check-xieyi checked"></span>
+					<a id="read">注册即代表同意<span>积分呗用户协议</span></a>
+				</div>
+			</div>
+			<div class="badgeBtn">
+				<button class="but" type="submit" id="submit">注册</button>
+			</div>
+			<div class="already login-area">
+				<a href="APP_MAIN/login/index">已有账号？<span>登录</span></a>
+			</div>
+		</div>
+		<div class="box" id="two">
+			<div class="success"><img src="__TEMP__/{$style}/public/images/success.png"/>绑定成功</div>
+			<div class="badgeBtn">
+				<a href="javaScript:void(0);">前往个人中心</a>
+			</div>
+		</div>
+		<!--协议的弹窗-->
+		<div class="flag">
+			<div class="bbg"></div>
+			<div class="kimgs">
+				<div class="title">
+					{include file='wap/default/xieyi'/}
+				</div>
+				<div class="eudi cf">
+			    	<div class="fl">取消</div>
+			    	<div class="fr" id="determine">确定</div>
+			    </div>
+			</div>
+		</div>
+		<!--协议的弹窗-->
+	</body>
+	<script>
+		function login(username,password){
+			$.ajax({
+				type : "post",
+				url : "index",
+				async : true,
+				data : {
+					"username" : username,
+					"password" : password
+				},
+				success : function(data) {
+					if(data.code > 0){
+						if($('#register').val() ==''){
+							setTimeout(function(){location.href="APP_MAIN"},1000);
+						}else{
+							setTimeout(function(){history.go(-1)},1000);
+						}
+					}else{
+						showBox(data["message"]);
+					}
+				}
+			});
+		}
+		$(function(){
+			/*点击同意协议*/
+			$(".check-xieyi").on('click',function () {
+				if($(this).hasClass('checked')){
+					$(this).removeClass('checked');
+				}else {
+					$(this).addClass('checked');
+				}
+			})
+
+
+			var mobile = /^1[34578]\d{9}$/;              //手机号码正则
+			var chinese = /^[\u0391-\uFFE5]+$/;        //纯文字正则
+			var regex = /^[0-9]+$/;                   //纯数字正则
+			$('#submit').click(function(){
+				if($('#userName').val().replace(/\s/g,"") == ''){
+					showBox('请填写您的用户名!');
+					$("#userName").focus();
+//				}else if(chinese.test($('#userName').val().replace(/\s/g,""))){
+//					showBox('用户名只能包含英文字母及数字!');
+//					$("#userName").focus();
+//				}else if(regex.test($('#userName').val().replace(/\s/g,""))){
+//					showBox('用户名必须包含英文字母!');
+//					$("#userName").focus();
+				}else if($("#oldPwa").val() == ''){
+					showBox('请输入密码!');
+					$("#oldPwa").focus();
+				}else if($("#oldPwa").val().length < 6){
+					showBox('请输入6-16位密码!');
+					$("#oldPwa").val('');
+					$("#oldPwa").focus();
+				}else if($("#newsPwa").val() ==''){
+					showBox('请确认密码!');
+					$("#newsPwa").focus();
+				}else if($("#newsPwa").val() != $("#oldPwa").val()){
+					showBox('两次密码不一致,请重新输入!');
+					$("#newsPwa").val('');
+					$("#newsPwa").focus();
+				}else if($("#phone").val() == ''){
+					showBox('请输入手机号!');
+					$("#phone").focus();
+				}else if(!mobile.test($("#phone").val())){
+					showBox('请填写有效的手机号!');
+					$("#phone").val('');
+					$("#phone").focus();
+				}else if($("#code").val() == ''){
+					showBox('请输入动态验证码!');
+					$("#code").focus();
+				/*}else if(!$("#checked").is(':checked')){
+					showBox('请选中用户协议');
+				}else{*/
+				}else if(!$('.check-xieyi').hasClass('checked')){
+					showBox('请选中用户协议');
+				}else{
+					$.ajax({
+						type : "post",
+						url : "register",
+						async : true,
+						data : {
+							"username" : $('#userName').val().replace(/\s/g,""),
+							"password" : $("#oldPwa").val(),
+							"pid" :$("#pid").val(),
+							"code" :$("#code").val(),
+							"mobile" :$("#phone").val(),
+						},
+						success : function(data) {
+							 if(data["code"] > 0 ){
+							 	// showBox(data["message"]);
+								 showBox('注册成功');
+								login($('#userName').val().replace(/\s/g,""),$("#oldPwa").val());
+							}else{
+								if(data["code"] == -2004){
+									showBox(data["message"] + '将自动登录');
+									login($('#userName').val().replace(/\s/g,""),$("#oldPwa").val());
+								}else{
+									showBox(data["message"]);
+								}
+							} 
+						},
+						error:function(data){
+							console.log(data);
+						}
+					});
+				}
+			});
+			var url = location.search; //获取url中"?"符后的字串
+	    	var theRequest = new Object();
+			if(url.indexOf("?") != -1) {
+				var str = url.substr(1);
+			   		strs = str.split("&");
+			   for(var i = 0; i < strs.length; i ++) {
+			      theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+			   }
+			}
+			if(theRequest.id != '' || theRequest.id != null || theRequest.id != undefined){
+				$('#pid').val(theRequest.id);
+			}
+			if(theRequest.register != null || theRequest.register != undefined){
+				$('#register').val(theRequest.register);
+				$('#pid').val(theRequest.register);
+			}
+		   return ;
+		})
+		$('.eudi div').click(function(){
+			$('.flag').hide();
+		})
+		$('#read').click(function(){
+			$('.flag').show();
+		})
+		var countdown=60; 
+		function sendemail(){
+		    var obj = $("#btn");
+		    var mobile = /^1[34578]\d{9}$/;
+		    var regStr = /^(?=.*[a-zA-Z]+)(?=.*[0-9]+)[a-zA-Z0-9]+$/;    //字母加数字正则
+		    if(!regStr.test($("#oldPwa").val())){
+				showBox('密码必须是字母加数字!');
+				$("#oldPwa").focus();
+			}else if($("#newsPwa").val() != $("#oldPwa").val()){
+				showBox('两次密码不一致,请重新输入!');
+				$("#newsPwa").val('');
+				$("#newsPwa").focus();
+			}else if($("#phone").val() == ''){
+				showBox('请填写您的手机号!');
+				$("#phone").focus();
+			}else if(!mobile.test($("#phone").val())){
+				showBox('请填写有效的手机号!');
+				$("#phone").val('');
+				$("#phone").focus();
+			}else if($("#captcha").val() == ''){
+				showBox('请输入动态码!');
+				$("#captcha").val('');
+				$("#captcha").focus();
+			}else{
+				$.ajax({
+					type: "post",
+					url: "APP_MAIN/Login/sendSmsRegisterCode",                     //判断验证码
+					data: {"vertification":$("#captcha").val(),"mobile" :$("#phone").val()},
+					success: function(data){
+						if(data.code == '0'){            
+							settime(obj);
+						}else{
+							if(data.code == '2'){              //动态码有错
+								showBox(data.message);
+								$(".verifyimg").attr("src",'/captcha.html'); //'{:captcha_src()}'
+							}else{                 //后台返回的报错
+								showBox(data.message);
+								return false;
+							}
+						}
+					}
+				});
+			}
+	    }
+		function settime(obj) {     //发送验证码倒计时
+		    if(countdown == 0) { 
+		        obj.attr('disabled',false); 
+		        //obj.removeattr("disabled"); 
+		        obj.html("发送验证码");
+		        countdown = 60; 
+		        $("#btn").css('background','');
+		        return;
+		    }else { 
+		        obj.attr('disabled',true);
+		        obj.html("重新发送(" + countdown + ")");
+		        countdown--; 
+		        $("#btn").css('background','#c5c5c5');
+				setTimeout(function() { 
+			    	settime(obj) 
+				},1000);
+			}
+		}
+	</script>
+</html>

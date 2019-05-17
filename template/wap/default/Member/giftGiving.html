@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<meta content="telephone=no" name="format-detection"/>
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<link rel="stylesheet" type="text/css" href="__PCMOB__/css/font.css">
+		<script src="__TEMP__/{$style}/public/js/showBox.js"></script>
+		<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/showbox.css">
+		<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/giftGiving.css">
+		<title>转赠积分</title>
+	</head>
+	<body>
+		<div class="motify" style="display: none;"><div class="motify-inner">弹出框提示</div></div>
+		<div class="box" style="background:#fff;">
+			<div class="first">
+				<div class="account cf">
+					<label class="fl">对方电话: </label>
+					<span class="fl">
+						<input type="text" id="userId" value='' placeholder="请输入对方电话"/>
+					</span>
+				</div>
+				<div class="hint">积分将实时转入对方账户，无法退还</div>
+				<div class="btn" id="next">下一步</div>
+			</div>
+			<div class="two" style="display: none;">
+				<div class="title"><img src="__TEMP__/{$style}/public/images/member_default.png" width="66px"/></div>
+				<div class="name"></div>
+				<div class="giftgiving">
+					<div class="zhuanzeng">转赠积分</div>
+					<div class="J_input"><input type="number" id="point" value='' placeholder="请输入转赠积分"/></div>
+					<div class="btn" id="confirm">确认转赠</div>
+				</div>
+			</div>
+		</div>
+		<!--输入密码弹窗-->
+		<div class="bbg"></div>
+		<div class="pwdBox">
+			<div class="pwd-box">
+			    <div id="box-title">
+			        <span id="title-text">请输入支付密码</span>
+			    </div>
+			    <div class="price-pay">积分呗商城</div>
+			    <div class="price H_price">￥399</div>
+			    <input type="tel" maxlength="6" class="pwd-input" id="pwd-input">
+			    <div class="fake-box">
+			        <input type="password" readonly="">
+			        <input type="password" readonly="">
+			        <input type="password" readonly="">
+			        <input type="password" readonly="">
+			        <input type="password" readonly="">
+			        <input type="password" readonly="">
+			    </div>
+			    
+			    <div class="forget-pwd cf">
+			    	{if condition="$member_info['user_info']['payment_password'] eq ''"}
+			        	<a id="forget-pwd" href="APP_MAIN/Member/securityCenter">设置密码</a>
+			        {else/}
+			        	<a id="forget-pwd" href="APP_MAIN/Member/forgetPassword">忘记密码</a>
+			        {/if}
+			    </div>
+			    <div class="eudi cf">
+			    	<div class="fl" onclick="post_paypw()">确定</div>
+			    	<div class="fr">取消</div>
+			    </div>
+		    </div>
+	    </div>
+		<!--输入密码弹窗end-->
+		<script>
+			var flag = false;
+			$(function(){
+				$('.bbg').on('touchmove',function(e) {
+				    var e = e || window.event;
+					e.preventDefault();
+				})
+				$('#next').click(function(){
+					var userId = $('#userId').val();
+					if(userId == ''){
+						showBox('请输入对方电话')
+					}else{
+						$.ajax({
+							type: "post",
+							url: "APP_MAIN/member/giftGiving",
+							data: {"user_tel":$('#userId').val()},
+							success: function(msg){
+								if(msg == '1'){
+									$('.first').hide();
+									$('.two').show();
+									$('.name').html('转赠积分给 ' + $('#userId').val());
+								}else{
+									showBox(msg);  
+								}
+							}
+						});
+					}
+				})
+				var $input = $(".fake-box input");
+				$("#pwd-input").on("input", function() {
+				    var pwd = $(this).val().trim();
+				    for (var i = 0, len = pwd.length; i < len; i++) {
+				        $input.eq("" + i + "").val(pwd[i]);
+				    }
+				    $input.each(function() {
+				        var index = $(this).index();
+				        if (index >= len) {
+				            $(this).val("");
+				        }
+				    });
+				});
+				$('.eudi .fr').click(function(){
+					$('.pwdBox').hide();
+					$('.bbg').hide();
+					$('#pwd-input').val('');
+					$(".fake-box input").each(function() {
+				        $(this).val("");
+				    });
+				    flag = false;
+				})
+				$('#confirm').click(function(){
+					$('.H_price').html('￥'+ $('#point').val());
+					$('.pwdBox').show();
+					$('.bbg').show();
+				})
+			})
+			function post_paypw() {
+				if(flag){
+					return;
+				}
+				var paypassword=$('#pwd-input').val();
+				flag = true;
+				$.ajax({
+					url : "APP_MAIN/member/check_paypassword",
+					type : "post",
+					data : {
+						'paypassword' : paypassword,
+					},
+					success : function(res) {
+						if (res.code > 0) {
+							$.ajax({
+								type: "post",
+								url: "APP_MAIN/member/giftGiving",
+								data: {"user_tel":$('#userId').val(),'point':$('#point').val()},
+								success: function(msg){
+									if(msg.code == '1'){
+										showBox('积分转赠成功')
+										setTimeout(function(){location.href = "APP_MAIN/member/integralWater"},1000);
+									}else{
+										flag = false;
+										showBox(msg.message);  
+									}
+									$('.pwdBox').hide();
+									$('#pwd-input').val('');
+									$('.bbg').hide();
+									$(".fake-box input").each(function() {
+								        $(this).val("");
+								    });
+								}
+							});
+						} else {
+							flag = false;
+							showBox(res.message);
+						}
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,155 @@
+{extend name="platform/base" /}
+{block name="resources"/}
+<style>
+    .fa {
+        display: grid;
+
+    }
+</style>
+{/block}
+{block name="main"}
+<div class="row padder-v">
+    <div class="col-sm-2">
+        <input type="text" id="search_text" class="input-sm form-control" placeholder="请输入商品名称">
+    </div>
+    <div class="col-sm-1">
+        <button class="btn btn-sm btn-default" type="button" onclick="LoadingInfo(1)">搜索</button>
+    </div>
+</div>
+<section class="panel panel-default">
+    <div class="table-responsive">
+        <table class="table table-striped b-t b-light text-sm">
+            <thead>
+            <tr>
+                <th width="20"><input type="checkbox"></th>
+                <th>图片</th>
+                <th>编号</th>
+                <th style="width: 23%;">商品名称</th>
+                <th>店铺</th>
+                <th>分类&品牌</th>
+                <th>销售价格</th>
+                <th>Jplus价格</th>
+                <th>库存</th>
+                <th class="center">价格转通兑积分比例</th>
+                <th class="center">支付运费/前免邮费数量</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="list">
+
+            </tbody>
+        </table>
+    </div>
+    {include file="platform/page" /}
+</section>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+    $('#list').on('click','tr td .join',function(){
+        var id = $(this).parent().prevAll().children('input[name="sub"]').val();
+        var zeroPoint = $(this).parent().prevAll().children('.pointnum').val();
+        var zeroNum = $(this).parent().prevAll().children('.renshu').val();
+        var zeroState = 1;
+        if(zeroNum == '' || zeroNum == 0){
+            alert('请输入参团需要支付的运费!')
+        }else if (zeroPoint == '' || zeroPoint == 0){
+            alert('请输入参团需要支付积分数!')
+        }else{
+            modifyGoodsAssemble(id,zeroPoint,zeroNum,zeroState)
+        }
+    })
+    $('#list').on('click','tr td .J_close',function(){
+        var id = $(this).parent().prevAll().children('input[name="sub"]').val();
+        var zeroPoint = $(this).parent().prevAll().children('.pointnum').val();
+        var zeroNum = $(this).parent().prevAll().children('.renshu').val();
+        var zeroState = 0;
+        modifyGoodsAssemble(id,zeroPoint, zeroNum,zeroState)
+    })
+    function modifyGoodsAssemble(id,zeroPoint,zeroNum,zeroState){
+        $.ajax({
+            type : "post",
+            url : "PLATFORM_MAIN/Goods/modifyGoodsAssemble",
+            async : true,
+            data : {
+                "goodsId" : id,
+                "zero_point_num" : zeroPoint,
+                "zero_num" : zeroNum,
+                "zero_state" : zeroState
+            },
+            success : function(data) {
+                console.log(data);
+                if(data.code=='1'){
+                    location.reload();
+                }else{
+                    alert(data.message);
+                }
+            }
+        });
+    }
+    $(function(){
+        LoadingInfo(1);
+    });
+    //查询用户列表
+    function LoadingInfo(pageIndex) {
+        var goods_name =$("#search_text").val();
+        var state = $("#shop_type").val();
+        $.ajax({
+            type : "post",
+            url : "PLATFORM_MAIN/Goods/goodsList",
+            async : true,
+            data : {
+                "pageIndex" : pageIndex, "goods_name" : goods_name, "state" : state
+            },
+            success : function(data) {
+                console.log(data);
+                var html = '';
+                $("#total_count_num").text(data["total_count"]);
+                $("#page_count_num").text(data["page_count"]);
+                $("#page_count").val(data["page_count"]);
+                $("#pageNumber a").remove();
+                if (data["data"].length > 0) {
+                    for (var i = 0; i < data["data"].length; i++) {
+                        html += '<tr>';
+                        html += '<td><input type="checkbox" name="sub" value="'+ data['data'][i]['goods_id']+'"></td>';
+                        html += '<td><img src="__ROOT__/'+data["data"][i]["pic_cover_micro"]+'"></td>';
+                        html += '<td>'+data['data'][i]['shop_id']+'-'+data['data'][i]['goods_id']+'</td>';
+                        html += '<td>'+data["data"][i]["goods_name"]+'</td>';
+                        html += '<td>'+data["data"][i]["shop_name"]+'</td>';
+                        if(data["data"][i]["brand_name"] != null){
+                            html += '<td><div class="media-body"><div>'+data["data"][i]["category_name"]+'</div><small class="text-muted">'+data["data"][i]["brand_name"]+'</small></div></td>';
+                        }else{
+                            html += '<td><div class="media-body"><div>'+data["data"][i]["category_name"]+'</div></div></td>';
+                        }
+                        html += '<td>' + data["data"][i]["price"] + '</td>';
+                        html += '<td>' + data["data"][i]["market_price"] + '</td>';
+                        html += '<td>' + data["data"][i]["stock"] + '</td>';
+                        html += '<td class="center"><input type="text" name="" class="pointnum" value='+data["data"][i]["zero_point_num"]+' style="width: 60px"/></td>';
+                        html += '<td class="center"><input type="text" name="" class="renshu" value='+data["data"][i]["zero_num"]+' style="width: 60px"/></td>';
+                        if(data["data"][i]["zero_state"] == 0){
+                            html += '<td><a target="_BLANK" href="javascript:void(0);" class="join">参加活动</a>';
+                        }else{
+                            html += '<td><a href="javascript:void(0);" class="J_close">取消</a>';
+                        }
+                        html += '</td>';
+                        html += '</tr>';
+                    }
+                } else {
+                    html += '<tr align="center"><th colspan="9">暂无符合条件的数据记录</th></tr>';
+                }
+                $("#list").html(html);
+                var totalpage = $("#page_count").val();
+                if (totalpage == 1) {
+                    changeClass("all");
+                }
+                var $html = pagenumShow(jumpNumber,totalpage,{$pageshow})
+                $("#pageNumber").append($html);
+            }
+        });
+    }
+    $("#search_text").keypress(function(e){
+        if(e.keyCode == 13){
+            LoadingInfo(1);
+        }
+    });
+</script>
+{/block}

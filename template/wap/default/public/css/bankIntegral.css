@@ -1,0 +1,115 @@
+.balance_integral{
+	background:#FCFCFF;
+	padding:14px;
+}
+.balance_integral .balance{
+	width:49%;
+	background:url(../images/bg2.png)no-repeat center;
+	padding:20px 6px 10px 6px;
+	background-size:100%;
+	color:#fff;
+	height: 173px;
+	border-radius:8px;
+}
+.balance_integral .balance .yuan,
+.balance_integral .integral .yuan{
+	font-size:16px;
+}
+.balance_integral .balance .my_balance,
+.balance_integral .integral .my_balance{
+	font-size:32px;
+    margin-top: 6px;
+}
+.balance_integral .balance .btn_bank,
+.balance_integral .integral .btn_bank{
+	margin-top:40px;
+	margin-bottom: 10px;
+	text-align: center;
+} 
+.balance_integral .balance .btn_bank a,
+.balance_integral .integral .btn_bank a{
+	width:45%;
+	display: inline-block;
+	color:#333;
+	border-radius:22px;
+	text-align: center;
+	height:24px;
+	line-height:24px;
+	padding-left:10px;
+}
+.balance_integral .integral .btn_bank a.purchase{
+	width:60%;
+	margin: 0 auto;
+	background:#fff url(../images/icon01.png)no-repeat 10px center;
+	background-size:16%;
+}
+.balance_integral .balance .btn_bank a.money{
+	background:#fff url(../images/money01.png)no-repeat 10px center;
+	background-size:16%;
+}
+.balance_integral .balance .btn_bank a.tixian{
+	background:#fff url(../images/tixian.png)no-repeat 10px center;
+	margin-left:4px;
+	background-size:16%;
+}
+
+.balance_integral .integral{
+	width:49%;
+	background:url(../images/bg02.png)no-repeat center;
+	padding:20px 6px 10px 6px;
+	background-size:100%;
+	color:#fff;
+	height: 173px;
+	border-radius:8px;
+}
+@media only screen and (max-width: 320px) {
+	.balance_integral .integral{
+		width:48%;
+		background-size:100%;
+	}
+	.balance_integral .balance{
+		width:48%;
+		background-size:100%;
+	}
+	.balance_integral .balance .yuan{
+		font-size:14px;
+	}
+	.balance_integral .balance .my_balance, 
+	.balance_integral .integral .my_balance {
+		font-size:24px;
+	}
+}
+/*@media only screen and (min-width:321px) and (max-width:375px) {
+	.balance_integral .integral{
+		width:168px;
+		background-size:168px 180px;
+		height: 180px;
+	}
+	.balance_integral .balance{
+		width:168px;
+		background-size:168px 180px;
+		height: 180px;
+	}
+}
+@media only screen and (min-width: 414px) and (max-width:639px){
+	.balance_integral .integral{
+		width:48%;
+		background-size:185px 198px;
+		height: 198px;
+	}
+	.balance_integral .balance{
+		width:48%;
+		background-size:185px 198px;
+		height: 198px;
+	}
+	.balance_integral .balance .btn_bank, .balance_integral .integral .btn_bank {
+	    margin-top: 66px;
+	}
+}*/
+.profit{
+	margin:14px 0;
+	padding:14px;
+	background:#fff url(../images/arrow.png)no-repeat 96% center;
+	font-size:14px;
+	cursor:pointer;
+}

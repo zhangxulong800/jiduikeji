@@ -1,0 +1,242 @@
+/*common style*/
+*,body{
+	padding: 0;
+	margin: 0;
+	font: normal 100% 'Microsoft Yahei', Arial, sans-serif;
+}
+html, body { width:100%; margin:0; padding:0; font-size: 12px;}
+body{background:#F6F5FA;min-width:320px;max-width:640px;margin:0 auto;}
+li{list-style:none}
+a:active,a:hover {outline: 0;text-decoration:none;}
+a, li, a:hover, a:active, a:focus {text-decoration:none;}
+a,input,button{border: none;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;outline: none;}
+.fl { float: left;}
+.fr { float: right;}
+/*清除浮动*/
+.cf:before,.cf:after{display:table;line-height:0;content:"";}
+.cf:after{clear:both;}
+*.cf{zoom:1;}
+.shop{
+	background:#fff;
+	padding:10px 0;
+}
+.list-myorder{
+	padding-left:20px;
+}
+.list-myorder .ul-product li {
+	margin-top:14px;
+}
+.list-myorder .ul-product .pic {
+	width:60px;
+	margin-right:5px;
+}
+.list-myorder .ul-product .pic img{
+	max-width:60px;	
+}
+.jksm .namePrice .name{
+	font-size:16px;
+	padding-right:10px;
+}
+.jksm .namePrice .price{
+	padding-right:14px;
+	font-size:14px;
+}
+.specificationsNumer{
+	margin-top:14px;
+	color: #B2B2B2;
+}
+.form-c .row{
+	background:#fff;
+	margin-top:14px;
+}
+.columns {
+    height: 40px;
+    line-height: 40px;
+}
+.small-12 label {
+    width: 26%;
+    float: left;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 0px;
+    line-height: 40px;
+}
+.columns .columns-select {
+    width: 72%;
+    float: right;
+    font-size: 12px;
+    position: relative;
+}
+.columns-select:after {
+    content: " ";
+    display: inline-block;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    height: 6px;
+    width: 6px;
+    border-width: 2px 2px 0 0;
+    border-color: #C8C8CD;
+    border-style: solid;
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    margin-top: -3px;
+}
+.color-red {
+    color: red;
+}
+.columns select {
+    padding-right: 30px;
+    -webkit-appearance: none;
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    width: 100%;
+    font-size: inherit;
+    height: 40px;
+    position: relative;
+    z-index: 1;
+}
+.columns .columns-input{
+	width: 72%;
+    float: right;
+    font-size: 12px;
+    line-height: 40px;
+}
+.columns .columns-input input {
+    border: 0;
+    outline: 0;
+    -webkit-appearance: none;
+    background-color: transparent;
+    color: inherit;
+    height: 1.41176471em;
+    line-height: 1.41176471;
+}
+.huise {
+	color:#999;
+}
+.maxRefund{
+	color: #FC3301;
+}
+.refund_money{
+	color: #A0A0A0;
+	padding-left:16px;
+	margin-top:6px;
+}
+textarea {
+    border: none;
+    font-size: 14px;
+    width:73%;
+    float: right;
+    height: 60px;
+    resize: none;
+    outline: none;
+    padding:10px 0;
+}
+a.button {
+    display: block;
+    width:100%;
+    margin:0px auto;
+    text-align: center;
+    background-color: #EB6856;
+    color: #fff;
+    font-size: 16px;
+    height: 40px;
+    line-height: 40px;
+    max-width:640px;
+    min-width:320px;
+    position:fixed;
+    bottom: 0;
+}
+.none-goods ,.return-success{
+	text-align: center;
+	background:#fff;
+	padding:12px;
+}
+.none-goods h4,.return-success h4{
+	font-size:16px;
+	padding-top:6px;
+	padding-bottom:12px;
+}
+.none-goods img,.return-success img{
+	width:65px;
+}
+.none-goods li{
+	color:#A1A1A1;
+	font-size:14px;
+}
+.return-success p{
+	font-size:14px;
+	margin-bottom:4px;
+	color:#A1A1A1;
+}
+.back{
+	display:inline-block;
+	color:#bbb;
+	border:1px solid #bbb;
+	border-radius:20px;
+	padding:6px 22px;
+	margin-top:20px;
+}
+.seller-agree .xinx{
+	padding:10px;
+	background:#fff;
+	margin-bottom:10px;
+}
+.seller-agree h4{
+	font-size:14px;
+	margin-bottom:10px;
+}
+.seller-agree h5{
+	font-size:16px;
+	margin-left:8px;
+}
+.seller-agree .explanation{
+	margin-left:10px;
+}
+.seller-agree .address{
+	margin-left:10px;
+	margin-top:4px;
+	background:url(../images/icon/map.png)no-repeat left center;
+	background-size:14px 16px;
+	padding-left:20px;
+	color:#757575;
+	font-size:14px;
+}
+.formki{
+	margin-left:10px;
+	margin-bottom:10px;
+	font-size:13px;
+	color:#999;
+	margin-top:6px;
+}
+.return-goods {
+	margin-left:10px;
+	color:#3D4245;
+	font-size:14px;
+}
+.seller-agree .tel{
+	margin-left:10px;
+	color:#757575;
+	font-size:14px;
+	margin-top:4px;
+}
+.seller-agree h5 small {
+    display: block;
+    margin:2px 0 16px 0px;
+    color: #999;
+    font-size:14px;
+}
+.express-form label{
+	font-size:14px;
+	color:#464B4E;
+}
+.express-form .row{
+	margin-bottom:14px;
+	padding-left: 0;
+}
+.express-form .row input{
+	border-bottom: 1px solid #F6F5FA;
+    padding-bottom: 4px;
+    width: 200px;
+}

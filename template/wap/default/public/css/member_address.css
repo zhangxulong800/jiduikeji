@@ -1,0 +1,86 @@
+@CHARSET "UTF-8";
+body{
+	background:#fff;
+}
+.address{
+	padding-top:14px;
+	padding-left:6px;
+	padding-right: 6px;
+	position:relative;
+	border-bottom:1px solid #F0F0F0;
+	padding-bottom:20px;
+}
+.address-row { 
+	height: 100%; 
+	overflow: hidden; 
+	position: absolute;
+    top: 40%;
+}
+input.check {
+    background: url(../images/choose.png) no-repeat center center;
+    width: 20px;
+    height:20px;
+    background-size:15px 15px;
+    -webkit-appearance: none;
+    outline: none;
+    vertical-align: middle;
+    margin-right:4px;
+    border:none;
+}
+input.check:checked {
+     background: url(../images/addRess1.png) no-repeat center center;
+}
+.J_user{
+	width:70%;
+	margin-left:30px;
+}
+.J_user .user .userName{
+	color: #424242;
+	font-size:16px;
+	font-weight:bold;
+}
+.J_user .user .userPhone{
+	color: #424242;
+	font-size:16px;
+	padding-left:20px;
+}
+.location{
+	color:#272727;
+	font-size:13px;
+	line-height:22px;
+	padding-top:6px;
+}
+.location .label{
+	background:#F4F4F4;
+	padding:2px 14px;
+	border-radius:4px;
+}
+.editRess{
+	margin-right:20px;
+    position: absolute;
+    top: 42%;
+    right: 0;
+}
+.editRess a{
+	color: #B3B5B7;
+	font-size:14px;
+}
+/*新增地址按钮*/
+.addRessBth{
+	position: fixed;
+	bottom:4px;
+	width:200px;
+	left:0;
+	right:0;
+	margin: 0 auto;
+	text-align: center;
+}
+.addRessBth a{
+	color:#fff;
+	background:#ff3074;
+	display: block;
+	height:34px;
+	line-height:34px;
+	border-radius:30px;
+	font-size:14px;
+}

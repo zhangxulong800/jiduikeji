@@ -1,0 +1,132 @@
+{extend name="admin/base" /}
+{block name="resources"/}
+<style>.style0list tbody td{border:0;vertical-align: middle;}</style>
+{/block}
+{block name="right_tab"}
+<li><a class="nscs-table-handle_green" href="ADMIN_MAIN/goods/addsupplier"><i class="fa fa-plus-circle"></i>&nbsp;添加供货商</a></li>
+{/block}
+{block name="main"}
+<div class="mod-table">
+	<div class="mod-table-head">
+		<table class="mytable">
+		<tr><th width="10%"><input type="text" id = 'search_text' placeholder="请输入代理商名称" /><input type="button" onclick="searchData()" value="搜索" /></th></tr>
+		</table>
+		<div class="style0list">
+			<table>
+				<colgroup>
+					<col style="width: 5%;">
+					<col style="width: 15%;">
+					<col style="width: 10%;">
+					<col style="width: 10%;">
+					<col style="width: 10%;">
+					<col style="width: 10%;">
+					<col style="width: 10%;">
+					<col style="width: 20%;">
+				</colgroup>
+				<thead>
+					<tr align="center">
+						<th><label><input type="checkbox" onclick="CheckAll(this)"></label></th>
+						<th class="tal">供货商名称</th>
+						<th class="tal">联系人</th>
+						<th class="tal">联系电话</th>
+						<th class="tal">联系地址</th>
+						<th class="tal">供货商描述</th>
+<!-- 						<th>状态</th> -->
+						<th class="tal">操作</th>
+					</tr>
+				</thead>
+				<colgroup>
+					<col style="width: 5%;">
+					<col style="width: 15%;">
+					<col style="width: 10%;">
+					<col style="width: 10%;">
+					<col style="width: 10%;">
+					<col style="width: 15%;">
+<!-- 					<col style="width: 10%;"> -->
+					<col style="width: 20%;">
+				</colgroup>
+				<tbody></tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+//查询用户列表
+function LoadingInfo(page_index,page_size) {
+	var search_text = $("#search_text").val();
+	$.ajax({
+		type : "post",
+		url : "ADMIN_MAIN/goods/supplierList",
+		data : {
+			 "page_index" : page_index, "page_size" : $("#showNumber").val(), "search_text" : search_text
+		},
+		success : function(data) {
+			var html = '';
+			if (data["data"].length > 0) {
+				for (var i = 0; i < data["data"].length; i++) {
+					html += '<tr align="center">';
+					html += '<td><div class="cell"><label><input name="sub" type="checkbox" value="'+ data['data'][i]['uid']+'" ></label></div></td>';
+					/* html += '<td>' + data["data"][i]["uid"] + '</td>'; */
+					html += '<td class="tal">'+data["data"][i]["supplier_name"]+'</td>';
+					html += '<td class="tal">' + data["data"][i]["linkman_name"] + '</td>';
+					html += '<td class="tal">' + data["data"][i]["linkman_tel"] + '</td>';
+					html += '<td class="tal">' + data["data"][i]["linkman_address"] + '</td>';
+					html += '<td class="tal">' + data["data"][i]["desc"] + '</td>';
+					html += '<td class="tal"> <a href="ADMIN_MAIN/goods/updatesupplier?supplier_id='+ data['data'][i]['supplier_id'] +'">修改</a>';
+					html += '&nbsp;&nbsp;&nbsp;<a href="javascript:deleteSupplier('+data['data'][i]['supplier_id']+');">删除</a></td>';
+					html += '</tr>';
+				}
+			} else {
+				html += '<tr align="center"><th colspan="6">暂无符合条件的数据记录</th></tr>';
+			}
+			$(".style0list tbody").html(html);
+			initPageData(data["page_count"],data['data'].length,data['total_count']);
+			$("#pageNumber").html(pagenumShow(jumpNumber,$("#page_count").val(),{$pageshow}));
+		}
+	});
+}
+
+function deleteSupplier(supplier_id){
+	$( "#dialog" ).dialog({
+		buttons: {
+			"确定": function() {
+				$.ajax({
+					type : "post",
+					url : "ADMIN_MAIN/goods/deleteSupplier",
+					data : {
+						'supplier_id' : supplier_id.toString()
+					},
+					async : true,
+					success : function(data) {
+						if (data['code'] > 0) {
+							    showMessage('success', data["message"], 'ADMIN_MAIN/goods/supplierlist');
+						} else if(data['code'] == -1){
+								showMessage('error', '当前供货商存在供货商品，不能被删除！');
+						}else{
+							showMessage('error', data['message']);
+						}
+					}
+				});
+				$(this).dialog('close');
+			},
+			"取消,#e57373": function() {
+				$(this).dialog('close');
+			},
+		},
+		contentText:"确定要删除该供货商吗？",
+	});
+}
+
+//全选
+function CheckAll(event){
+	var checked = event.checked;
+	$(".style0list tbody input[type = 'checkbox']").prop("checked",checked);
+}
+
+function searchData(){
+	LoadingInfo(1);
+}
+</script>
+{/block}

@@ -1,0 +1,305 @@
+/*common style*/
+*,body{
+	padding: 0;
+	margin: 0;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+html, body { width:100%; height:100%; margin:0; padding:0; font-size: 12px;}
+body{background:#F9FAFB;min-width:320px;max-width:640px;margin:0 auto;}
+li{list-style:none}
+a:active,a:hover {outline: 0;text-decoration:none;}
+a, li, a:hover, a:active, a:focus {text-decoration:none;}
+.icon { width: 20px; height:30px; display:block;float: right;}
+a,input[type="text"],
+.labelBtn,.deleteRess,
+.addRessBth{border: none;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;outline: none;}
+.iconover { background: url(../../img/Arrow.png) no-repeat right center;}
+.houver { background: url(../../img/right.png) no-repeat right center;}
+.m-b10 { margin-bottom: 10px;}
+.fl { float: left;}
+.fr { float: right;}
+/*清除浮动*/
+.cf:before,.cf:after{display:table;line-height:0;content:"";}
+.cf:after{clear:both;}
+*.cf{zoom:1;}
+.head{
+ 	position: relative;
+    width: 100%;
+    min-width:320px;
+    max-width:640px;
+}
+.head .classify{
+    margin:10px auto 0 auto;
+    width:90%;
+}
+.J_search{
+    padding-left: 20px;
+    height: 30px;
+    line-height: 28px;
+    width:78%;
+    border: 1px solid #fff;
+}
+.shop_logo{
+    float: left;
+    width:80px;
+    height:80px;
+    margin-right:10px;
+}
+.classify .bg_search{
+	background: url(../images/icon/icon.png)no-repeat center center;
+	display: inline-block;
+	width:32px;
+	margin-left:6px;
+	height:30px;
+    float:right;
+    background-size:100%;
+}
+.head .col-sm-pull-3{
+	width: 16%;
+	float: left;
+	text-align: center;
+	margin-top:20px;
+}
+.col-sm-pull-3 a img{
+	width:27px;
+	height:27px;
+}
+.col-sm-pull-3 a .popularity{
+	color: #323031;
+	font-size:14px;
+}
+.content{
+	padding-bottom:60px;
+}
+.content .store{
+	width: 90%;
+	margin:10px auto;
+	padding-bottom:6px;
+}
+.content .store .title:first-child{
+	padding-top:10px;
+	margin-top:0;
+}
+.content .store .title{
+	padding-top: 20px;
+	padding-left:10px;
+	padding-bottom:8px;
+	border-bottom: 2px solid #F9FAFB;
+	background:#fff;
+	margin-top:14px;
+}
+.content .store .J_bg{
+	background:#fff;
+}
+.J_headTitle .fl{
+	color:#333;
+	font-size:16px;
+    max-width:160px;
+    position:relative;
+}
+@media only screen and (min-width:414px) {
+	.J_headTitle .fl{
+		color:#333;
+		font-size:16px;
+	    max-width:218px;
+	    position:relative;
+	}
+}
+.J_headTitle .fl .shop_name{
+    overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+}
+.J_headTitle .fl .grou_name{
+   font-size:12px;
+   color: #999;
+}
+.J_headTitle .fr,.consumption .fr{
+	margin-right:10px;
+}
+.J_headTitle .fr{
+	margin-top: 10px;
+}
+.consumption {
+	color:#999;
+}
+.consumption .fl>span:last-child{
+	display:inline-block;
+	padding-left:10px;
+}
+.J_kimg{
+	width: 31%;
+	display: inline-block;
+}
+.J_kimg ul{
+	padding:0 10px;
+}
+.col-sm-4 {
+    width:100%;
+    text-align: center;
+    margin-top: 10px;
+    padding: 0 1%;
+}
+.col-sm-4 a img{
+	width:100%;
+}
+.col-sm-4 a .vacuum{
+	color:#999;
+	max-width: 218px;
+    overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+	text-align:left;
+}
+.col-sm-4 a .price{
+	color:#FF0000;
+	font-size:14px;
+	text-align:left;
+}
+.modal-sm{
+    position: absolute;
+    top: 48px;
+    z-index: 99999;
+    width: 100%;
+    max-width: 640px;
+    padding:9% 0;
+    height: 3%;
+    display: none;
+}
+@media only screen and (max-width: 320px) {
+	.modal-sm{
+	    padding: 14% 0 16% 0;
+	}
+	.J_headTitle .fl{
+		max-width:110px;
+	}
+}
+.modal-sm .bg{
+	position: fixed;
+    background:rgba(0,0,0,.3);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 998;
+    max-width: 640px;
+    min-width: 320px;
+    margin: 0 auto;
+}
+.modal-sm .kinms{
+	position: absolute;
+	z-index:999;
+	max-width: 640px;
+    width: 90%;
+    margin: 0 auto;
+    background: #fff;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height:200px;
+    border-radius:8px;
+    padding:14px 0;
+}
+.modal-sm .kinms .cf{
+	padding:0 10px;
+}
+.modal-sm .kinms label{
+	display: inline-block;
+	float: left;
+	font-size:14px;
+	padding-right:6px;
+	width:12%;
+	border-right:1px solid #E5E5E5;
+}
+.modal-sm .kinms ul{
+    float: right;
+    display: inline-block;
+    width: 83%;
+}
+.modal-sm .kinms li{
+	display: inline-block;
+	font-size:12px;
+	padding:4px 10px;
+	color:#999;
+}
+.modal-sm .kinms li a{
+	color:#999;
+}
+.modal-sm .kinms li.select a{
+	color:#fff;
+}
+.modal-sm .kinms li.select{
+	border-radius:10px;
+	background:#F83271;
+	color:#fff;
+}
+ .triangle:after{
+    content: "";
+    position: absolute;
+    right: 21px;
+    top: -14px;
+    width: 0;
+    height: 0;
+    border-bottom: 7px solid #fff;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 7px solid transparent;
+ }
+ .triangle:before{
+    content: "";
+    position: absolute;
+    right: 20px;
+    top: -16px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-bottom: 8px solid #E5E5E5;
+    border-right: 8px solid transparent;
+    border-top: 8px solid transparent;
+}
+.flag-stores, .flag-brand, .flag-security {
+    color: #ffffff;
+    background: #FF4D24;
+    border-radius: 2px;
+    padding:0 5px;
+    font-size: 12px;
+    float: left;
+    height:28px;
+    line-height: 28px;
+    margin-left:4px;
+    margin-top: 8px;
+}
+.flag-stores {
+    background: #FF4D24;
+}
+.flag-security {
+    background: #48B1FF;
+}
+.myscroll,.myscrolls { 
+	width:102px; 
+	height:26px; 
+	line-height: 26px; 
+	font-size: 12px; 
+	overflow: hidden;    
+	position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+.myscroll li,.myscrolls li { height: 26px;color:#FF4D24;}
+.consumption {
+    background: url(../images/icon01.png)no-repeat left center;
+    background-size: 14px 13px;
+    font-size: 10px;
+    padding-left: 20px;
+    margin-bottom: 4px;
+    color: #242424;
+}
+.consumptionImg {
+    background: url(../images/icon/apply.png)no-repeat left center;
+    background-size: 14px 13px;
+}
+.consumption font {
+    color: #F83271;
+}

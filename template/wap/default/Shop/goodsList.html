@@ -1,0 +1,102 @@
+{extend name="wap/default/Shop/shopBase" /}
+
+{block name="goodsHead"}
+
+<!--<section class="head">
+		<!--<a class="head_back"  href='javascript:history.back(-1)'><i class="icon-back"></i></a>
+		<div class="head-title">{$search_title}</div>
+	</section>-->
+<style>
+	.head-title {
+    margin: 0 80px;
+    height: 44px;
+    line-height: 44px;
+    color: #333;
+    font-size: 16px;
+    text-align: center;
+    width: 80%;
+    margin: auto;
+    margin-left: 15%;
+}
+.custom-search{
+	padding: 0px;
+	background-color:#f7f7f7;
+}
+.custom-search form {
+    margin: 0;
+    position: relative;
+    background: none;
+    border-radius: 4px;
+    border: 0 none;
+    overflow: hidden;
+}
+.custom-search-button {
+    top: 6px;
+}
+</style>
+{/block}
+{block name="main"}
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/goods_list.css">
+<section class="members_goodspic" id="main_list" style="padding-bottom: 60px;"></section>
+<script>
+
+$(function(){
+	buttomActive('');
+	$('.order_div span').click(function(){
+		$('.order_div span').removeClass('select');
+		$(this).addClass('select');
+		GetgoodsList($(this).attr('value'));
+	})
+	$('.order_div span:nth-child(3)').click(function(){
+		if(!$(this).children().is('.statu_two')){
+			$(this).children().addClass('statu_two');	
+		}else{
+			$(this).children().removeClass('statu_two');
+		}
+	});
+	var page_index = 1;
+    var page_size = 10;
+    function goods_list(){
+    	var goodsList = ''
+		$.ajax({
+			type:"post",
+			url:"APP_MAIN/shop/goodslist",
+			data:{'shop_id':'{$shop_id}',"page_size":page_size,"page_index":page_index},
+			success:function(msg){
+				if(msg.length > 0 && page_index > 0){
+					goodsList +='<ul>'
+					for(var i = 0;i<msg.length;i++){
+						if(msg[i].state== '1'){
+							goodsList +='<li class="gooditem"><div class="img">'
+							+'<a href="APP_MAIN/goods/goodsdetail?id='+msg[i].goods_id+'">'
+							+'<img class="lazy" src="__ROOT__/'+msg[i].pic_cover_mid+'" >'
+							+'</a></div><div class="info">'
+							+'<p class="goods-title"><a href="APP_MAIN/goods/goodsdetail?id='+msg[i].goods_id+'" >'+msg[i].goods_name+'</a></p>'
+							+'<p class="J_price">￥'+msg[i].price+'</p>'	
+							+'<img src="__TEMP__/{$style}/public/images/jplus.png" width="40px" height="18px"/>'
+							+'<span class="market_price">￥'+msg[i].market_price+'</span>'
+	 						+'</div></li>'	
+ 						}
+					}
+					+'</ul>'
+					$('#main_list').append(goodsList);
+	    			$(window).scroll(function(){
+				        var scrollTop = $(this).scrollTop();
+				        var scrollHeight = $(document).height();
+				        var windowHeight = $(this).height();
+				        if (scrollTop + windowHeight == scrollHeight) {
+        					goods_list();
+				        }
+				    });
+				}else{
+					$(window).unbind ('scroll');
+					page_index = -1;
+				}
+			}
+		});
+		page_index +=1;
+    }
+    goods_list();
+})
+</script>		
+{/block}

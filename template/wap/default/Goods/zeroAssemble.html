@@ -1,0 +1,59 @@
+{extend name="wap/default/base" /}
+{block name="resources"}
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+<meta content="telephone=no" name="format-detection"/>
+<link rel="stylesheet" type="text/css" href="__PCMOB__/css/font.css">
+<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/gift_area.css">
+{/block}
+{block name="main" }
+<!--<div class="vipName"><img src="__TEMP__/{$style}/public/images/default/firstOrder.png"/></div>-->
+<div ><img style="width: 100%;" src="__TEMP__/{$style}/public/images/default/zero.png"/></div>
+<div class="vipContent"><ul class="cf"></ul></div>
+<input type="hidden" value="1" id="pageIndex"/>
+{/block}
+{block name="javascript"}
+<script>
+    $(function(){
+        var page_index=$('#pageIndex').val();
+        var page_size=10;
+        categoryHtml(page_index,page_size);
+        function categoryHtml(page_index,page_size){
+            var category_html ='';
+            $.ajax({
+                type:'post',
+                url:'APP_MAIN/Goods/zeroAssemble',
+                data:{'page_index':page_index,'page_size':page_size},
+                success:function(msg){
+                    if(msg.data.length>0){
+                        for(var i = 0;i<msg.data.length;i++){
+                            if(msg.data[i].state == '1'){
+                                category_html+='<li>'
+                                    +'<a href="APP_MAIN/goods/excdetail?id='+msg.data[i].goods_id+'">'
+                                    +'<div class="vipContentImg"><img src="__UPLOAD__/'+msg.data[i].picture_info.pic_cover_small+'"/></div>'
+                                    +'<div class="vipContentName">'+msg.data[i].goods_name+'</div>'
+                                    +'<div class="vipContentPrice">¥'+msg.data[i].price+'</div>'
+                                    +'</a>'
+                                    +'</li>';
+                            }
+                        }
+                    }
+                    $('.vipContent ul').append(category_html)
+                }
+            })
+            page_index = Number($('#pageIndex').val())+1;
+            $(window).scroll(function(){
+                var scrollTop = $(this).scrollTop();
+                var scrollHeight = $(document).height();
+                var windowHeight = $(this).height();
+                if (scrollTop + windowHeight == scrollHeight) {
+                    categoryHtml($('#pageIndex').val(),page_size)
+                }
+            });
+            $('#pageIndex').val(page_index);
+        }
+    })
+
+</script>
+{/block}

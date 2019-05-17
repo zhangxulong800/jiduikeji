@@ -1,0 +1,76 @@
+{extend name="wap/default/base" /}
+{block name="resources"}
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<meta content="telephone=no" name="format-detection"/>
+		<link rel="stylesheet" type="text/css" href="__PCMOB__/css/font.css">
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/gift_area.css">
+{/block}
+{block name="main" }
+	<input id="flag" type="hidden">
+	<input id="num" type="hidden">
+	<div class="vipName" id="399type"><img src="__TEMP__/{$style}/public/images/default/399.png"/></div>
+	<div class="vipName" id="4998type" style="display: none;"><img src="__TEMP__/{$style}/public/images/default/4998.png"/></div>
+	<div class="vipContent"><ul class="cf"></ul></div>
+{/block}
+{block name="javascript"}
+<script>
+	$(function(){
+		buttomActive('');
+		var url = location.search; //获取url中"?"符后的字串
+		var theRequest = new Object();
+		if(url.indexOf("?") != -1) {
+			var str = url.substr(1);
+		   		strs = str.split("&");
+		   for(var i = 0; i < strs.length; i ++) {
+		      theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+		   }
+		}
+		if(theRequest.flag != null || theRequest.flag != undefined){
+			$('#flag').val(theRequest.flag);
+		}
+		if(theRequest.flag != null || theRequest.flag != undefined){
+			$('#num').val(theRequest.num);
+		}
+		if($('#flag').val() == 399){
+			$('#4998type').hide();
+			$('#399type').show();
+			categoryList(370)
+		}else{
+			$('#4998type').show();
+			$('#399type').hide();
+			categoryList(371)
+		}
+	})
+	function categoryList(category_id){
+		var category_html ='';
+		$.ajax({
+        	type:'post',
+        	url:'APP_MAIN/Goods/goodsList',
+        	data:{'category_id':category_id},
+        	success:function(msg){
+        		if(msg.data.length>0){
+        			for(var i = 0;i<msg.data.length;i++){
+        				if(msg.data[i].state == '1'){
+        					category_html+='<li>'
+        						if($('#num').val() =='1'){
+        							category_html+='<a href="javascript:void(0);">'
+        						}else{
+        							category_html+='<a href="APP_MAIN/goods/goodsdetail?shop_group_id=1&id='+msg.data[i].goods_id+'">'
+        						}
+        						category_html+='<div class="vipContentImg"><img src="__UPLOAD__/'+msg.data[i].pic_cover_small+'"/></div>'
+        						+'<div class="vipContentName">'+msg.data[i].goods_name+'</div>'
+        						+'<div class="vipContentPrice">¥'+msg.data[i].price+'</div>'
+        						+'</a>' 
+        						+'</li>';
+        				}
+        			}
+        		}
+        		$('.vipContent ul').html(category_html)
+        	}
+		})
+	}
+</script>
+{/block}
+

@@ -1,0 +1,286 @@
+{extend name="platform/base" /}
+{block name="resources"/}
+<style>
+.modal-infp-style{
+width:90%;
+	margin:10px auto;
+}
+.modal-infp-style table{
+	width:100%;
+}
+.modal-infp-style table tr td{
+	border: 1px solid #e6e6e6;
+    padding: 10px;
+}
+</style>
+{/block}
+{block name="right_tab"} 
+<li><a class="nscs-table-handle_green" href="PLATFORM_MAIN/Promotion/addMansong"><i class="fa fa-plus-circle"></i>&nbsp;添加满减满送</a></li>
+{/block}
+{block name="main"}
+
+<div class="row padder-v">
+	<div class="col-sm-9" style="width:21%;"></div>
+	<div class="col-sm-2">
+		<input type="text" id="search_text" class="input-sm form-control" placeholder="请输入活动名称">
+	</div>
+	<div class="col-sm-1">
+		<button class="btn btn-sm btn-default" type="button"
+			onclick="LoadingInfo(1)">搜索</button>
+	</div>
+</div>
+<section class="panel panel-default">
+	<table class="table table-striped b-t b-light text-sm">
+		<thead>
+			<tr>
+				<th width="20"><input type="checkbox"></th>
+				<th>活动名称</th>
+				<th>有效时间</th>
+				<th>审核状态</th>
+				<th>活动状态</th>
+				<th>创建时间</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody id="list">
+			<tr></tr>
+		</tbody>
+	</table>
+	{include file="platform/page" /}
+</section>
+{/block}
+{block name="script"}
+{include file="platform/page" /}
+<script type="text/javascript">
+$(function(){
+	LoadingInfo(1);
+});
+	function LoadingInfo(pageIndex) {
+		var search_text = $("#search_text").val();
+		$.ajax({
+			type : "post",
+			url : "PLATFORM_MAIN/promotion/mansongList",
+			async : true,
+			data : {
+				"pageIndex" : pageIndex, "search_text" : search_text
+			},
+			success : function(data) {
+				//alert(JSON.stringify(data));
+				$("#total_count_num").text(data["total_count"]);
+				$("#page_count_num").text(data["page_count"]);
+				$("#page_count").val(data["page_count"]);
+				$("#pageNumber a").remove();
+				var html = '';
+				if (data["data"].length > 0) {
+					for (var i = 0; i < data["data"].length; i++) {
+						html += '<tr>';
+						html += '<td><input type="checkbox" name="sub" value="'+ data['data'][i]['mansong_id']+'"></td>';
+						html += '<td>'+data['data'][i]['mansong_name']+'</td>';
+						html += '<td>' + data["data"][i]["start_time"] + '--'+data["data"][i]['end_time']+'</td>';
+						if(data['data'][i]['examine_status'] == 0){
+							html += '<td>待审核</td>';
+						}else if(data['data'][i]['examine_status'] == 1){
+							html += '<td>已通过</td>';
+						}else if(data['data'][i]['examine_status'] == 2){
+							html += '<td>已拒绝</td>';
+						}
+						if(data['data'][i]['status'] == 0){
+							html += '<td>未发布</td>';
+						}else if(data['data'][i]['status'] == 1){
+							html += '<td>正常</td>';
+						}else if(data['data'][i]['status'] == 3){
+							html += '<td>关闭</td>';
+						}else if(data['data'][i]['status'] == 4){
+							html += '<td>结束</td>';
+						}
+						html += '<td>' + data["data"][i]["create_time"] + '</td>';
+						html += '<td>';
+						if(data['data'][i]['examine_status'] == 0){
+							html +='<a href="javascript:;" onclick="setStatusType(' + data["data"][i]["mansong_id"] + ',1);">通过</a>&nbsp;&nbsp;<a href="javascript:;" onclick="setStatusType(' + data["data"][i]["mansong_id"] + ',2);">拒绝</a>&nbsp;&nbsp;';
+						}
+						
+						
+						if(data['data'][i]['status'] != 3){
+							html +='<a href="javascript:;" onclick="closeMansong('+data['data'][i]['mansong_id']+',0);">关闭</a>&nbsp;&nbsp;';
+						}
+						if(data['data'][i]['status'] != 1){
+							html +='<a href="javascript:;" onclick="delMansong('+data['data'][i]['mansong_id']+');">删除</a>&nbsp;&nbsp;';
+						}
+						
+						html +='<a href="PLATFORM_MAIN/promotion/promotioninfo?mansong_id=' + data["data"][i]["mansong_id"] + '">查看</a></td>';
+						html += '</tr>';
+					}
+				} else {
+					html += '<tr align="center"><th colspan="8">暂无符合条件的订单</th></tr>';
+				}
+				$("#list").html(html);
+				var totalpage = $("#page_count").val();
+				if (totalpage == 1) {
+					changeClass("all");
+				}
+				var $html = pagenumShow(jumpNumber,totalpage,{$pageshow})
+				$("#pageNumber").append($html);
+			}
+		});
+	}
+	function searchData(){
+		LoadingInfo(1);
+	}
+	
+	function setStatusType(mansong_id,type){
+		$.ajax({
+			type:"post",
+			url : "PLATFORM_MAIN/promotion/setstatus",
+			async : true,
+			data : {
+				"mansong_id" : mansong_id, 'type':type
+			},
+			success : function(data) {
+				if (data["code"] > 0) {
+					showMessage('success', data["message"],'PLATFORM_MAIN/Promotion/mansongList');
+				}else{
+					showMessage('error', data["message"]);
+				}	
+			}
+		})
+	}
+	
+	
+	//关闭满减送
+	function closeMansong(mansong_id){
+		$.ajax({
+			type:"post",
+			url : "PLATFORM_MAIN/Promotion/closeMansong",
+			async : true,
+			data : {
+				"mansong_id" : mansong_id
+			},
+			success : function(data) {
+				if (data["code"] > 0) {
+					showMessage('success', data["message"],'PLATFORM_MAIN/Promotion/mansongList');
+				}else{
+					showMessage('error', data["message"]);
+				}	
+			}
+		})
+	}
+	//删除满减送
+	function delMansong(mansong_id){
+		$.ajax({
+			type:"post",
+			url : "PLATFORM_MAIN/Promotion/delMansong",
+			async : true,
+			data : {
+				"mansong_id" : mansong_id
+			},
+			success : function(data) {
+				if (data["code"] > 0) {
+					showMessage('success', data["message"],'PLATFORM_MAIN/Promotion/mansongList');
+				}else{
+					showMessage('error', data["message"]);
+				}	
+			}
+		})
+	}
+	function mansongInfo(mansong_id){
+		$("#mansongInfo").modal("show");
+		$.ajax({
+			type:"get",
+			url : "PLATFORM_MAIN/Promotion/getMansongDetail",
+			async : true,
+			data : {
+				"mansong_id" : mansong_id
+			},
+			success : function(data) {
+				$("#gift_name").text(data["mansong_name"]);
+				$("#time").text(data['start_time']+' 至 '+data['end_time']);
+				switch(data['status']){	
+					case 0:
+						var status_name = '未发布';
+				 		break;
+					case 1:
+						var status_name = '正常';
+				  		break;
+					case 3:
+						var status_name = '已关闭';
+						break;
+					case 4:
+						var status_name = '已结束';
+						break;
+				}
+				$("#status").text(status_name);
+				var rule_html = '';
+				for(var i=0;i<data['rule'].length;i++){
+					rule_html += '<tr class="rule">';
+					rule_html += '<td>'+data['rule'][i]['price']+'</td>';
+					rule_html += '<td>'+data['rule'][i]['discount']+'</td>';
+					rule_html += '<td>'+data['rule'][i]['free_shipping_name']+'</td>';
+					rule_html += '<td>'+data['rule'][i]['give_point']+'</td>';
+					rule_html += '<td>'+data['rule'][i]['coupon_name']+'</td>';
+					rule_html += '<td>'+data['rule'][i]['gift_name']+'</td>';
+					rule_html += '</tr>';
+				}
+				$("#mansongInfo table tr.rule").remove();
+				$("#rule").after(rule_html);
+				var goods_list = '';
+				for(var i=0;i<data['goods_list'].length;i++){
+					goods_list += '<tr class="goods_list">';
+					goods_list += '<td><img src="__ROOT__/'+data['goods_list'][i]['picture']['pic_cover_micro']+'"></td>';
+					goods_list += '<td colspan="5">'+data['goods_list'][i]['goods_name']+'</td>';
+					goods_list += '</tr>';
+				}
+				$("#mansongInfo table tr.goods_list").remove();
+				$("#goods_list").after(goods_list);
+			}
+		})
+	}
+</script>
+<!-- 模态框（Modal） -->
+<div class="modal fade hide" id="mansongInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">满减送详情</h4>
+            </div>
+            <div class="modal-body">
+            	<div class="modal-infp-style">
+            		<table>
+            			<tr>
+            				<td>活动名称</td>
+            				<td colspan='5' id="gift_name"></td>
+            			</tr>
+            			<tr>
+            				<td>有效期</td>
+            				<td colspan='5' id="time"></td>
+            			</tr>
+            			<tr>
+            				<td>活动状态</td>
+            				<td colspan='5' id="status"></td>
+            			</tr>
+            			<tr>
+            				<td colspan='6'>优惠规则</td>
+            			</tr>
+            			<tr id="rule">
+            				<td>满足金额</td>
+            				<td>减现金</td>
+            				<td>免邮费</td>
+            				<td>送积分</td>
+            				<td>送优惠券</td>
+            				<td>送赠品</td>
+            			</tr>
+            			<tr>
+            				<td colspan='6'>商品列表</td>
+            			</tr>
+            			<tr id="goods_list">
+            				<td></td>
+            				<td colspan='5'>商品名称</td>
+            			</tr>
+            		</table>
+            	</div>
+            </div>
+            <div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">关闭</button></div>
+        </div>
+    </div>
+</div>
+{/block}

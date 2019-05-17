@@ -1,0 +1,107 @@
+/*common style*/
+*,body{
+	padding: 0;
+	margin: 0;
+	font: normal 100% 'Microsoft Yahei', Arial, sans-serif;
+}
+html, body { width:100%; margin:0; padding:0; font-size: 12px;}
+body{background:#fff;min-width:320px;max-width:640px;margin:0 auto;}
+li{list-style:none}
+a:active,a:hover {outline: 0;text-decoration:none;}
+a, li, a:hover, a:active, a:focus {text-decoration:none;}
+a,input,button,div{border: none;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;outline: none;}
+.fl { float: left;}
+.fr { float: right;}
+/*清除浮动*/
+.cf:before,.cf:after{display:table;line-height:0;content:"";}
+.cf:after{clear:both;}
+*.cf{zoom:1;}
+.box .title {
+	padding:4px 14px;
+}
+.box .title .location{
+	color:#1A1A1A;
+	font-size:15px;
+	font-family: 'pingfang';
+	width:35px;
+	text-align: center;
+	line-height:34px;
+	background:url(../images/store_uncheck.png)no-repeat left center;
+	background-size:15px;
+	padding-left:15px;
+}
+.box .title .search{
+	width:calc(100% - 50px);
+}
+.box .title .search input{
+	background: #F6F5FA;
+	font-size:14px;
+	width:92%;
+	padding:8px ;
+	border-radius:18px;
+}
+.banner,.travel{
+	width:90%;
+	margin:10px auto;
+}
+.J_banner{
+	box-shadow:0 0 2px rgba(0,0,0,.35);
+	background:#fff;
+	border-radius:6px;
+}
+.J_banner .price{
+	padding:6px 8px;
+}
+.J_banner .price .hotelName{
+	color:#333;
+	font-size:16px;
+	font-family: 'pingfang';
+}
+.J_banner .price .hotelPrice{
+	color:#FF0000;
+	font-size:13px;	
+	padding-left:4px;
+}
+.J_banner .price .hotelPhone{
+	font-size:8px;
+	color:#929292;
+	padding-left: 10px;
+	background:url(../images/phone.png)no-repeat left center;
+}
+.travel .J_title,.groom .J_title{
+	font-size:15px;
+	font-weight:bold;
+	padding:10px 0;
+}
+.travel .J_information{
+	width:38.6%;
+}
+.travel .J_information2{
+	width:60%;
+}
+.travel .J_information2 .kig{
+	width:49%;
+}
+.travel .J_information2 .shell{
+	width:49%;
+}
+.groom{
+	margin:10px auto;
+	border-top: 10px solid #F9F9FA;
+	padding:0 5%;
+}
+.groom .J_total{
+	width:49%;
+}
+.groom .J_totalName{
+	color:#333;
+	font-size:15px;
+	font-family: 'pingfang';
+	white-space: nowrap;
+    overflow: hidden;
+	text-overflow: ellipsis;
+}
+.groom .J_totalDistance{
+	color:#A4A4A4;
+	font-size:8px;
+}

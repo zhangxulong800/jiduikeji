@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/myBag.css" />
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<link rel="shortcut  icon" type="image/x-icon" href="__TEMP__/{$style}/public/images/icon.ico" media="screen"/>
+		<title>我的卡包</title>
+	</head>
+	<body>
+		<div class="box">
+			<div class="title">卡</div>
+			<div class="myBag">
+				{volist name="mycard" id="vo"}
+				{if condition="$vo eq 396"}
+				<div class="myBagImg">
+					<a href="APP_MAIN/Member/myBagData?price=298"><img src="__TEMP__/{$style}/public/images/default/-s-card_gold.png"/></a>
+				</div>
+				{elseif condition="$vo eq 397"}
+				<div class="myBagImg">
+					<a href="APP_MAIN/Member/myBagData?price=1680">
+						<img src="__TEMP__/{$style}/public/images/default/-s-bojin.png"/>
+
+						<div class="date">{$time1}号到期</div> 
+
+					</a>
+				</div>
+				{elseif condition="$vo eq 398"}
+				<div class="myBagImg">
+					<a href="APP_MAIN/Member/myBagData?price=2980">
+						<img src="__TEMP__/{$style}/public/images/default/zuanshi_bg.png"/>
+
+						<div class="date">{$time1}号到期</div> 
+
+					</a>
+				</div>
+				{elseif condition="$vo eq 399"}
+				<div class="myBagImg">
+					<a href="APP_MAIN/Member/myBagData?price=12800">
+						<img src="__TEMP__/{$style}/public/images/default/super_bg.png"/>
+
+						<div class="date">{$time1}号到期</div> 
+
+					</a>
+				</div>
+				{/if}
+				{/volist}
+			</div>
+		</div>
+		<div class="quan">
+			<div class="title">
+				<a href="APP_MAIN/Member/memberCoupon" class="cf">
+					<span class="fl">券</span>
+					<span class="fr" id="number">查看全部</span>
+				</a>
+			</div>
+			<div class="quanIcon"></div>
+		</div>
+	</body>
+	<script>
+		$(function(){
+			var myDate = new Date();
+			var year=myDate.getFullYear(); //获取当前年份
+			var month=myDate.getMonth()+1; //获取当前月份   
+			var strDate=myDate.getDate(); //获取当前日   
+			if (month >= 1 && month <= 9) {
+	            month = "0" + month;
+	        }
+	        if (strDate >= 0 && strDate <= 9) {
+	            strDate = "0" + strDate;
+	        }
+	        var b = year +'-'+month+'-'+strDate;             //当前时间
+			for(var i=0;i<$('.myBagImg').length;i++){
+				var time =$('.myBagImg').eq(i).find('.dates').html();
+				var days = daysBetween(b,time);  
+		        function daysBetween(sDate1,sDate2){
+					//Date.parse() 解析一个日期时间字符串，并返回1970/1/1 午夜距离该日期时间的毫秒数
+					var time1 = Date.parse(new Date(sDate1));
+					var time2 = Date.parse(new Date(sDate2));
+					var nDays = Math.abs(parseInt((time2 - time1)/1000/3600/24));
+					if(nDays == 0){
+						$('.myBagImg').eq(i).hide();
+					}
+				};
+			}
+			//卡券
+			var html ='';
+			$.ajax({
+				type:'post',
+				url:'APP_MAIN/member/membercoupon',
+				data:{'type':1 },
+				dataType:'json',
+				success:function(data){
+					if(data.length>0){
+						if(data.length>4){             //首页只显示两张优惠券
+							data.length=4;
+						}
+						for(var i=0;i<data.length;i++) {
+							html+='<div class="voucher cf">'
+								+'<span class="fl money">￥<font>'+data[i].money+'</font></span>'
+								+'<span class="fl msju">'
+								+'<div class="full">满'+data[i].at_least+'元可用</div>'
+								+'<div class="date">'+data[i].end_time+'前使用</div>'
+								+'</span>'
+								+'</div>'
+						}
+						$('#number').html('查看全部 ('+ data.length +')')
+					}
+					$('.quanIcon').html(html);
+				}
+			})
+		})
+	</script>
+</html>

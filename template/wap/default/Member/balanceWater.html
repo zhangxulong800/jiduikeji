@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/Mdate.css" />
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/balanceInfo.css" />
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/iScroll.js" ></script>
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/Mdate.js" ></script>
+		<title>金额明细</title>
+	</head>
+	<body>
+		<div class="box">
+			<div class="content_bg">
+				<div class="contentImg"><img src="__TEMP__/{$style}/public/images/icon/bg2.png"/></div>
+				<div class="contentcontent">余额 (元)</div>
+	          	<div class="shop_balance">{$sum}</div>
+				<div class="shop_transaction">
+					<a href="/wap/member/recharge" class="money">充值</a>
+	          		<a href="/wap/member/putforward" class="tixian">提现</a>
+				</div>
+			</div>
+			<div class="title titles">
+				<ul class="cf">
+					<li><a href="javascript:balanceWater('all',1);" class="tab" statusid="all">全部</a></li>
+					<li><a href="javascript:balanceWater(1,1);" statusid="1">正常</a></li>
+					<li><a href="javascript:;balanceWater(0,1)" statusid="0">待入账</a></li>
+					<!--<li><a href="javascript:void(0);">冻结</a></li>-->
+				</ul>
+			</div>
+			<div class="calendar calendars"><img src="__TEMP__/{$style}/public/images/icon/calendar.png" id="dateShowBtn"/></div>
+			<input type="hidden" id="dateSelectorTwo" />
+			<div class="coenter"></div>
+			<input type="hidden" name="status_hidden" id="status_hidden" value="{$status}"/>
+		</div>
+		<script type="text/javascript">
+			new Mdate("dateShowBtn", {
+			    acceptId: "dateSelectorTwo",
+			    beginYear: "2016",      //此项为Mdate的初始年份，不填写默认为2000
+			    beginMonth: "1",       //此项为Mdate的初始月份，不填写默认为1
+			    beginDay: "1",        //此项为Mdate的初始日期，不填写默认为1
+			    endYear: "2099",     //此项为Mdate的结束年份，不填写默认为当年
+			    endMonth: "",       //此项为Mdate的结束月份，不填写默认为当月
+			    endDay: "",        //此项为Mdate的结束日期，不填写默认为当天
+			    format: "YMD"     //此项为Mdate需要显示的格式，可填写"/"或"-"或".",不填写默认为年月日
+			})
+			$(function(){
+				var status_hidden=$('#status_hidden').val();
+        			balanceWater(status_hidden);
+				$('body').on('click','#dateSure',function(){
+					var date= $('#dateSelectorTwo').val();
+					var status_hidden=$('#status_hidden').val();
+					$.ajax({
+						type:"post",
+						url:"APP_MAIN/Member/balanceWater",
+						async:true,
+						data:{'start_time':date,'status':status_hidden},
+						success:function(data){
+							var html = ''
+								html+='<div class="beginYear">'+date+'</div>'
+							if(data.length >0){
+								for (var i=0;i<data.length;i++) {
+									html+='<div class="kimgs">'
+										+'<a href="APP_MAIN/member/balanceInfo?id='+data[i].id+'" class="cf">'
+										+'<div class="fl">'
+										+'<div class="netblank">'+data[i].type_name+'</div>'
+										+'<div class="netdate">'+data[i].create_time+'</div>'
+										+'</div>'
+										+'<div class="fr">'+data[i].number+'</div>'
+										+'</a>'
+										+'</div>'
+								}
+							}else{
+								html+='<div>'
+						            +'<div class="emptyFrame"> <i class="user_balance"></i><span>您暂时还没有余额记录哦！</span></div>'
+						        	+'</div>'
+							}
+							//$('.shop_transaction').html('今日交易:（'+data.length+'）笔');
+							$('.coenter').html(html);
+						}
+					});
+				})
+				$('.title a').click(function(){
+					var status = $(this).attr('statusid');
+					$('.title a').removeClass('tab');
+					$(this).addClass('tab');
+					$('#status_hidden').val(status);
+				})
+			})
+			var page_index = 1;
+        	var page_size = 10;
+			function balanceWater(status,page){
+				var myDate = new Date();
+				var year=myDate.getFullYear();//获取当前年
+				var month=myDate.getMonth()+1;//获取当前月
+				var dates=myDate.getDate();
+				function getNow(month) {
+				    return month < 10 ? '0' + month: month;
+				}
+				function getNow(dates) {
+				    return dates < 10 ? '0' + dates: dates;
+				}
+				if(page == 1){
+	        		page_index = page;
+	        		$('.coenter').html('');
+	        		$('#status_hidden').val(status)
+	        	}
+				$.ajax({
+					url:"APP_MAIN/Member/balanceWater",
+	        		type:'post',
+	        		async:true,
+	        		data:{'status':status,'page_index':page_index,'page_size':page_size},
+	        		dataType:'json',
+	        		success:function(data){
+	        			var html = '';
+	        			var k = 0;
+	        			if(data.length >0){
+							for (var i=0;i<data.length;i++) {
+								if(i>0){
+									if(data[i-1].create_time.substring(7,5) != data[i].create_time.substring(7,5) ||  data[i-1].create_time.substring(4,0) != data[i].create_time.substring(4,0)){
+										html+='<div class="beginYear">'+data[i].create_time.substring(4,0)+"年"+data[i].create_time.substring(7,5)+"月"+'</div>';
+									};
+								}else{
+									html+='<div class="beginYear">'+data[i].create_time.substring(4,0)+"年"+data[i].create_time.substring(7,5)+"月"+'</div>';
+								}
+								html+='<div class="kimgs">'
+									+'<a href="APP_MAIN/member/balanceInfo?id='+data[i].id+'" class="cf">'
+									+'<div class="fl">'
+									+'<div class="netblank">'+data[i].type_name+'</div>'
+									+'<div class="netdate">'+data[i].create_time+'</div>'
+									+'</div>'
+									+'<div class="fr">'
+									+'<div>'+data[i].number+'</div>';
+								if(data[i].buyer_name!==''){html+='<div class="netdate" style="font-size:12px;color:#888;text-align:right;">'+data[i].buyer_name+'</div>';}
+								html+='</div>'
+									+'</a>'
+									+'</div>'
+//								if(data[i].create_time.substring(10,8) == dates && data[i].create_time.substring(7,5) == month && data[i].create_time.substring(4,0) == year){
+//									k+=1;
+//								}
+//								$('.shop_transaction').html('今日交易:（'+k+'）笔');
+							}
+	        			}else{
+	        				$(window).unbind ('scroll');
+	        				if(!$('.coenter').find('div').hasClass('kimgs')){
+		        				html+='<div>'
+						            +'<div class="emptyFrame"> <i class="user_balance"></i><span>您暂时还没有积分记录哦！</span></div>'
+						        	+'</div>'
+	        				}
+					        //$('.shop_transaction').html('今日交易:（'+data.length+'）笔');
+	        			}
+	        			$('.coenter').append(html);
+	        			for (var i=0;i<$('.coenter .beginYear').length;i++) {
+	        				if($('.coenter .beginYear').eq(i).html()==$('.coenter .beginYear').eq(i+1).html()){
+	        					$('.coenter .beginYear').eq(i+1).remove();
+	        				}
+	        			}
+	        			$(window).scroll(function(){
+					        var scrollTop = $(this).scrollTop();
+					        var scrollHeight = $(document).height();
+					        var windowHeight = $(this).height();
+					        if (scrollTop + windowHeight == scrollHeight) {
+						        if(data.length!=0){
+			    					var status_hidden=$('#status_hidden').val();
+			    					balanceWater(status_hidden);
+			    				}
+					        }
+				        });
+	        		}
+	       		})
+				page_index +=1;
+			}
+		</script>
+	</body>
+</html>

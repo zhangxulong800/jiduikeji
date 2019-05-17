@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="__TEMP__/{$style}/public/css/reset-mobile.css" />
+    <link rel="stylesheet" href="__TEMP__/{$style}/public/css/invitationPoster.css" />
+    <script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+    <script src="__TEMP__/{$style}/public/js/rem.js"></script>
+    <script src="__TEMP__/{$style}/public/js/hidpi-canvas.js "></script>
+    <!--<script type="text/javascript" src="__PCMOB__/js/jquery.cookie.js" ></script>-->
+    <link rel="shortcut  icon" type="image/x-icon" href="__TEMP__/{$style}/public/images/icon.ico" media="screen"/>
+    <title>邀请好友海报页</title>
+    <style>
+
+
+    </style>
+</head>
+<body>
+<div class="poster-area">
+
+    <div class="qrcode-area">
+        <img style="display: none;" src="/template/wap/default/public/images/newIndex/poster.png" alt="" id="myImg" width="100%">
+        <div id="qrcode" style="display: none;"></div>
+        <div id="h">
+            <canvas id="myCanvas"></canvas>
+        </div>
+    </div>
+
+    <div class="done-btns">
+        <!--<div class="download-btn" id="saveImg">保存到本地</div>-->
+    </div>
+
+</div>
+<script src="__TEMP__/{$style}/public/js/qrcode.min.js"></script>
+</body>
+<script>
+    $(function(){
+
+        var userProfile1 = '{$user_info['user_headimg']}';
+        var userProfile = 'http://www.jifenbei.cn/'+userProfile1;
+        var nickName = '{$user_info['nick_name']}';
+        if(!userProfile1) {
+            console.log(nickName)
+            userProfile = '/template/wap/default/public/images/detault_team_logo.png'
+        }
+        console.log(userProfile)
+
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if(url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for(var i = 0; i < strs.length; i ++) {
+                theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+            }
+        }
+        if(theRequest.id != '' || theRequest.id != null || theRequest.id != undefined){
+            var id =theRequest.id;
+        }
+        var text = "APP_MAIN/index/index?id="+id+"";
+        console.log(text)
+        /*生成二维码*/
+        var codeWidth = 82;
+        var winWidth = window.screen.availWidth;
+        var winHeight = window.screen.availHeight;
+        var diff = winWidth/375;
+        codeWidth = codeWidth*diff;
+        //默认使用Canvas生成，并显示到图片
+        new QRCode('qrcode',{
+            text:text,
+            width:codeWidth,
+            height:codeWidth,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        /*判断浏览器类型*/
+        var u = navigator.userAgent;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        if(isAndroid){
+            winHeight = winWidth * 667 / 375;
+        }
+        var codePositionX = winWidth-winWidth*0.3;
+        var codePositionY = winHeight-winHeight*0.2;
+
+        var width = 36;
+        var height = 36;
+        var circle = {
+            x: width / 2,
+            y: height / 2,
+            r: width / 2
+        }
+        var textPositionX = width+15;
+        var textPositionY = 30;
+        var textPositionX2 = winWidth*.68;
+        var textPositionY = 30;
+
+        //从 canvas 提取图片 image
+        function convertCanvasToImage(canvas) {
+            //新Image对象，可以理解为DOM
+            var image = new Image();
+            // canvas.toDataURL 返回的是一串Base64编码的URL，当然,浏览器自己肯定支持
+            // 指定格式 PNG
+            image.src = canvas.toDataURL("image/png");
+            return image;
+        }
+
+        var mycanvas1=document.getElementsByTagName('canvas')[0]; //获取网页中的canvas对象
+        //将转换后的img标签插入到html中
+        var img=convertCanvasToImage(mycanvas1);
+        $('#qrcode').html("");//移除已生成的避免重复生成
+        $('#qrcode').append(img);//imagQrDiv表示你要插入的容器id
+        $('#qrcode img').attr("id","tulip");
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        //图片
+        var img = new Image();
+        img.src = '/template/wap/default/public/images/newIndex/poster.png';
+        function getPixelRatio(context) {
+            var backingStore = context.backingStorePixelRatio ||
+                context.webkitBackingStorePixelRatio ||
+                context.mozBackingStorePixelRatio ||
+                context.msBackingStorePixelRatio ||
+                context.oBackingStorePixelRatio ||
+                context.backingStorePixelRatio || 1;
+            return (window.devicePixelRatio || 1) / backingStore;
+        };
+        var ratio = getPixelRatio(ctx);
+        canvas.width = window.screen.availWidth * ratio;
+        canvas.height = window.screen.availHeight * ratio;
+
+        var ewm=document.getElementById("tulip");
+        var myImg = document.getElementById("myImg");
+        img.crossOrigin="*";
+        myImg.crossOrigin="*";
+        console.log('img',img)
+        img.onload = function() { //必须等待图片加载完成
+            // ctx.drawImage(img, 0, 0, winWidth, winHeight); //绘制图像进行拉伸
+            ctx.drawImage(myImg, 0, 0, winWidth*ratio, winHeight*ratio); //绘制图像进行拉伸
+            //ctx.drawImage(ewm, window.screen.availWidth-window.screen.availWidth*0.352,window.screen.availHeight-window.screen.availHeight*0.211);
+            //alert($(ewm).attr("src"))
+            var imgCode = new Image();
+            imgCode.src = $(ewm).attr("src");
+            imgCode.onload = function(){
+                ctx.drawImage(ewm,codePositionX*ratio ,codePositionY*ratio);
+                var img2 = new Image();
+                img2.src = userProfile;
+                img2.crossOrigin="*";
+                ctx.font = '15px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillStyle = 'white';
+                ctx.fillText(nickName+' 向你分享', textPositionX, textPositionY);
+                ctx.font = '14px Arial';
+                ctx.fontWeight = 'bold';
+                ctx.textAlign = 'left';
+                ctx.fillStyle = 'white';
+
+                var randomNum = (Math.random()*9+1).toFixed(1)+'8';
+                console.log(randomNum)
+                ctx.fillText('昨日收益 ￥'+randomNum, textPositionX2, textPositionY);
+                img2.onload = function () {
+                    console.log(width)
+                    // ctx.clearRect(0, 0, width, height);
+                    //开始路径画圆,剪切处理
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(24, 26, circle.r, 0, Math.PI * 2, false);
+                    ctx.clip(); //剪切路径
+                    ctx.drawImage(img2,6*ratio,8*ratio,width*ratio,height*ratio); //绘制图像进行拉伸
+                    //恢复状态
+                    ctx.restore();
+                    var srcImg = new Image();
+                    srcImg.src = canvas.toDataURL('images/png');
+                    srcImg.setAttribute("crossOrigin",'Anonymous');
+                    $('#h').html("");//移除已生成的避免重复生成
+                    $('#h').append(srcImg);//imagQrDiv表示你要插入的容器id
+                    $('#h img').attr("width",'100%');
+                    //$('#h img').attr("height",'100%');//imagQrDiv表示你要插入的容器id
+
+                    /*判断如果手机是安卓手机，且高度大于667 则居中显示*/
+                    if(isAndroid && window.screen.availHeight > 667){
+                        var diffHeight = winHeight - 667;
+                        $(".qrcode-area").css("overflow","hidden")
+                        //$(".qrcode-area").css("top",diffHeight/2)
+                    }else {
+                        $(".qrcode-area").css("overflow","visible")
+                    }
+                    $('#qrcode').hide();
+                }
+            }
+
+
+        }
+    });
+
+
+    $("#saveImg").on('click',function () {
+        /*var img = $("#h img")[0];
+        var alink = document.createElement("a");
+        alink.href = img.src;
+        alink.download = img.src
+        alink.click();*/
+
+        //cavas 保存图片到本地  js 实现
+        //------------------------------------------------------------------------
+        //1.确定图片的类型  获取到的图片格式 data:image/Png;base64,......
+        var type ='jpg';//你想要什么图片格式 就选什么吧
+        // var d=document.getElementById("cavasimg");
+        // var imgdata=d.toDataURL(type);
+        var imgdata=$("#h img")[0].src;
+        console.log(imgdata)
+        //2.0 将mime-type改为image/octet-stream,强制让浏览器下载
+        var fixtype=function(type){
+            type=type.toLocaleLowerCase().replace(/jpg/i,'jpeg');
+            var r=type.match(/png|jpeg|bmp|gif/)[0];
+            return 'image/'+r;
+        };
+        imgdata=imgdata.replace(fixtype(type),'image/octet-stream');
+        //3.0 将图片保存到本地
+        var savaFile=function(data,filename)
+        {
+            var save_link=document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+            save_link.href=data;
+            save_link.download=filename;
+            var event=document.createEvent('MouseEvents');
+            event.initMouseEvent('click',true,false,window,0,0,0,0,0,false,false,false,false,0,null);
+            save_link.dispatchEvent(event);
+        };
+        var filename=''+new Date().getSeconds()+'.'+type;
+        //我想用当前秒是可以解决重名的问题了 不行你就换成毫秒
+        savaFile(imgdata,filename);
+    })
+
+</script>
+</html>

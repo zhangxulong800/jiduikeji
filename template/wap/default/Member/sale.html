@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/sale.css" />
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<title>我的销售</title>
+	</head>
+	<body>
+		<div class="box">
+			<div class="container">
+				<div class="team">
+					<div class="title cf">
+						<div class="total fl">总计: {$commission} 元</div>
+					</div>
+					<div class="nav-tabs">
+						<ul class="cf">
+							<li class="col-cx-4">
+								<div class="number"><span class="mongfd">¥</span> <span>0</span></div>
+								<div class="lable">会员({$mem_num.tot_mem}人)</div>
+							</li>
+							<li class="col-cx-4">
+								<div class="number"><span class="mongfd">¥</span> <span>0</span></div>
+								<div class="lable">经理({$mem_num.tot_jingli}人)</div>
+							</li>
+							<li class="col-cx-4">
+								<div class="number"><span class="mongfd">¥</span> <span>0</span></div>
+								<div class="lable">总监({$mem_num.tot_zongjian}人)</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="team">
+					<div class="title cf href">
+						<a href="APP_MAIN/Member/salesDetails?type=1">
+							<div class="total fl">直属团队</div>
+							<div class="fr">明细</div>
+						</a>
+					</div>
+					<div class="nav-tabs">
+						<ul class="cf">
+							<li class="col-cx-4">
+								<div class="number"><span class="mongfd">¥</span> <span>0</span></div>
+								<div class="lable">会员({$zhi_num.zhi_mem}人)</div>
+							</li>
+							<li class="col-cx-4">
+								<div class="number"><span class="mongfd">¥</span> <span>0</span></div>
+								<div class="lable">经理({$zhi_num.zhi_jingli}人)</div>
+							</li>
+							<li class="col-cx-4">
+								<div class="number"><span class="mongfd">¥</span> <span>0</span></div>
+								<div class="lable">总监({$zhi_num.zhi_zongjian}人)</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="team">
+					<div class="title cf href">
+						<a href="APP_MAIN/Member/salesDetails?type=2">
+							<div class="total fl">从属团队</div>
+							<div class="fr">明细</div>
+						</a>
+					</div>
+					<div class="nav-tabs">
+						<ul class="cf">
+							<li class="col-cx-4">
+								<div class="number"><span class="mongfd">¥</span> <span>0</span></div>
+								<div class="lable">会员({$cong_num.cong_mem}人)</div>
+							</li>
+							<li class="col-cx-4">
+								<div class="number"><span class="mongfd">¥</span> <span>0</span></div>
+								<div class="lable">经理({$cong_num.cong_jingli}人)</div>
+							</li>
+							<li class="col-cx-4">
+								<div class="number"><span class="mongfd">¥</span> <span>0</span></div>
+								<div class="lable">总监({$cong_num.cong_zongjian}人)</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

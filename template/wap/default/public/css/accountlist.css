@@ -1,0 +1,154 @@
+/*common style*/
+*,body{
+	padding: 0;
+	margin: 0;
+	font: normal 100% 'Microsoft Yahei', Arial, sans-serif;
+}
+html, body { width:100%; margin:0; padding:0; font-size: 12px;}
+body{background:#F6F5FA;min-width:320px;max-width:640px;margin:0 auto;}
+li{list-style:none}
+a:active,a:hover {outline: 0;text-decoration:none;}
+a, li, a:hover, a:active, a:focus {text-decoration:none;}
+a,input,button,div{border: none;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;outline: none;}
+.fl { float: left;}
+.fr { float: right;}
+/*清除浮动*/
+.cf:before,.cf:after{display:table;line-height:0;content:"";}
+.cf:after{clear:both;}
+*.cf{zoom:1;}
+.hasBank,.binding{
+	background:#fff;
+	margin:24px auto 12px auto;
+	width:84%;
+	border-radius:6px;
+	box-shadow:0 0 10px rgba(0,0,0,.3);
+	padding:24px 0 24px 24px;
+}
+.hasBank .bankIcon img{
+    width: 44px;
+    margin-right: 10px;
+    margin-top: 6px;
+}
+.hasBank .bankCard .bankName{
+	color: #383838;
+	font-size:16px;
+	padding:6px 0 4px 0;
+}
+.hasBank .bankCard .bankCord{
+	color: #777;
+	font-size:16px;
+}
+.binding a{
+	display: block;
+	width:100%;
+	text-align: center;
+	font-size:16px;
+	color:#666;
+}
+/*绑银行卡*/
+.header{
+	padding:12px 14px;
+	background:#fff;
+}
+label font{
+	color: #FF0000;
+}
+.header label{
+	font-size:15px;
+	margin-right:10px;
+	margin-left:14px;
+	color: #5E5E5E;
+}
+.header input{
+	height: 22px;
+    line-height: 20px;
+    font-size: 13px;
+    width:67%;
+}
+.content {
+	margin-top:10px;
+	padding:0 14px;
+	background:#fff;
+}
+.content .mont{
+	padding: 10px 0;
+    border-bottom: 1px solid #F6F5FA;
+    color: #333;
+    position:relative;
+}
+.content .mont label{
+	font-size:15px;
+	margin-left:14px;
+	display:inline-block;
+	width:84px;
+}
+.content .mont input[type="text"]{
+	height:34px;
+    line-height: 20px;
+    font-size: 13px;
+    width:63%;
+    padding-left:6px;
+}
+.content .mont input[type="button"]{
+	position:absolute;
+	right:4px;
+	top: 10px;
+	bottom:0;
+	color:#ccc;
+	border:1px solid #ccc;
+	border-radius:10px;
+	background:#fff;
+	height: 36px;
+    padding: 0 10px;
+}
+.badgeBtn{
+	width:90%;
+	margin:auto;
+	text-align:center;
+	margin-top:30px;
+}
+.badgeBtn .msg{
+    color: #F83271;
+    font-size: 14px;
+    height:30px;
+    display:none;
+}
+.badgeBtn button{
+	width:100%;
+	border-radius:8px;
+	height:40px;
+	line-height:40px;
+	color:#fff;
+	border:1px solid #F83271;
+	background: #F83271;
+	font-size:16px;
+	display:inline-block;
+	margin-top: 10px;
+	cursor: pointer;
+}
+@media only screen and (max-width:320px ) {
+	.badgeBtn{
+		width: auto;
+	}
+	.badgeBtn button{
+		width:300px;
+	}
+}
+.agree{
+	margin-top:10px;
+	color:#5E5E5E;
+}
+.agree a{
+	color: #3392FF;
+}
+a#mo{
+    position: relative;
+    display: block;
+}
+.delete {
+	position: absolute;
+    right: 30px;
+    bottom: 7px;
+    /* z-index: 999; */
+    color: #ccc;
+}

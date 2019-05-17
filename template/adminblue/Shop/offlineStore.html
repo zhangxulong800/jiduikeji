@@ -1,0 +1,143 @@
+{extend name="adminblue/base" /}
+{block name="resources"/}
+{/block}
+{block name="main"}
+ <div class="mb10">
+       <div class="tiphelp-info"><strong>提示：</strong>设置线下店铺，设置方法如下：<br>
+        1. 如您需要使用“虚拟抢购”活动功能，并具有线下实体商铺请根据下列表单内容进行认真填写。<br/>
+		2. 设置后的线下商铺信息将显示于“虚拟抢购”活动详情页面右侧店铺介绍处，但不会影响原有线上店铺信息。<br/>
+		3. 具体表单填写注意事项请参照下方内容相关提示。
+       </div>
+ </div>
+<div class="set-style"  >
+	<dl>
+		<dt>兑换码生成前缀:</dt>
+		<dd>
+			<input type="text" id="shop_vrcode_prefix"   value="{$shop_info.shop_vrcode_prefix}" maxlength="3"/> 
+			<p class="hint">该设置将作为兑换码的一部分，用于区别不同店铺之间的兑换码，增加兑换码使用的安全性，只接受字母或数字，最多3个字符。</p>
+		</dd>
+	</dl>
+	
+	<dl>
+		<dt>线下商铺名称:</dt>
+		<dd>
+		{if condition="$shop_info.live_store_name eq ''"}
+			<input type="text" id="live_store_name"  value="{$shop_info.shop_name}" maxlength="30"/> 
+		{else/}
+		    <input type="text" id="live_store_name"  value="{$shop_info.live_store_name}" maxlength="30"/> 
+		{/if}
+			<p class="hint">线下店铺名称仅供线下“虚拟抢购”活动使用，不影响原有线上店铺名称，商铺名称长度最多可输入30个字符。未填写时将显示线上店铺名称。</p>
+		</dd>
+	</dl>
+	<dl>
+		<dt>线下商铺电话</dt>
+		<dd>
+		{if condition="$shop_info.live_store_tel eq ''"}
+			<input type="text" id="live_store_tel" value="{$shop_info.shop_phone}" /> 
+		{else/}
+		    <input type="text" id="live_store_tel" value="{$shop_info.live_store_tel}" /> 
+		{/if}
+			<p class="hint"> 线下店铺电话用于“虚拟抢购”活动中，买家与商家进行联系沟通使用，请认真填写。未填写内容时将默认显示线上店铺所留商家电话号码。</p>
+		</dd>
+	</dl>
+	<dl>
+		<dt>线下商铺地址</dt>
+		<dd>
+			<input type="text" id="live_store_address"  value="{$shop_info.live_store_address}" /> 
+			<p class="hint"> 如您的店铺具有线下实体商铺地址，请认证填写此选项，保存后将更新地图定位，以供买家上门选购或兑换时使用。</p>
+		
+		
+
+	        <div id="map" style="width: 587px;height: 300px;border:1px solid #e5e5e5;">
+					<div class="map">
+					<p>当前选中位置：</p>
+				
+					<input type="hidden" id="jingwei">
+					<p id='message'></p>
+					</div>
+				</div>
+			
+			</dd>
+		
+		
+	</dl>
+	<dl>
+		<dt>线下交通信息:</dt>
+		<dd>
+			<textarea  rows="2" id="live_store_bus" class="textarea w400" maxlength="50">{$shop_info.live_store_bus}</textarea>
+			<p class="hint"> 此选项用于填写线下店铺周边交通信息或换乘方式，留空将不显示。</p>
+		</dd>
+	</dl>
+	<button class="edit_button" onclick="save();">提交</button>
+</div>
+
+<script type="text/javascript">
+	
+	function save(){
+		var shop_vrcode_prefix = $('#shop_vrcode_prefix').val();
+		var live_store_name = $('#live_store_name').val();
+		var live_store_tel = $('#live_store_tel').val();
+		var live_store_address = $('#live_store_address').val();
+		var live_store_bus = $('#live_store_bus').val();
+		var latitude_longitude =  $('#jingwei').val();
+		var reg=/^[a-zA-Z0-9]+$/;
+		if(!reg.test(shop_vrcode_prefix)){
+			showTip("只接受字母或数字","warning");
+			$('#shop_vrcode_prefix').focus();
+			return false;
+		}
+		$.ajax({
+			type:"post",
+			url : "ADMIN_MAIN/shop/offlinestore",
+			data : {
+				"shop_vrcode_prefix" : shop_vrcode_prefix,
+				"live_store_name":live_store_name,
+				"live_store_tel" : live_store_tel,
+				"live_store_address" : live_store_address,
+				"live_store_bus" : live_store_bus,
+				"latitude_longitude" : latitude_longitude
+			},
+			success : function(data){
+				if(data['code'] > 0)
+					{
+						showMessage('success', data["message"],'ADMIN_MAIN/shop/offlinestore');
+					}else{
+						showMessage('error', data["message"]);
+					}
+			}
+		});
+	}
+</script>
+<script src="http://webapi.amap.com/maps?v=1.3&amp;key=2df5711d4e2fd9ecd1622b5a53fc6b1d&callback=init"></script>
+		  
+		<script type="text/javascript">
+			var map = new AMap.Map('map',{
+			   zoom: 10,
+			   center: [{$shop_info.latitude_longitude}]
+// 			   center: [116.39,39.9]	
+
+			});
+			    AMap.plugin('AMap.Geocoder',function(){
+		        var geocoder = new AMap.Geocoder({
+		            city: "010"//城市，默认：“全国”
+		        });
+		        var marker = new AMap.Marker({
+		            map:map,
+		            bubble:true
+		        })
+		        map.on('click',function(e){
+		            marker.setPosition(e.lnglat);
+		            $("#jingwei").val(e.lnglat);
+		            geocoder.getAddress(e.lnglat,function(status,result){
+		              if(status=='complete'){
+		                 document.getElementById('live_store_address').value = result.regeocode.formattedAddress
+		              }
+		            })
+		        })
+
+		    });
+		</script>
+<script type="text/javascript" src="http://webapi.amap.com/demos/js/liteToolbar.js"></script>	
+	
+
+{/block}

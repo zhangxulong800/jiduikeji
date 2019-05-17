@@ -1,0 +1,590 @@
+{extend name="wap/default/base" /}
+{block name="resources"}
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/order.css">
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/pro-detail.css">
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/payment_order_new.css">
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/payment_order_popup.css">
+<style>
+	/*支付密码弹出层*/
+.fl { float: left;}
+.fr { float: right;}
+.bbg{
+	background:rgba(0,0,0,.5);
+	height:100%;
+}
+.pwdBox{
+	position:fixed;
+	bottom:0;
+	width:100%;
+	max-width:640px;
+	min-width: 320px;
+	height: 100%;
+	z-index: 10;
+	display:none;
+}
+.pwd-box{
+    width:310px;
+    height: 228px;
+    left:50%;
+    top:30%;
+    margin-left: -155px;
+    position: absolute;
+    border: none;
+    background: white;
+    z-index: 101;
+}
+.pwd-box input[type="tel"]{
+	width: 91%;
+	height: 42px;
+	color: transparent;
+	position: absolute;
+	top:110px;
+	left: 0;
+	border: none;
+	font-size: 18px;
+	opacity: 0;
+	z-index: 1;
+	letter-spacing: 35px;
+	padding-left:15px;
+}
+.fake-box{
+    width:272px;
+    margin-left: 15px;
+    bottom: 2px;
+    height: 41px;
+    margin-top:12px;
+    border:1px solid #bfb6b6;
+    box-sizing: initial;
+}
+.fake-box input{
+    width: 41px;
+    height: 41px;
+    border: none;
+    border-right: 1px solid #e5e5e5;
+    text-align: center;
+    font-size: 30px;
+    margin:0 !important;
+    border-top-right-radius: inherit;
+    border-bottom-right-radius: inherit;
+}
+.fake-box input:nth-last-child(1){
+    border:none;
+}
+#box-title{
+    height: 40px;
+    width:100%;
+    border-bottom: 0.2px solid #e5e5e5;
+}
+#title-text{
+    height:40px;
+    width: 200px;
+    text-align: center;
+    line-height:38px;
+    display: block;
+    margin-left: 55px;
+    font-size:14px;
+}
+#money-box{
+    width: 100%;
+    height: 50px;
+}
+#content-text{
+    height: 30px;
+    width: 200px;
+    text-align: center;
+    line-height: 27px;
+    display: block;
+    margin-left: 55px;
+    margin-top: 10px;
+    font-size: 22px;
+}
+#forget-pwd{
+    margin-top:5px;
+    margin-right:20px;
+    float: right;
+    text-decoration:none;
+    color: #666;
+}
+.forget-pwd{
+	height:34px;
+}
+.eudi .fl{
+	border-right:1px solid #F5F5F5;
+	width:calc(50% - 1px);
+}
+.eudi .fr{
+	width:50%;
+}
+.eudi .fl,.eudi .fr{
+	font-size:16px;
+	border-top:1px solid #F5F5F5;
+	text-align: center;
+	height:40px;
+	line-height:40px;
+}
+.price-pay{
+	text-align: center;
+	margin-top:10px;
+	font-size:14px;
+}
+.price{
+	text-align: center;
+	font-size:18px;
+	font-weight:bold;
+}
+.item-optionss{
+    border-bottom: 1px solid #F2F2F2;
+    overflow: hidden;
+    line-height: 45px;
+    padding: 0 10px;
+}
+.item-optionss>span {
+    float: right;
+    font-size: 14px;
+}
+</style>
+<title>订单结算</title>
+{/block}
+
+{block name="goodsHead"}
+<section class="head" style="display: none;">
+	<a class="head_back" href="APP_MAIN"><i class="icon-back"></i></a>
+	<div class="head-title">订单结算</div>
+</section>
+{/block}
+ 
+{block name="main"}
+{if condition="$address_default.id neq ''"}
+<div id="addressok">
+	<input type="hidden" id="addressid" value="{$address_default.id}" />
+	<div class="js-order-address express-panel js-edit-address express-panel-edit">
+		<ul class="express-detail">
+			<a href="APP_MAIN/member/memberaddress?url=cart">
+				<li class="clearfix">
+					<span class="name">{$address_default.consigner}</span>
+					<span class="tel">{$address_default.mobile}</span>
+				</li>
+				<li class="address-detail">{$address_default.address_info}-{$address_default.address}</li>
+			</a>
+		</ul>
+	</div>
+</div>
+{else /}
+<div class="empty-address-tip">
+	<div id="noaddress"><a href="APP_MAIN/member/memberaddress">新增收货地址</a></div>
+</div>
+{/if}
+
+<div class="block-item express" style="padding: 0;"></div>
+<section class="order">
+{foreach name="new_list" item="new_info" key="ky"}
+	{if condition = "$new_info.shop_name neq ''"}
+	<span class="shopName">{$new_info.shop_name}</span>
+	{/if}
+	{foreach name="new_info.goods_list" item="cart_info" key="k"}
+	<div class="order-goods-item clearfix" data-subtotal="{$cart_info.subtotal}">
+		<div class="name-card block-item">
+			<a href="APP_MAIN/goods/goodsdetail?id={$cart_info.goods_id}" class="thumb">
+				<img src="__ROOT__/{$cart_info['picture_info']['pic_cover_micro']}" alt="{$cart_info.goods_name}" />
+			</a>
+			<div class="detail">
+				<div class="clearfix detail-row">
+					<div class="right-col">
+						<div class="left-col">
+							<h3 style="font-weight: normal;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;">
+								<a href="javascript:;">{$cart_info.goods_name}</a>
+							</h3>
+						</div>
+						<div class="clearfix detail-row">
+							<div class="left-col">
+								<p class="c-gray-darker" style="display:-webkit-box;font-size:12px;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;">{if condition="$cart_info['sku_name'] neq '0'"}{$cart_info.sku_name}{/if}</p>
+							</div>
+						</div>
+						<input type="hidden" name="goods_skuid" value="{$cart_info.sku_id}" />
+						<input type="hidden" name="goods_point_exchange"/>
+						<span style="color: #FC3301;">￥{$cart_info.price}
+						</span>&nbsp;<span style="float: right;">× {$cart_info.num}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<input type="hidden" value="{$cart_info.group_id_array}" id="group_id_array" />
+	{/foreach}
+	<!--{if condition="count($new_info.coupon_list)"}-->
+	<!--<div class="item-options" data-flag="use-coupon">-->
+		<!--<label class="float_left">优惠券</label>-->
+		<!--<span class="color-gray"><select style="text-align:center;text-align-last:center;height:25px;border:none;" data-shop-id="{$ky}" onchange="calculateTotalAmount()" class="coupon"></span>-->
+		<!--<option value="0">不使用优惠券</option>-->
+		<!--{foreach name="new_info.coupon_list" item="coupon"}-->
+		<!--<option data-money="{$coupon['money']}" value="{$coupon['coupon_id']}" coupon_type_id = "{$coupon['coupon_type_id']}">满{$coupon['at_least']}元减{$coupon['money']}元</option>&lt;!&ndash;&nbsp;-&nbsp;{$coupon['coupon_name']}&ndash;&gt;-->
+		<!--{/foreach}-->
+		<!--</select>-->
+	<!--</div>-->
+	<!--{/if}-->
+	<!--{if condition="$new_info.discount_money > 0"}-->
+	<!--<div class="item-options">-->
+	<!--<label style="width:100%;">满减金额<b class="account_point" style="float: right;">{$new_info.discount_money}</b></label>-->
+	<!--</div>-->
+	<!--{/if}-->
+	<div class="item-optionss">
+		<label>订单运费</label>
+		<span class="color-gray">￥{$new_info.express}</span>
+	</div>
+	{if condition="$shop_config.seller_dispatching"}
+	<div class="delivery" data-str=",{$ky}_{empty name="new_info.express_company_list.0.co_id"}0{else/}{$new_info.express_company_list.0.co_id}{/empty}" style="display:none">
+		<span class="label">快递物流:</span>
+		<select class="express_company" data-shop-id="{$ky}" style="padding:0 10px;height:25px;border:1px solid #ddd;">
+		{if condition="count($new_info.express_company_list)"}
+			{foreach name="new_info.express_company_list" item="company"}
+			<option value="{$company.co_id}" data-express-fee="{$company.express_fee}">{$company.company_name}</option>
+			{/foreach}
+			<option value="0" data-express-fee="0">物流货到付运费</option>
+		{else/}
+			<option value="0" data-express-fee="0">商家未配置物流公司</option>
+		{/if}
+		</select>
+	</div>
+	{/if}
+	{if condition="$shop_config.buyer_self_lifting"}
+	<span style="display:none" class="shipping_method" data-code="ziti">门店自提</span>
+	<div class="js-pickup-point-list item" style="display:none" data-count="{$pickup_point_list.total_count}">
+		<span class="label">选择自提地址:</span>
+		<select data-shop-id="{$ky}" style="padding:0 10px;width:200px;height: 25px;border:1px solid #ddd;" class="pickup_address">
+		{if condition="$new_info.pickup_point_list.total_count"}
+			{foreach name="$new_info.pickup_point_list.data" item="pickup"}
+			<option value="{$pickup.id}">{$pickup.province_name}&nbsp;{$pickup.city_name}&nbsp;{$pickup.dictrict_name}&nbsp;{$pickup.address}</option>
+			{/foreach}
+		{else/}
+			<option value="0">商家未配置自提点</option>
+		{/if}
+		</select>	
+	</div>
+	{/if}
+{/foreach}
+	<div class="item-optionss" data-flag="pay" data-select="0" id="paylist">
+		<label>支付方式</label>
+		<span class="color-gray">在线支付</span>
+	</div>
+	{if condition="$shop_config['order_balance_pay'] == 1"}
+	<div class="item-options" style="display: none;">
+		<label>我的余额<b class="account_balance">￥{$member_account.balance}</b></label>
+		<span>
+			使用余额<input type="text" id="account_balance" data-max="{$member_account.balance}" placeholder="0.00"/>元
+		</span>
+	</div>
+	<div class="item-options" style="display: none;">
+		<label>我的积分<b class="account_point">  {$member_account.point}</b></label>
+	</div>
+	{/if}
+		{if condition="count($shop_config.order_invoice_content_list)"}
+		<div class="item-options" data-flag="invoice" data-select="0" style="display:none;">
+			<label>发票信息<span style="font-size:12px;color:#FF9800;font-weight:bold;"></span></label>
+			<span class="arrow-right color-gray">不需要发票</span>
+		</div>
+		
+		<div class="item-options invoice">
+			<label><span style="font-size:12px;color:#FF9800;font-weight:bold;">将收取{$shop_config.order_invoice_tax}%的发票税率</span></label>
+		</div>
+	
+	<div class="item-options invoice">
+		<label>发票抬头</label>
+		<textarea id="invoice-title" maxlength="50" placeholder="个人或公司发票抬头"></textarea>
+	</div>
+	
+	<div class="item-options invoice">
+		<label>纳税人识别号</label>
+		<textarea id="taxpayer-identification-number" maxlength="50" placeholder="纳税人识别号"></textarea>
+	</div>
+	
+	
+	<div class="item-options invoice" data-flag="invoice-content">
+		<label>发票内容</label>
+		<span class="arrow-right color-gray">选择发票内容</span>
+	</div>
+	{/if}
+	
+	<div class="item-options">
+		<label>买家留言</label>
+		<textarea id="leavemessage" placeholder="给卖家留言" maxlength="100"></textarea>
+	</div>
+	
+	
+	<div class="order-list">
+		<h3>结算信息</h3>
+		<p>
+			<label>共<b class="orange-bold js-goods-num">1</b>种商品&nbsp;总计</label>
+			<span>￥<b class="js-total-money">0.00</b></span>
+		</p>
+		
+		<p>
+			<label>运费(快递):</label>
+			<span>￥<b id="express">0.00</b></span>
+		</p>
+		
+		<p>
+			<label>总优惠</label>
+			<span>￥<b id="discount_money">0.00</b></span>
+		</p>
+		
+		
+		{if condition="count($shop_config.order_invoice_content_list)>0"}
+		<p style="display:none;">
+			<label>发票税额：</label>
+			<span>￥<b id="invoice_tax_money">0.00</b></span>
+		</p>
+		{/if}
+		
+		
+		{if condition="$shop_config['order_balance_pay'] == 1"}
+		<p style="display:none">
+			<label>使用余额：</label>
+			<span>￥<b id="use_balance">0.00</b></span>
+		</p>
+		{/if}
+	</div>
+</section>
+
+
+
+<div style="height: 50px"></div>
+<div class="order-total-pay bottom-fix">
+	<div class="pay-container clearfix">
+		<span class="c-gray-darker font-size-12">应付金额：</span>
+		<span class="font-size-16 theme-price-color">￥<b {empty name="tag"}id="realprice"{/empty}>0.00</b></span>
+		<button class="commit-bill-btn">提交订单</button>
+		<input type="hidden" id="hidden_discount_money" value="{$tot_discount}" />
+		<input type="hidden" id="hidden_express" value="{$tot_express}" />
+		<input type="hidden" id="hidden_count_money" value="{$count_money}" />
+		<input type="hidden" id="count_point_exchange" value="{$count_point_exchange}"/>
+		<input type="hidden" id="hidden_goods_sku_list" value="{$goods_sku_list}"/>
+		<input type="hidden" id="hidden_full_mail_money" value="{$promotion_full_mail.full_mail_money}"/>
+		<input type="hidden" id="hidden_full_mail_is_open" value="{$promotion_full_mail.is_open}"/>
+		<input type="hidden" id="goods_sku_list" value="{$goods_sku_list}" />
+		<input type="hidden" id="hidden_order_invoice_tax" value="{$shop_config.order_invoice_tax}"/>
+	</div>
+</div>
+
+<!----------------------------- 弹出层 ------------------------------>
+<div class="mask-layer"></div>
+
+<!-- 选择支付方式弹出框 -->
+<div class="mask-layer-control" data-flag="pay">
+	<div class="header">选择支付方式<span class="close"></span></div>
+	<div class="list">
+		<ul>
+			<li class="item active" data-flag="0">
+				<div class="check-img"></div>
+				<div class="single">在线支付</div>
+			</li>
+			<!-- 为了用户更好的体验和理解，只要开启了货到付款就显示，不再考虑配送方式是否开启，是否有物流公司等 -->
+<!-- 		if condition="$shop_config.order_delivery_pay && $shop_config.seller_dispatching && count($express_company_list)"	 -->
+			{if condition="$shop_config.order_delivery_pay"}
+			<li class="item" data-flag="4">
+				<div class="check-img"></div>
+				<div class="single">货到付款</div>
+			</li>
+			{/if}
+		</ul>
+	</div>
+	<div class="footer">
+		<button class="btn-green" style="margin: 0px;">确定</button>
+	</div>
+</div>
+<!-- 选择支付方式弹出框 -->
+
+<!-- 选择配送方式弹出框 -->
+<div class="mask-layer-control" data-flag="distribution">
+	<div class="header">选择配送方式<span class="close"></span></div>
+	{if condition="!$shop_config.seller_dispatching && !$shop_config.buyer_self_lifting"}
+		<p style="padding: 30px;text-align: center;">商家未配置配送方式</p>
+	{else/}
+	<div class="list">
+		<ul>
+			<!-- 为了用户更好的体验和理解，只要开启了商家配送，就显示。不考虑是否有物流公司 -->
+<!-- 			if condition="$shop_config.seller_dispatching && count($express_company_list)" -->
+			{if condition="$shop_config.seller_dispatching"}
+			<li class="item active" data-flag="1">
+				<div class="check-img"></div>
+				<div class="single">商家配送</div>
+			</li>
+			{/if}
+			{if condition="$shop_config.buyer_self_lifting"}
+			<li class="item" data-flag="2">
+				<div class="check-img"></div>
+				<div class="single">门店自提</div>
+			</li>
+			{/if}
+		</ul>
+	</div>
+	<div class="footer">
+		<button class="btn-green" style="margin:0px;">确定</button>
+	</div>
+	{/if}
+</div>
+<!-- 选择配送方式弹出框 -->
+
+{if condition="$shop_config.seller_dispatching && count($express_company_list)"}
+<!-- 选择物流公司弹出框 -->
+<div class="mask-layer-control" data-flag="express_company">
+	<div class="header">选择物流公司<span class="close"></span></div>
+	<div class="list">
+		<ul>
+			{foreach name="express_company_list" item="company" key="k"}
+			<li class="item {if condition="$k==0"}active{/if}" data-coid="{$company.co_id}" data-express-fee="{$company.express_fee}">
+				<div class="check-img"></div>
+				<div class="single">{$company.company_name}</div>
+			</li>
+			{/foreach}
+		</ul>
+	</div>
+	<div class="footer">
+		<button class="btn-green" style="margin: 0px;">确定</button>
+	</div>
+</div>
+<!-- 选择物流公司弹出框 -->
+{/if}
+
+{if condition="$shop_config.buyer_self_lifting"}
+<!-- 选择自提地址弹出框 -->
+<div class="mask-layer-control" data-flag="pickup_address">
+	<div class="header">选择自提地址<span class="close"></span></div>
+	{if condition="$pickup_point_list.total_count"}
+	<div class="list">
+		<ul>
+			{foreach name="$pickup_point_list.data" item="pickup" key="k"}
+			<li class="item {if condition="$k==0"}active{/if}" data-id="{$pickup.id}">
+				<div class="check-img"></div>
+				<div class="single">{$pickup.province_name}&nbsp;{$pickup.city_name}&nbsp;{$pickup.dictrict_name}&nbsp;{$pickup.address}</div>
+			</li>
+			{/foreach}
+		</ul>
+	</div>
+	<div class="footer">
+		<button class="btn-green" style="margin: 0px;">确定</button>
+	</div>
+	{else/}
+	<p style="padding: 30px;text-align: center;">商家未配置自提点</p>
+	{/if}
+</div>
+<!-- 选择自提地址弹出框 -->
+{/if}
+
+<!-- 选择发票信息弹出框 -->
+<div class="mask-layer-control" data-flag="invoice">
+	<div class="header">选择发票<span class="close"></span></div>
+	<div class="list">
+		<ul>
+			<li class="item active" data-flag="0">
+				<div class="check-img"></div>
+				<div class="single">不需要发票</div>
+			</li>
+			<li class="item" data-flag="1">
+				<div class="check-img"></div>
+				<div class="single">需要发票</div>
+			</li>
+		</ul>
+	</div>
+	<div class="footer">
+		<button class="btn-green" style="margin: 0px;">确定</button>
+	</div>
+</div>
+<!-- 选择发票信息弹出框 -->
+
+{if condition="count($shop_config.order_invoice_content_list)"}
+<!-- 选择发票内容信息弹出框 -->
+<div class="mask-layer-control" data-flag="invoice-content">
+	<div class="header">选择发票内容<span class="close"></span></div>
+	<div class="list">
+		<ul>
+			{foreach name="$shop_config.order_invoice_content_list" item="invoice" key="k"}
+			<li class="item {if condition="$k==0"}active{/if}">
+				<div class="check-img"></div>
+				<div class="single">{$invoice}</div>
+			</li>
+			{/foreach}
+		</ul>
+	</div>
+	<div class="footer">
+		<button class="btn-green" style="margin:0px;">确定</button>
+	</div>
+</div>
+<!-- 选择发票内容信息弹出框 -->
+{/if}
+<!--输入密码弹窗-->
+	<div class="pwdBox">
+		<div class="bbg"></div>
+		<div class="pwd-box">
+		    <div id="box-title">
+		        <span id="title-text">请输入支付密码</span>
+		    </div>
+		    <div class="price-pay">积分呗商城</div>
+		    <div class="price"></div>
+		    <input type="tel" maxlength="6" class="pwd-input" id="pwd-input">
+		    <div class="fake-box">
+		        <input type="password" readonly="">
+		        <input type="password" readonly="">
+		        <input type="password" readonly="">
+		        <input type="password" readonly="">
+		        <input type="password" readonly="">
+		        <input type="password" readonly="">
+		    </div>
+		    <div class="forget-pwd cf">
+		        <a id="forget-pwd" href="APP_MAIN/Member/forgetPassword">忘记密码</a>
+		    </div>
+		    <div class="eudi cf">
+		    	<div class="fl" onclick="post_paypw()">确定</div>
+		    	<div class="fr">取消</div>
+		    </div>
+	    </div>
+    </div>
+<!--输入密码弹窗end-->
+<!----------------------------- 弹出层 ------------------------------>
+
+{/block}
+{block name="bottom"}{/block}
+{block name="javascript"}
+<script type="text/javascript" src="__TEMP__/{$style}/public/js/payment_order.js"></script>
+<script type="text/javascript" src="__PCMOB__/js/order_pay.js"></script>
+<script>
+	$(function(){
+		var coupo = false;
+		var groupId = $('#group_id_array').val();
+		if(groupId != '114' && groupId != '115'){
+			$(".commit-bill-btn").attr('onclick',"submitOrder(2)");
+		}else{
+			for(var i = 0;i<$('.coupon option').length;i++){
+				var coupon_type_id = $('.coupon option').eq(i).attr('coupon_type_id');
+				if(groupId == '114' && coupon_type_id == 8){
+					$(".commit-bill-btn").attr('onclick',"submitOrder(2)");
+					coupo = true;
+				}
+				if(coupon_type_id == 9 && groupId == '115'){
+					$(".commit-bill-btn").attr('onclick',"submitOrder(2)");
+					coupo = true;
+				}
+			}
+		}
+		$(".commit-bill-btn").click(function(){
+			if($('.coupon option').length != '0'){
+				for(var i = 0;i<$('.coupon option').length;i++){
+					if(coupo == false && groupId == '114'){
+						showBox('您已领取过该会员资格赠送的产品');
+					}
+					if(coupo == false && groupId == '115'){
+						showBox('您已领取过该会员资格赠送的产品');
+					}
+				}
+			}else{
+				if(coupo == false && groupId == '114'){
+					showBox('此物品只限于399会员领取');
+				}
+				if(coupo == false && groupId == '115'){
+					showBox('此物品只限于4998会员领取');
+				}
+			}
+		})
+	})
+
+</script>
+{/block}

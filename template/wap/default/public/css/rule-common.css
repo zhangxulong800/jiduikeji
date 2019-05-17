@@ -1,0 +1,92 @@
+.grey-body {
+    background-color: #ffffff;
+}
+
+.icon-wrapper {
+    text-align: center;
+    /*padding:1.6rem 0 0.8rem;*/
+}
+.icon-wrapper img {
+    width:100%;
+}
+.rules-wrap {
+    padding:0.667rem 1rem 0;
+}
+.rules-list {
+
+}
+.rules-item-title {
+    font-weight: bold;
+    font-size: 1rem;
+    color:#000000;
+    line-height: 1.4rem;
+    margin-bottom:0.667rem;
+}
+.rules-item {
+    font-size: 0.867rem;
+    /*padding-left:2em;*/
+    color:#000000;
+    line-height: 1.4rem;
+    margin-bottom:0.4rem;
+}
+.rules-list:nth-child(2){
+    margin-top:0.8rem;
+}
+
+
+/*tab切换*/
+.tab-wrapper {
+    position: absolute;
+    bottom:0;
+    width:100%;
+    background-color: #f2f2f2;
+    /*top:2.934rem;*/
+    top:0;
+}
+.my-pagination .swiper-pagination-bullet {
+    text-align: center;
+    border-radius: 0;
+    opacity: 1;
+}
+.my-pagination ul {
+    display: -webkit-box;
+    margin-top:0.8rem;
+    position: relative;
+}
+.my-pagination li {
+    display: block;
+    overflow: hidden;
+    box-flex: 1;
+    -moz-box-flex: 1;
+    -webkit-box-flex: 1;
+    height: 100px;
+    position: relative;
+    font-size: 15px;
+    background-image: url(../images/newIndex/tabRule-1.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-color: transparent;
+}
+.my-pagination li:last-child {
+    background-image: url(../images/newIndex/tabRule-2.png);
+}
+.my-pagination li:first-child.swiper-pagination-bullet-active {
+    background-image: url(../images/newIndex/tabRule-a1.png);
+}
+.my-pagination li:last-child.swiper-pagination-bullet-active {
+    background-image: url(../images/newIndex/tabRule-a2.png);
+}
+.my-pagination .swiper-pagination-bullet-active:after {
+
+}
+.swiper-container {
+    height: 100%;
+}
+.rules-wrap {
+    padding-bottom:8rem;
+    height: auto;
+}
+.swiper-slide {
+    overflow-y: scroll;
+}

@@ -1,0 +1,147 @@
+{extend name="wap/default/base" /}
+{block name="resources"}
+<link rel="stylesheet" href="__TEMP__/{$style}/public/css/order.css">
+<link rel="stylesheet" type="text/css"href="__TEMP__/{$style}/public/css/cart.css">
+<script src="__TEMP__/{$style}/public/js/cart.js" type="text/javascript"></script>
+{/block}
+
+{block name="goodsHead"}
+<section class="head" style="display: none;">
+</section>
+{/block}
+
+{block name="main"}
+{empty name="list"}
+<input type="hidden" id="countlist" value="{$countlist}">
+<section class="cart-none" id="cart-none">
+	<i class="cart-big"></i>
+	<p class="text">购物车没有东西呦！</p>
+	{if condition="$shop_id ==0"}
+	<a href="APP_MAIN" class="btn">去逛逛</a>
+	{else/}
+	<a href="APP_MAIN/shop/index?shop_id={$shop_id}" class="btn">去逛逛</a>
+	{/if}
+</section>
+{/empty}
+<div class="popup" id="popup" style="display: none"></div>
+<div class="cart-detail">
+	<section class="cart-prolist">
+		<ul class="cart-prolist-ul" style="border: 0;">
+		{foreach name="list" item="cart" key="i"}
+		<?php $shop_info= explode(",",$i); ?>
+			<li data-parent-shopid="<?php echo $shop_info[0]; ?>">
+				<h2 class="title">
+					<div class="custom-store-img"></div>
+					店铺名称：<span style="color:#f52f57;"><?php echo $shop_info[1];?></span>
+					<div class="cart_ed" >
+						<a id="cart_edit<?php echo $shop_info[0]; ?>" data-shopid="<?php echo $shop_info[0]; ?>" onclick="cart_edit(this,<?php echo $shop_info[0]; ?>)" style="display: block;">编辑</a>
+						<a id="edit_success<?php echo $shop_info[0]; ?>" onclick="cart_succ(this,<?php echo $shop_info[0]; ?>)" style="display: none;">完成</a>
+					</div>
+				</h2>
+			</li>
+			{foreach name="cart" item="cart_info" key="k"}
+			<li class="cart-list-li" data-shopid="{$cart_info.shop_id}">
+				<div class="checkbox" is_check="yes" is_del='no'></div>
+				<div class="product">
+					<div class="pic">
+						<a href="APP_MAIN/goods/goodsdetail?id={$cart_info.goods_id}">
+							<img src="__ROOT__/{$cart_info.picture_info.pic_cover_micro}" alt="商品图片">
+						</a>
+					</div>
+					<div class="info">
+						<p class="info-name">
+							<a href="APP_MAIN/goods/goodsdetail?id={$cart_info.goods_id}">{$cart_info.goods_name}<span><br />{$cart_info.sku_name}</span></a>
+						</p>
+					</div>
+				</div>
+				<div class="number">
+					¥<span name="goods_price">{$cart_info.price}</span>
+					{notempty name="cart_info.point_exchange"}
+					<!--<span name="goods_integral" data-point="{$cart_info.point_exchange}">
+						+{$cart_info.point_exchange}积分
+					</span>-->
+					{/notempty}
+					×<span name="succ_amount">{$cart_info.num}</span>
+					<div name="edit_num{$cart_info.shop_id}" style="display: none;">
+						<span class="ui-number">
+							<button type="button" class="decrease" onclick="Cart.changeBar(&#39;-&#39;,{$cart_info.cart_id},this)" title="减">-</button>
+							<input class="num" name="quantity" autocomplete="off" data-default-num="{$cart_info.num}" value="{$cart_info.num}" min="1" max="{$cart_info.stock}" max_buy="{$cart_info.max_buy}" data-cartid="{$cart_info.cart_id}" data-shopid="{$cart_info.shop_id}">
+							<button type="button" class="increase" onclick="Cart.changeBar(&#39;+&#39;,{$cart_info.cart_id},this)" title="加">+</button>
+						</span>
+					</div>
+				</div>
+			</li>
+			{/foreach}
+		{/foreach}
+		</ul>
+	</section>
+</div>
+
+<div class="J_like">热门推荐</div>
+<div class="content" style="padding-bottom:38px;">
+	<ul class="cf"></ul>
+</div>
+<div class="fixed bottom">
+	<div class="btn_wrap btn_wrap_static"  style="bottom:52px;">
+		<div class="btn ttn_server" id="div_selected">
+			<div style="float: left;height: 20px;width: 20px;padding-left:10px;">
+				<img src="__TEMP__/{$style}/public/images/cartp2.png" is_check="yes" is_del="no" id="select_all" style="width:100%;"/>
+			</div>
+			<span id="sel_text">全选</span>
+		</div>
+		<div id="price_info">
+			合计： ¥<span id="orderprice" class="price"></span><span id="orderintegral" class="price"></span>
+			<br />
+			<!-- <span style="color: #999;">不含运费</span> -->
+		</div>
+		<button class="btn btn_buy" onclick="settlement()">
+			<span id="settlement">结算()</span>
+		</button>
+	</div>
+</div>
+<div class="h60"></div>
+<script type="text/javascript">
+var cart1 = "__TEMP__/{$style}/public/images/cartp1.png";
+var cart2 = "__TEMP__/{$style}/public/images/cartp2.png";
+//页面加载触发事件
+$(function () {         //判断当前用户购物车是否为空
+	buttomActive('#bottom_cart');
+	if(parseInt($("#countlist").val()) == 0){
+		$(".cart-prolist").hide();
+		$("#cart-none").show();
+		$(".fixed.bottom").hide();
+	};
+	$.ajax({
+		type:"post",
+		url:"APP_MAIN/shop/goodsListTop3",
+		data:{'shop_id':{$shop_id},'top':4,'type':2},
+		success:function(msg){
+			var html ='';
+			for(var i=0;i<msg.length;i++){
+				html+='<li class="col-sm-6">'
+					+'<a href="APP_MAIN/goods/goodsdetail?id='+msg[i].goods_id+'">'
+					+'<img src="/'+msg[i].pic_cover_small+'" style="padding-top:8px"/>'
+					+'<div class="product_name">'+msg[i].goods_name+'</div>'
+					+'<div class="J_price">￥'+msg[i].price+'</div>'
+					+'<div class="price cf">'
+					+'<img src="__TEMP__/{$style}/public/images/jplus.png" width="23px" height="11px"/>'
+					+'<span>￥'+msg[i].market_price+'</span>'
+					+'</div>'
+					+'</a>'
+					+'</li>'
+			}
+			console.log(msg);
+			$('.content ul').html(html);
+		}
+	});
+});
+</script>
+<script type="text/javascript">
+$("#head_back").click(function (){
+    var json ={
+            "center" : "2"
+        }
+    window.webkit.messageHandlers.center.postMessage(json);
+})
+</script>
+{/block}

@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" type="text/css" href="__PCMOB__/css/font.css">
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/memberCenter.css" />
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<link rel="shortcut  icon" type="image/x-icon" href="__TEMP__/{$style}/public/images/icon.ico" media="screen"/>
+		<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/showbox.css">
+		<script src="__TEMP__/{$style}/public/js/showBox.js"></script>
+		<title>会员中心</title>
+		<script src="__TEMP__/{$style}/public/js/swiper.js"></script>
+		<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/swiper.css">
+		<script>
+//			$(function(){
+//				var jplus_status = '{$member_info.jplus_status}';
+//				var date = new Date();   
+//			    date.setTime(date.getTime()-24*60*60*1000);
+//			    var s1 = date.getFullYear()+"-" + (date.getMonth()+1) + "-" + date.getDate();
+//				$.ajax({
+//		        	type:'post',
+//		        	url:'APP_MAIN/index/getGoodsDiscount',
+//		        	data:{start_time:s1},
+//		        	success:function(msg){
+//		        		var goods_discount_list = '';
+//		        		if(msg.data.length>0){
+//		        			for(var i = 0;i<msg.data.length;i++){
+//		        				if(jplus_status == 20){
+//		        					goods_discount_list+='<a href="APP_MAIN/goods/goodsdetail?id='+msg.data[i].goods_id+'&discount_id='+msg.data[i].discount_id+'" class="swiper-slide cf">'
+//		        				}else{
+//		        					goods_discount_list+='<a href="javascript:void(0);" class="swiper-slide cf">'
+//		        				}
+////		        				+'<span class="settime" starttime="'+msg.data[i].start_time+'" endtime="'+msg.data[i].end_time+'" ></span>'
+//		        				goods_discount_list+='<div class="fl">'
+//		        				+'<img src="__UPLOAD__/'+msg.data[i].picture.pic_cover_big+'" width="70%" />'
+//		        				+'<div class="park_price">剩余 '+msg.data[i].stock+' 件</div></div>'
+//								+'<div class="fr">'
+//								+'<div class="title">'+msg.data[i].goods_name+'玛歌纳德庄园 红酒   赤霞珠750ml</div>'
+//								+'<div class="original_price">原价 :<span class="decoration">¥'+msg.data[i].price+'</span></div>'
+//								+'<div class="jplus_price">复购价 :<span>¥</span><span>'+(msg.data[i].price)*((msg.data[i].discount)/10)+'</span></div>'
+//								+'<div class="xinagou">限购一件</div>'
+//								+'</div>'
+//								+'<div class="positom">'
+//								+'<div class="font-size-12 overview-countdown js-activity-tips started " data-status="started">'
+//								+'<div class="js-discount-time countdown" data-countdown="3542691">'
+//								+'<span class="c-red js-hour">00</span> :'
+//								+'<span class="c-red js-min">00</span> :'
+//								+'<span class="c-red js-sec">00</span> '
+//								+'</div>'
+//								+'</div>'
+//								if(jplus_status == 20){
+//								goods_discount_list+='<div class="goumai">立即购买</div>'
+//								}
+//								goods_discount_list+='</div>'
+//								+'</a>'
+//		        			}
+//		        		}else{
+//		        			$('.purchase').hide();
+//		        			$('.park_product').hide();
+//		        		}
+//		        		$('#buying').html(goods_discount_list);
+//		        		var swiper = new Swiper('.park_product', {
+//						    slidesPerView: 1,
+//						    autoplay:4000,
+//					     	centeredSlides: true,
+//						    paginationClickable: true,
+//						    autoplayDisableOnInteraction: false,
+//						    spaceBetween:10,
+//						    loop: true,
+//						});
+//		        	}
+//		        })
+//			})
+			$('document').ready(function() {
+				updateEndTime();
+			});
+			//倒计时函数
+			function updateEndTime() {
+				var date = new Date();
+				var time = date.getTime(); //当前时间距1970年1月1日之间的毫秒数
+		
+				$(".settime").each(function(i) {
+					var endDate = this.getAttribute("endTime"); //结束时间字符串
+					
+					//转换为时间日期类型
+					var endDate1 = eval('new Date(' + endDate.replace(/\d+(?=-[^-]+$)/, function(a) {
+						return parseInt(a, 10) - 1;
+					}).match(/\d+/g) + ')');
+					
+					var endTime = endDate1.getTime(); //结束时间毫秒数
+			
+					var lag = ((endTime - time) / 1000);        //当前时间和结束时间之间的秒数
+					if (lag > 0) {
+						var second = Math.floor(lag % 60);
+						var minite = Math.floor((lag / 60) % 60);
+						var hour = Math.floor(lag / 3600);    //没有将小时转换成天
+						//var hour = Math.floor((lag / 3600) % 24);    //多少个小时
+						//var day = Math.floor((lag / 3600) * 24);   //多少天
+						var hour = hour<10?"0"+hour:hour;
+						var minite = minite<10?"0"+minite:minite;
+						var second = second<10?"0"+second:second;
+						$('.js-hour').html(hour);
+						$('.js-min').html(minite);
+						$('.js-sec').html(second);
+					} else{
+						$(this).html("活动已经结束啦！");
+					}
+				});
+				setTimeout("updateEndTime()", 1000);
+			}
+		</script>
+	</head>
+	<body>
+		<div class="motify" style="display: none;"><div class="motify-inner">弹出框提示</div></div>
+		<div class="box">
+			<div class="head">
+				<div class="J_title">
+					<img src="__TEMP__/{$style}/public/images/pay/card02.png" width="100%" />
+					<div class="J_userimg">
+						<a href="APP_MAIN/member/portrait">
+							{if condition="$member_info.user_info.user_headimg eq '' "}
+								<img src="__TEMP__/{$style}/public/images/member_default.png" width="48px"/>
+							{else/}
+								<img src="__UPLOAD__/{$member_info.user_info.user_headimg}" width="48px"/>
+							{/if}
+						</a>
+						<img src="__TEMP__/{$style}/public/images/jplus.png" width="23px" class="jplusIcon"/>
+					</div>
+					<div class="J_name">{$member_info.user_info.user_name}<img src="__TEMP__/{$style}/public/images/pay/gold.png" style="width:8px"/></div>
+					<div class="userId" style="display: none;">NO.0731 0000 002</div>
+				</div>
+				<div class="vipImg cf">
+					<div class="mokBlock fl">399 / 终身<br /> 会员卡</div>
+					<div class="mokBlock2 fr">¥ 4998<br />会员卡</div>
+				</div>
+				<div class="J_unstable">
+					<ul class="cf">
+						<li style="width:26%;">
+							<div>赠送</div>
+							<div>50积分资产</div>
+						</li>
+						<li>
+							<div>领取</div>
+							<div>10爆品系列产品</div>
+						</li>
+						<li>
+							<div>获得</div>
+							<div>17项尊享权益</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="equity">
+				<div class="J_equity cf">
+					<div class="Jplus_equity">白金JPLUS权益</div>
+				</div>
+				<ul class="cf" id="kijl1">
+					<li>2000+ <br />品牌工厂直供</li>
+					<li>10选1 <br />价值399礼包</li>
+					<li>30积分  <br />资产约¥180元 </li>
+					<li>6倍<br />积分收益  </li>
+					<li>赠送<br />40%积分</li>
+					<li>300+线下实体店 <br />会员折扣</li>
+				</ul>
+				<ul class="cf" id="kijl2" style="display:none;">
+					<li>2000+ <br />品牌工厂直供</li>
+					<li>10选1 <br />价值399礼包</li>
+					<li>650积分  <br />资产约¥3900元 </li>
+					<li>6倍<br />积分收益  </li>
+					<li>赠送<br />40%积分</li>
+					<li>300+线下实体店 <br />会员折扣</li>
+				</ul>
+				<div class="limited_time cf">
+					<div id="jkdsfl">
+						<div class="fl opening lokig">
+							<a href="javascript:void(0);">购买399会员</a>
+							<span>特惠 ¥399/年 <span class="decoration">¥599/年</span></span>
+						</div>
+						<div class="fr invitation">
+							<a href="javascript:void(0);">邀请好友开通会员</a>
+							<span>获得30-90元奖励</span>
+						</div>
+					</div>
+					<div id="jkdsfl2" style="display: none;">
+						<div class="fl openings king">
+							<img src="__TEMP__/{$style}/public/images/pay/king.png" width="22px" class="kingImg"/>
+							<a href="javascript:void(0);">购买4998会员</a>
+							<span>特惠 ¥4998/年 <span class="decoration">¥6998/年</span></span>
+						</div>
+						<div class="fr invitation">
+							<a href="javascript:void(0);">邀请好友开通会员</a>
+							<span>获得30-90元奖励</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="zengping">
+				<div class="J_shopping cf">
+					<div class="Jplus_zengping"><img src="__TEMP__/{$style}/public/images/pay/zengping.png" width="221px"/></div>
+					<div class="dizhi">3大系共10款商品购买会员即可选择一款免费获取</div>
+				</div>
+			</div>
+			<div class="zengping_wu">
+				<ul class="cf"></ul>
+			</div>
+			<div class="shopping">
+				<div class="J_shopping cf">
+					<div class="Jplus_shopping"><img src="__TEMP__/{$style}/public/images/pay/zhuanshu.png" width="221px"/></div>
+					<div class="dizhi">最低低至三折</div>
+				</div>
+			</div>
+			<div class="choose">
+				<div class="J_choose">
+					<ul class="cf">
+						<li class="cf">
+							<div class="fl">
+								<div class="selected">会员精选购物</div>
+								<div class="lable">精选平台专属会员商品</div>
+								<a href="javascript:void(0);">敬请期待</a>
+							</div>
+							<div class="fr">
+								<img src="__TEMP__/{$style}/public/images/pay/pic.png" width="60px"/>
+							</div>
+						</li>
+						<li class="cf">
+							<div class="fl">
+								<div class="selected">会员优先购</div>
+								<div class="lable">精选平台商品优先购买</div>
+								<a href="javascript:void(0);">敬请期待</a>
+							</div>
+							<div class="fr">
+								<img src="__TEMP__/{$style}/public/images/pay/pic.png" width="60px"/>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col4">
+				<ul class="cf">
+					<li>
+						<div class="title">生日赠品</div>
+						<div class="bale">选你所爱</div>
+						<img src="__TEMP__/{$style}/public/images/pay/icon011.png" width="34"/>
+					</li>
+					<li>
+						<div class="title">专属券</div>
+						<div class="bale">优惠更多</div>
+						<img src="__TEMP__/{$style}/public/images/pay/icon02.png" width="34"/>
+					</li>
+					<li>
+						<div class="title">合作商家</div>
+						<div class="bale">爆品优惠</div>
+						<img src="__TEMP__/{$style}/public/images/pay/icon03.png" width="34"/>
+					</li>
+					<li>
+						<div class="title">积分专区</div>
+						<div class="bale">不差钱</div>
+						<img src="__TEMP__/{$style}/public/images/pay/icon04.png" width="34"/>
+					</li>
+				</ul>
+			</div>
+			<div class="increment">
+				<div class="J_increment cf">
+					<div class="Jplus_increment" style="text-align: center;"><img src="__TEMP__/{$style}/public/images/pay/zengzhi.png" width="171px"/></div>
+				</div>
+				<div class="kilo bottom">
+					<div class="kilo_title">《知检》<span>6</span> 次健康检测 </div>
+					<div class="kilo_laebel">专利测试 精准便捷 提前预警 人体四大健康问题 </div>
+				</div>
+			</div>
+			<!--<div class="purchase">
+				<div class="J_purchase cf">
+					<div class="Jplus_increment"  style="text-align: center;"><img src="__TEMP__/{$style}/public/images/pay/fugou.png" width="171px"/></div>
+				</div>
+			</div>-->
+			<!--<div class="park_product">
+				<div class="swiper-wrapper" id="buying"></div>
+			</div>-->
+			<div class="other">
+				<div class="J_increment cf">
+					<div class="Jplus_increment"><div class="Jplus_increment"  style="text-align: center;"><img src="__TEMP__/{$style}/public/images/pay/qiyu.png" width="113px"/></div></div>
+				</div>
+				<div class="J_other">
+					<ul class="cf">
+						<li class="zhuanshu">
+							<div class="title">1对1专属客服</div>
+							<div class="fuwu">竭诚为您服务</div>
+							<a href="javascript:void(0);"></a>
+						</li>
+						<li class="xuyuan">
+							<div class="title">会员积分商学院</div>
+							<div class="fuwu">玩转积分，每天躺赚</div>
+							<a href="javascript:void(0);"></a>
+						</li>
+						<li class="shangping">
+							<div class="title">会员积分商品专区</div>
+							<div class="fuwu">不花钱也能买</div>
+							<a href="javascript:void(0);"></a>
+						</li>
+						<li class="jidui">
+							<div class="title">更多特权</div>
+							<div class="fuwu">敬请期待</div>
+							<a href="javascript:void(0);"></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!--输入密码弹窗-->
+		<div class="bbg"></div>
+		<div class="pwdBox">
+			<div class="pwd-box">
+			    <div id="box-title">
+			        <span id="title-text">请输入支付密码</span>
+			    </div>
+			    <div class="price-pay">积分呗商城</div>
+			    <div class="price H_price">￥399</div>
+			    <input type="tel" maxlength="6" class="pwd-input" id="pwd-input">
+			    <div class="fake-box">
+			        <input type="password" readonly="">
+			        <input type="password" readonly="">
+			        <input type="password" readonly="">
+			        <input type="password" readonly="">
+			        <input type="password" readonly="">
+			        <input type="password" readonly="">
+			    </div>
+			    
+			    <div class="forget-pwd cf">
+			    	{if condition="$member_info['user_info']['payment_password'] eq ''"}
+			        	<a id="forget-pwd" href="APP_MAIN/Member/securityCenter">设置密码</a>
+			        {else/}
+			        	<a id="forget-pwd" href="APP_MAIN/Member/forgetPassword">忘记密码</a>
+			        {/if}
+			    </div>
+			    <div class="eudi cf">
+			    	<div class="fl" onclick="post_paypw()">确定</div>
+			    	<div class="fr">取消</div>
+			    </div>
+		    </div>
+	    </div>
+	    <div class="share">
+			<div class="J_bbg"></div>
+			<img src="__TEMP__/{$style}/public/images/share01.png" class="share01"/>
+			<img src="__TEMP__/{$style}/public/images/title.png" class="titleImg"/>
+	    </div>
+		<!--输入密码弹窗end-->
+		<div class="likg">
+			<div class="hite">重要提示</div>
+			<div class="hits">您的余额不足,请先充值</div>
+			<div class="J_hits">充值后请进入Jplus会员页面购买会员卡,方可成为Jplus正式会员,领取礼品时选择优惠券免费领取。</div>
+			<div class="queding">确定</div>
+		</div>
+		<script>
+			var balance = '{$member_info.balance}';
+			var jplus_level = '{$member_info.jplus_level}';
+			var jplus_status = '{$member_info.jplus_status}';
+			var addresslist = '{$member_address_count}'
+			var uid = '{$uid}';
+			var num = false;
+			var k;
+			$('.bbg').on('touchmove',function(e) {
+			    var e = e || window.event;
+				e.preventDefault();
+			})
+			$(function(){
+				categoryList(370);
+				if(jplus_level == 20){
+					$('.increment').hide();
+				}
+				var $input = $(".fake-box input");
+				$("#pwd-input").on("input", function() {
+				    var pwd = $(this).val().trim();
+				    for (var i = 0, len = pwd.length; i < len; i++) {
+				        $input.eq("" + i + "").val(pwd[i]);
+				    }
+				    $input.each(function() {
+				        var index = $(this).index();
+				        if (index >= len) {
+				            $(this).val("");
+				        }
+				    });
+				});
+				$('.eudi .fr').click(function(){
+					$('.pwdBox').hide();
+					$('.bbg').hide();
+					$('#pwd-input').val('');
+					$(".fake-box input").each(function() {
+				        $(this).val("");
+				    });
+				    num = false;
+				})
+				if(uid !=0){
+					$('.opening').click(function(){          //临时会员购买399会员
+						var numbers = 399;
+						if(balance < numbers){
+							$('.likg').show();
+							$('.bbg').show();
+							//setTimeout(function(){location.href = "APP_MAIN/member/recharge"},1000);
+						}else{
+							jplus_level = 10;
+							$('.pwdBox').show();
+							$('.bbg').show();
+							$('.H_price').html('￥'+399);
+						}
+					})
+					$('.openings').click(function(){        //399会员购买4998会员
+						var numbers = 4998;
+						if(balance < numbers){
+							$('.likg').show();
+							$('.bbg').show();
+						}else{
+							$('.pwdBox').show();
+							$('.bbg').show();
+							jplus_level = 20;
+							$('.H_price').html('￥'+4998);
+							k = 10;
+						}
+					})
+				}else{
+					setTimeout(function(){location.href = "APP_MAIN/login/index"},1000);
+				}
+				$('.invitation').click(function(){
+					$('.share').show();
+				})
+				$('.J_bbg').click(function(){
+					if(!$('.share').is(':hidden')){
+						$('.share').hide();
+					}
+				})
+			})
+			function post_paypw() {
+				if(num){
+					return ;
+				}
+				num = true;
+				var paypassword=$('#pwd-input').val();
+				$.ajax({
+					url : "APP_MAIN/member/check_paypassword",
+					type : "post",
+					data : {
+						'paypassword' : paypassword,
+					},
+					success : function(res) {
+						if (res.code > 0) {
+							$.ajax({
+								type:"post",
+								url:"APP_MAIN/member/assignMember",
+	                            data:{'jplus_level':jplus_level},
+								success:function(data){
+									if(addresslist == '0'){
+										showBox('请输入常用收货地址，以便邮寄会员赠品');
+										setTimeout(function(){window.location.href = "APP_MAIN/Member/addMemberAddress?J_flag=0"},3000);
+									}else{
+										if(jplus_level == 10){    
+											num = false;
+											showBox('恭喜您成为399会员');
+											setTimeout(function(){window.location.reload()},2000);
+										}
+										if(k == 10 && jplus_level == 20){    
+											showBox('恭喜您成为4998会员');
+											setTimeout(function(){window.location.reload()},2000);
+										}
+									}
+									$('.pwdBox').hide();
+									$('#pwd-input').val('');
+									$('.bbg').hide();
+									$(".fake-box input").each(function() {
+								        $(this).val("");
+								    });
+								}
+							});
+						} else {
+							num = false;
+							showBox(res.message);
+						}
+					}
+				});
+			}
+			$('.mokBlock').click(function(){  //399会员
+				$('.increment').show();
+				categoryList(370);
+				$('#kijl1').show();
+				$('#kijl2').hide();
+				$('#jkdsfl').show();
+				$('#jkdsfl2').hide();
+			})
+			$('.mokBlock2').click(function(){  //4998会员
+				$('.increment').hide();
+				categoryList(371);
+				$('#kijl1').hide();
+				$('#kijl2').show();
+				$('#jkdsfl').hide();
+				$('#jkdsfl2').show();
+			})
+			function categoryList(k){
+				if(k == '370'){
+					var category_id = 370
+				}else if(k == '371'){
+					var category_id = 371
+				}else{
+					if(jplus_level == '10'){
+						var category_id = 370
+					}else{
+						var category_id = 371
+					}
+				}
+				var category_html = '';
+				$.ajax({
+		        	type:'post',
+		        	url:'APP_MAIN/Goods/goodsList',
+		        	data:{'category_id':category_id,'page_index':1,'page_size':6},
+		        	success:function(msg){
+		        		var jplus_level = '{$member_info.jplus_level}';
+		        		if(msg.data.length>0){
+		        			for(var i = 0;i<msg.data.length;i++){
+	        					if(msg.data[i].state == '1'){
+		        					category_html+='<li>'
+		        					if(jplus_level == '10' && category_id == '371'){
+		        						category_html+='<a href="javascript:void(0);">'
+		        					}else{
+		        						category_html+='<a href="APP_MAIN/goods/goodsdetail?shop_group_id=1&id='+msg.data[i].goods_id+'">'
+		        					}
+		        						category_html+='<img src="__UPLOAD__/'+msg.data[i].pic_cover_small+'"/></li>'
+		        					+'</a>'
+		        					+'</li>'
+	        					}
+		        			}
+		        			if(category_id == 370){
+		        				category_html+='<a href="/wap/order/giftArea?flag=399">更多赠品 ></a>'
+		        			}else{
+		        				if(jplus_level == '10' && category_id == '371'){
+		        					category_html+='<a href="/wap/order/giftArea?flag=4998&num=1">更多赠品 ></a>'
+		        				}else{
+		        					category_html+='<a href="/wap/order/giftArea?flag=4998">更多赠品></a>'
+		        				}
+		        			}
+		        		}
+	        			$('.zengping_wu ul').html(category_html);
+		        	}
+				})
+			}
+			$('.queding').click(function(){
+				window.location.href = "APP_MAIN/member/recharge";
+				$('.likg').hide();
+				$('.bbg').hide();
+			})
+		</script>
+	</body>
+</html>

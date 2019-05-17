@@ -1,0 +1,85 @@
+{extend name="platform/base" /}
+{block name="main"}
+<div class="mod-table">
+	<div class="table-div">
+		<table>
+			<tbody>
+				<tr>
+					<td colspan="2" class="back-f5f5f5">
+						<div class="table-title-font">
+							<span>基本设置</span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="table-1td">所得积分等同于现金,1积分=</td>
+					<td>
+						<div>
+							<input id="integrat_money" class="input-mini input-integral" type="number" min="0.01" step="0.01" value="{$pointconfiginfo.convert_rate}">元
+							<span class="help-inline ml15" style="display: none;">请输入积分比</span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="table-1td">使用积分</td>
+					<td>
+						<div class="controls">
+							 <label class="radio inline"><input type="radio" name="fare" value="1" checked="checked" id="manebaoyouResultYes">启用</label> 
+							<label class="radio inline"><input type="radio" name="fare" value="0" checked="checked" id="manebaoyouResultNo">禁用</label>
+							<input type="hidden" id="is_open" value='{$pointconfiginfo.is_open}'>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="table-1td">积分说明</td>
+					<td>
+						<div><textarea id="integrat_description" class="input-integral" >{$pointconfiginfo.desc}</textarea></div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<p class="button mt60">
+		<button class="edit_button" type="button" onclick="SavepointConfig();">保存</button>
+	</p>
+</div>
+{/block}
+{block name="script"}
+{include file="platform/openDialog" /}
+<script type="text/javascript">
+  function SavepointConfig(){
+	  var convert_rate= $("#integrat_money").val();
+	  var is_open = $("input[type='radio'][name='fare']:checked").val();
+	  //alert(is_open);
+	  var desc = $("#integrat_description").val();
+	  //alert(desc);
+		$.ajax({
+			type:"post",
+			url : "PLATFORM_MAIN/Promotion/pointConfig",
+			async : true,
+			data : {
+				"convert_rate" : convert_rate,
+				"is_open" : is_open,
+				"desc" : desc
+			},
+			success : function(data){
+				if(data['code'] > 0)
+					{
+						showMessage('success', data["message"]);
+					}else{
+						showMessage('error', data["message"]);
+					}
+			}
+		})
+	}
+ 	window.onload=function(){
+		var is_open = $("#is_open").val();
+		//alert(is_open);
+		if(parseInt(is_open) == 0){
+			$("#manebaoyouResultNo").prop("checked","checked");
+		}else{
+			$("#manebaoyouResultYes").prop("checked","checked");
+		}
+	};
+</script>
+{/block}

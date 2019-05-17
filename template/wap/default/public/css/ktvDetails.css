@@ -1,0 +1,122 @@
+/*common style*/
+*,body{
+	padding: 0;
+	margin: 0;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+html, body { width:100%; height:100%; margin:0; padding:0; font-size: 12px;}
+body{background:#fff;min-width:320px;max-width:640px;margin:0 auto;}
+li{list-style:none}
+a:active,a:hover {outline: 0;text-decoration:none;}
+a, li, a:hover, a:active, a:focus {text-decoration:none;}
+a,li{border: none;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;outline: none;}
+.fl { float: left;}
+.fr { float: right;}
+/*清除浮动*/
+.cf:before,.cf:after{display:table;line-height:0;content:"";}
+.cf:after{clear:both;}
+*.cf{zoom:1;}
+.box{
+	margin:0px 14px 0px 14px;
+	height:100%;
+}
+#bojin,#zuanshi,#super{
+	display:none;
+}
+.contentBtn{
+	position:fixed;
+	bottom:0;
+	left:0;
+	right:0;
+	width:100%;
+	max-width:640px;
+	min-width:300px;
+	background:#fff;
+}
+.contentBtn .link{
+	width:50%;
+	margin:10px auto;
+	background:#E5EAF0;
+	border-radius:14px;
+	text-align: center;
+	padding:6px 0;
+}
+.contentBtn .link a{
+	color: #2A2A2A;
+}
+.contentBtn .jiesuan{
+	width:80%;
+	margin:10px auto;
+	text-align: center;
+	background: -prefix-linear-gradient(left, #FC6C61, #F83271); 
+	background: linear-gradient(to right, #FC6C61, #F83271); 
+	border-radius:10px;
+	padding:14px 0;
+}
+.goldktvImg img{
+	margin-bottom:130px;
+}
+.contentBtn .jiesuan a{
+	color: #fff;
+	font-size:16px;
+}
+/*ktv列表*/
+.ktvImg{
+	margin: 10px 14px;
+}
+.ktvImg a span{
+	background: url(../images/icon/298icon.png)no-repeat left top;
+    display: block;
+    width: 90px;
+    height: 50px;
+    position: absolute;
+}
+.ktvImg a {
+	color:#fff;
+	font-size:16px;
+}
+.ktvImg a img{
+	width:100%;
+}
+.ktvImg a span div{
+	transform:rotate(-30deg);
+}
+.ktvImg a span .huangjing{
+	width: 84px;
+    margin-left: 10px;
+}
+.fixed{
+	position:fixed;
+	bottom:0;
+	width:100%;
+	max-width:640px;
+	min-width:320px;
+	height:49px;
+	background:#fff;
+	border-top:1px solid #F5F6F5;
+	z-index:10;
+}
+.fixed ul >li:last-child{
+	border-right:none;
+}
+.fixed ul li{
+	width:32.33333%;
+	text-align: center;
+	float:left;
+	border-right:1px solid #F5F6F5;
+}
+.fixed ul li a img{
+    text-align: center;
+    margin: 4px auto;
+    display: block;
+    border: 0 none;
+    vertical-align: top;
+    width:20px;
+}
+.fixed ul li a{
+	font-size:13px;
+	color:#333;
+    width: 100%;
+    height: 100%;
+    display: block;
+}

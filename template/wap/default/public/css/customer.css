@@ -1,0 +1,102 @@
+/*common style*/
+*,body{
+	padding: 0;
+	margin: 0;
+	font: normal 100% 'Microsoft Yahei', Arial, sans-serif;
+}
+html, body { width:100%; margin:0; padding:0; font-size: 12px;}
+body{background:#fff;min-width:320px;max-width:640px;margin:0 auto;}
+li{list-style:none}
+a:active,a:hover {outline: 0;text-decoration:none;}
+a, li, a:hover, a:active, a:focus {text-decoration:none;}
+a,input,button{border: none;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;outline: none;}
+.fl { float: left;}
+.fr { float: right;}
+/*清除浮动*/
+.cf:before,.cf:after{display:table;line-height:0;content:"";}
+.cf:after{clear:both;}
+*.cf{zoom:1;}
+.customer{
+	margin:20px 0;
+	padding:20px 0;
+	background: url(../images/login/bg.png)no-repeat center;
+	background-size:100%;
+}
+.customer2{
+	background: url(../images/login/bg02.png)no-repeat center;
+	background-size:100%;
+}
+.customer3{
+	background: url(../images/login/bg03.png)no-repeat center;
+	background-size:100%;
+    padding:18px 0 1px 0;
+}
+.customer a{
+	text-align: center;
+	color: #fff;
+    display: block;
+    width: 140px;
+    margin: 0 auto;
+}
+.customer3 a{
+    margin: 15px auto;
+}
+.customer a .customerImg{
+	width:53px;
+	height:53px;
+	margin:0 auto 10px auto;
+}
+.customer a .customerImg img{
+	width:100%;
+}
+.customer a .phone{
+	font-size:16px;
+	margin-bottom:10px;
+}
+.customer .time{
+	color:#D9D9D9;
+	font-size:10px;
+	margin-bottom:16px;
+	text-align:center;
+}
+.customer a .tel{
+	border:1px solid #fff;
+	padding:4px 0;
+	margin:0 auto;
+	font-size:14px;
+}
+.customer a .tel img{
+	width:12px;
+	margin-right:4px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

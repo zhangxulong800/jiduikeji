@@ -1,0 +1,72 @@
+{extend name="platform/base" /} {block name="main"}
+	<div class="padder-v">
+		<form class="form-horizontal">
+			<section class="panel panel-default">
+				<header class="panel-heading font-bold"> 活动信息 </header>
+				<div class="panel-body">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label class="col-md-2 control-label">活动名称：</label>
+							<div class="col-md-4">
+								<p class="form-control-static">{$count.discount_name}</p>
+							</div>
+							<label class="col-md-2 control-label">活动状态：</label>
+							{if condition="$count.status eq 0"}
+							<div class="col-md-4">
+								<p class="form-control-static">未发布</p>
+							</div>
+							{elseif condition="$count.status eq 1"}
+							<div class="col-md-4">
+								<p class="form-control-static">正常</p>
+							</div>
+							{elseif condition="$count.status eq 3"}
+							<div class="col-md-4">
+								<p class="form-control-static">关闭</p>
+							</div>
+							{elseif condition="$count.status eq 4"}
+							<div class="col-md-4">
+								<p class="form-control-static">结束</p>
+							</div>
+							{/if}
+							<label class="col-md-2 control-label">审核状态：</label>
+							{if condition="$count.examine_status eq 0"}
+							<div class="col-md-4">
+								<p class="form-control-static" style="color:#ff5400;">待审核</p>
+							</div>
+							{elseif condition="$count.examine_status eq 1"}
+							<div class="col-md-4">
+								<p class="form-control-static" style="color:#ff5400;">已通过</p>
+							</div>
+							{elseif condition="$count.examine_status eq 2"}
+							<div class="col-md-4">
+								<p class="form-control-static" style="color:#ff5400;">已拒绝</p>
+							</div>
+							{/if}
+						</div>
+						<div class="line line-dashed line-lg pull-in"></div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">活动开始时间：</label>
+							<div class="col-md-4">
+								<p class="form-control-static">{$count.start_time}</p>
+							</div>
+							<label class="col-md-2 control-label">活动结束时间：</label>
+							<div class="col-md-4">
+								<p class="form-control-static">{$count.end_time}</p>
+							</div>
+							<label class="col-md-2 control-label">店铺名称：</label>
+							<div class="col-md-4">
+								<p class="form-control-static">{$count.shop_name}</p>
+							</div>
+							<label class="col-md-2 control-label">创建时间：</label>
+							<div class="col-md-4">
+								<p class="form-control-static">{$count.create_time}</p>
+							</div>
+							
+						</div>
+					</form>
+				</div>
+			</section>
+			
+		</form>
+	</div>
+{/block}

@@ -1,0 +1,103 @@
+{extend name="platform/base" /}
+{block name="resources"/}
+<style>
+
+</style>
+
+{/block}
+{block name="main"}
+<section class="panel panel-default">
+	<header class="panel-heading font-bold"> 会员卡参数设置 </header>
+	<div class="panel-body">
+		<form class="form-horizontal">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">会员直推提成</label>
+				<div class="col-md-4" style="width:80%;">
+					<input type="text" class="form-control" id="hui_zhi" value="{$info.hui_zhi}" style="width:30%;">
+				</div>
+				<p class="col-sm-4" style="margin-left: 200px;margin-top: 10px;color: #BBB;width:100%;">身份为[  会员  ]时直接销售一张会员卡的提成金额(例如C1->C2,则C1获得的奖励金)</p>
+			</div>
+			<div class="line line-dashed line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">经理直推提成</label>
+				<div class="col-md-4" style="width:80%;">
+					<input type="text" class="form-control" id="jing_zhi" value="{$info.jing_zhi}" style="width:30%;">
+				</div>
+				<p class="col-sm-4" style="margin-left: 200px;margin-top: 10px;color: #BBB;width:100%;">身份为[  经理  ]时直接销售一张会员卡的提成金额(例如C1->C2,则C1获得的奖励金)</p>
+			</div>
+			<div class="line line-dashed line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">总监直推提成</label>
+				<div class="col-md-4" style="width:80%;">
+					<input type="text" class="form-control" id="zong_zhi" value="{$info.zong_zhi}" style="width:30%;">
+				</div>
+				<p class="col-sm-4" style="margin-left: 200px;margin-top: 10px;color: #BBB;width:100%;">身份为[  总监  ]时直接销售一张会员卡的提成金额(例如C1->C2,则C1获得的奖励金)</p>
+			</div>
+			<div class="line line-dashed line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">会员间推提成</label>
+				<div class="col-md-4" style="width:80%;">
+					<input type="text" class="form-control" id="hui_cong" value="{$info.hui_cong}" style="width:30%;">
+				</div>
+				<p class="col-sm-4" style="margin-left: 200px;margin-top: 10px;color: #BBB;width:100%;">身份为[  会员  ]时间接销售一张会员卡的提成金额(例如C2->C3,则C1获得的奖励金)</p>
+			</div>
+			<div class="line line-dashed line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">经理间推提成</label>
+				<div class="col-md-4" style="width:80%;">
+					<input type="text" class="form-control" id="jing_cong" value="{$info.jing_cong}" style="width:30%;">
+				</div>
+				<p class="col-sm-4" style="margin-left: 200px;margin-top: 10px;color: #BBB;width:100%;">身份为[  经理  ]时间接销售一张会员卡的提成金额(例如C2->C3,则C1获得的奖励金)</p>
+			</div>
+			<div class="line line-dashed line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">总监间推提成</label>
+				<div class="col-md-4" style="width:80%;">
+					<input type="text" class="form-control" id="zong_cong" value="{$info.zong_cong}" style="width:30%;">
+				</div>
+				<p class="col-sm-4" style="margin-left: 200px;margin-top: 10px;color: #BBB;width:100%;">身份为[  总监  ]时间接销售一张会员卡的提成金额(例如C2->C3,则C1获得的奖励金</p>
+			</div>
+			<div class="line line-dashed line-lg pull-in"></div>
+			
+			<div class="form-group">
+				<div class="col-sm-4 col-sm-offset-2">
+					<a href="javascript:void(0);" onclick="setConfigAjax()" class="btn btn-primary">保存</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</section>
+<script>
+
+	function setConfigAjax(){
+		var hui_zhi = $('#hui_zhi').val();
+		var jing_zhi = $('#jing_zhi').val();
+		var zong_zhi = $('#zong_zhi').val();
+		var hui_cong = $('#hui_cong').val();
+		var jing_cong = $('#jing_cong').val();
+		var zong_cong = $('#zong_cong').val();
+		$.ajax({
+			type:"post",
+			url : "PLATFORM_MAIN/config/cardconfig",
+			async : true,
+			data : {
+				"hui_zhi" : hui_zhi,
+				"jing_zhi" : jing_zhi,
+				"zong_zhi" : zong_zhi,
+				"hui_cong" : hui_cong,
+				"jing_cong" : jing_cong,
+				"zong_cong" : zong_cong,
+			},
+			success : function(data){
+				if(data['code'] > 0)
+					{
+						showMessage('success', data["message"]);
+						location.href="PLATFORM_MAIN/config/cardconfig";
+					}else{
+						showMessage('error', data["message"]);
+					}
+			}
+		})
+	}
+</script>
+{/block}

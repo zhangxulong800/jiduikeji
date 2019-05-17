@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/balanceInfo.css" />
+		<title>交易详情</title>
+	</head>
+	<body class="body">
+		<div class="box">
+			<div class="J_title">
+				{volist name="account_list" id="vo"}
+				<div class="success">{$vo['title']}</div>
+				<div class="into">{$vo['text']}</div>
+			</div>
+			<div class="mode cf mode_padder">
+				<span class="fl">交易金额</span>
+				<span class="fr mode_money">{$vo['number']} 元</span>
+			</div>
+			<div class="mode cf">
+				<span class="fl">交易方式</span>
+				<span class="fr">{$vo['type_name']}</span>
+			</div>
+			<div class="mode cf">
+				<span class="fl">交易时间</span>
+				<span class="fr">{$vo['create_time']}</span>
+			</div>
+			<div class="mode cf">
+				<span class="fl">交易订单</span>
+				{if condition="$vo['order_no'] neq '' "}
+				<span class="fr">{$vo['order_no']}</span>
+				{elseif condition="$vo['order_no0'] neq '' "}
+				<span class="fr">{$vo['order_no0']}</span>
+				{else/}
+				<span class="fr">无</span>
+				{/if}
+			</div>
+			{/volist}
+		</div>
+	</body>
+</html>

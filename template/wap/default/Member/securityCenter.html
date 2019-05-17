@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/securityCenter.css"/>
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<title>安全中心</title>
+	</head>
+	<body>
+		<div class="box">
+			<div class="setting">
+				<div class="J_setting cf">
+					<div class="fl cellPhone">手机号</div>
+					<div class="fr phone">{$member_info.user_info.user_tel}</div>
+				</div>
+				{if condition="$member_info.user_info.is_set_payPassWord eq 0"}
+				<div class="J_setting cf J_pwa" id="sttingPwa">
+					<div class="fl cellPhone">支付密码设置</div>
+					<div class="fr phone pwa">未设置</div>
+				</div>
+				{else/}
+				<div class="J_setting J_pwa" id="sttingPwa02">
+					<div class="cellPhone pwa">修改支付密码</div>
+				</div>
+				{/if}
+			</div>
+			
+			<!--设置密码--->
+			<div class="password">
+				<div class="title">设置密码</div>
+				<div class="settingPwa">
+					<input  type="password" name="password" placeholder="请输入6位密码" maxlength="6" id="oldPwa"/>
+				</div>
+				<div class="title">确认密码</div>
+				<div class="settingPwa">
+					<input  type="password" name="password" placeholder="请确认密码" maxlength="6" id="nwesPwa"/>
+				</div>
+				<div class="btn">
+					<div id="msg"></div>
+					<button type="submit" id="confirm">确认</button>
+				</div>
+			</div>
+			<div class="success">
+				<img src="__TEMP__/{$style}/public/images/success.png" />
+				<div class="btn">
+					<button type="button">设置成功</button>
+				</div>
+			</div>
+			<!--设置密码end--->
+			<!--修改密码--->
+			<div class="password02">
+				<div class="title">验证原密码</div>
+				<div class="settingPwa">
+					<input  type="password" name="password" placeholder="请输入原密码" maxlength="6" id="originalCipher"/>
+				</div>
+				<div class="title">设置密码</div>
+				<div class="settingPwa">
+					<input  type="password" name="password" placeholder="请输入6位密码" maxlength="6" id="old_Pwa"/>
+				</div>
+				<div class="title">确认密码</div>
+				<div class="settingPwa">
+					<input  type="password" name="password" placeholder="请确认密码" maxlength="6" id="nwes_Pwa"/>
+				</div>
+				<div class="btn">
+					<div id="J_msg"></div>
+					<button type="submit" id="J_confirm">确认</button>
+				</div>
+			</div>
+			<div class="J_success">
+				<img src="__TEMP__/{$style}/public/images/success.png" />
+				<div class="btn">
+					<button type="button">设置成功</button>
+				</div>
+			</div>
+			<!--修改密码end--->
+		</div>
+	</body>
+	<script>
+		$(function(){
+			/*设置密码*/
+			$('#sttingPwa').click(function(){
+				$('.setting').hide();
+				$('.password').show();
+			})
+			$('#confirm').click(function(){
+				var oldPwa = $('#oldPwa').val(),
+					nwesPwa = $('#nwesPwa').val();
+				if(oldPwa == ''){
+					$('#msg').html('请输入密码!').show();
+					$('#oldPwa').focus();
+					return false;
+				}else if(oldPwa.length<6){
+					$('#msg').html('请输入6位密码!').show();
+					$('#oldPwa').focus();
+					return false;
+				}
+				if(nwesPwa == ''){
+					$('#msg').html('请输入确认密码!').show();
+					$('#nwesPwa').focus();
+					return false;
+				}
+				if(oldPwa != nwesPwa){
+					$('#msg').html('密码不一致!').show();
+					return false;
+				}else{
+					$.ajax({
+						type :"post",
+						url : "APP_MAIN/member/setuserpaymentpassword",
+						data : {"payment_password" : oldPwa},
+						success : function(res){
+							if (res['code']> 0) {
+								setTimeout(function(){window.history.go(-1)},1000);
+							} else {
+								$('#msg').html(res["message"]).show();
+							}
+						}
+					});
+				}
+			})
+			/*修改密码*/
+			$('#sttingPwa02').click(function(){
+				$('.setting').hide();
+				$('.password02').show();
+			})
+			$('#J_confirm').click(function(){
+				var oldPwa = $('#old_Pwa').val(),
+					nwesPwa = $('#nwes_Pwa').val();
+				if($('#originalCipher').val() == ''){
+					$('#J_msg').html('请输入原始密码!').show();
+					$('#originalCipher').focus();
+					return false;
+				}else if(oldPwa == ''){
+					$('#J_msg').html('请输入密码!').show();
+					$('#old_Pwa').focus();
+					return false;
+				}else if(oldPwa.length<6){
+					$('#J_msg').html('请输入6位密码!').show();
+					$('#old_Pwa').focus();
+					return false;
+				}
+				if(nwesPwa == ''){
+					$('#J_msg').html('请输入确认密码!').show();
+					$('#nwes_Pwa').focus();
+					return false;
+				}
+				if(oldPwa != nwesPwa){
+					$('#J_msg').html('密码不一致!').show();
+					return false;
+				}else{
+					$.ajax({
+						type :"post",
+						url : "APP_MAIN/member/updateuserpaymentpassword",
+						data : {
+							"old_payment_password" : $('#originalCipher').val(),
+							"new_payment_password" : oldPwa
+						},
+						success : function(res){
+							if(res['code'] == -1){
+								$('#J_msg').html('原密码不正确!').show();
+							}
+							if(res['code']>0){
+								$('#J_msg').html('修改成功!').show();
+								setTimeout(function(){history.go(-1)},1000);
+							}
+						}
+					});
+				}
+			})
+		})
+		
+	</script>
+</html>

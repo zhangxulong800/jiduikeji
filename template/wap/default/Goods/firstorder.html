@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>充值成功免费获取确认</title>
+<script src="__TEMP__/{$style}/public/js/jquery.js"></script>
+</head>
+<body>
+		<div style="text-align:center">充值成功请确认！</div>		
+<script>
+$(function() {
+	var skuid = {$skuid};
+	var num = 1;
+	//走立即购买，跳转确认
+	$.ajax({
+		url : "/wap/order/ordercreatesession",
+		type : "post",
+		data : { "tag" : "buy_now", "sku_id" : skuid, "num" :num },
+		success : function(res){
+			window.location.href = "/wap/order/paymentorder?tag=firstorder";
+		}
+	});
+});
+</script>
+</body>
+</html>

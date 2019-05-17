@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/accountlist.css" />
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js"></script>
+		<script>
+			var addAccount = 'APP_MAIN/member/addAccount';
+			var URL = 'APP_MAIN/member/accountlist'
+		</script>
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/addaccount.js" ></script>
+		<script type="text/javascript" src="__PCMOB__/js/bankCard.js" ></script>
+		<title>我的银行卡</title>
+	</head>
+	<body>
+		<div class="box">
+			<div class="header">
+				<label><font>*</font>银行卡号</label>
+				<input name="bank" type="text" placeholder="请输入银行卡号" id="bank" maxlength="20"/>
+			</div>
+			<div class="content">
+				<div class="mont">
+					<label><font>*</font>持卡人姓名</label>
+					<input name="name" type="text" placeholder="请输入姓名" id="userName"/>
+				</div>
+				<div class="mont">
+					<label><font>*</font>证件类型</label>
+					<input name="card_type" type="text" placeholder="" value="身份证" id="card_type" readonly="readonly"/>
+				</div>
+				<div class="mont">
+					<label><font>*</font>证件号码</label>
+					<input name="card" type="text" placeholder="请输入证件号码" maxlength="18" id="userCard"/>
+				</div>
+				<div class="mont">
+					<label><font>*</font>预留手机号</label>
+					<input name="phone" type="text" placeholder="请输入预留手机号" maxlength="11" id="phone"/>
+				</div>
+				<div class="mont">
+					<label><font>*</font>支行信息</label>
+					<input name="phone" type="text" placeholder="请输入支行信息"  id="branch_bank_name" readonly="readonly"/>
+					<input type="hidden" value="{$shop_id}" id="shop_id"/>
+					<input type="hidden" value="银行卡" id="bank_type"/>
+				</div>
+				<!--<div class="mont">
+					<label><font>*</font>短信验证码</label>
+					<input name="code" type="text" placeholder="请输入验证码" maxlength="6" id="code"/>
+					<input type="button" id="btn" value="发送验证码" onClick="sendemail()" />
+				</div>-->
+			</div>
+			<div class="badgeBtn">
+				<div class="msg"></div>
+				<button class="but" type="submit" id="submit">完成</button>
+				<div class="agree">绑定即为同意<a href="javascript:void(0);">《积分呗用户使用协议》</a></div>
+			</div>
+		</div>
+	</body>
+</html>

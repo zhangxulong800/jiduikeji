@@ -1,0 +1,35 @@
+<!-- logo栏小广告 
+	李志伟
+	2017年2月10日10:28:30
+ -->
+ <style>
+ 	.logo-right div{
+ 		height:20px;
+ 	}
+	 	
+ 	.header .logo-info a.logo-right{
+	    display: block;
+	    float: left;
+	    max-width: 180px;
+	    margin-left: 10px;
+	    height: 42px;
+	    line-height: 22px;
+	    margin-top: 26px;
+	    padding-left: 8px;
+	    border-left: 1.5px solid #dedede;
+ 	}
+ 	.cf:before,.cf:after{display:table;line-height:0;content:"";}
+	.cf:after{clear:both;}
+	*.cf{zoom:1;}
+ </style>
+<script type="text/javascript">
+	//logo右侧小广告 
+	var ap_id=[ap_id];
+	var data=platformAdvLoad(ap_id);
+//	if(data !=''){
+//		$('.logo-info').append('<a href="SHOP_MAIN" class="logo-right"><div>积分呗商城</div><div>用积分慧生活 </div></a>');
+//		$('.logo-info').addClass('cf')
+//	}
+	//搜索框右侧小广告
+	//$('.header-right').html('<a href="'+data[1]['adv_url']+'" target="_blank" title="">  <img src="__UPLOAD__/'+data[1]['adv_image']+'"></a>');
+</script>

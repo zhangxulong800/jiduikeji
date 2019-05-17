@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/orderDetail.css" />
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<link rel="shortcut  icon" type="image/x-icon" href="__TEMP__/{$style}/public/images/icon.ico" media="screen"/>
+		<title>物流状态</title>
+	</head>
+	<body>
+		<div class="head-box">
+			{foreach name="order['goods_packet_list']" item="vo" key=k}
+	    	<div class="status status-{$key}" data-express-id="{$vo.express_id}" data-is-express="{$vo.is_express}">
+		    	<div class="pic_cover_micro">
+			    	{foreach name="vo['order_goods_list']" item="vg"}
+			    	<img src="__ROOT__/{$vg['picture_info']['pic_cover_micro']}"/>
+			    	{/foreach}
+			    </div>
+			    {if condition="$vo['is_express'] eq 1"}
+			    	<div class="express_goods truck">
+			    		<div>订单编号：{$order['order_no']}</div>
+			    		<div>承运快递：{$vo['express_name']}</div>
+			    		<div>物流编号：{$vo['express_code']}</div>
+			    		<img src="__TEMP__/{$style}/public/images/icon/bg1.png"/>
+			    	</div>
+			    	<!-- JS动态查询物流信息 -->
+			    	<div class="express_goods express_logistics js-express-info-{$vo.express_id}"></div>
+		    	{else}
+		    		<div class="express_goods truck">
+		    			<div>订单编号：{$order['order_no']}</div>
+			    		<div>共{$vo['order_goods_list']|count}件商品，无需物流</div>
+			    		<div>物流编号：--</div>
+		    			<img src="__TEMP__/{$style}/public/images/icon/bg1.png"/>
+			    	</div>
+			    	<div class="express_goods express_logistics">
+			    		<div class="logistics">物流跟踪</div>
+			    		<ul>
+			    			<li class="frist"><span class="text">无物流信息</span></li>
+			    		</ul>
+			    	</div>
+		    	{/if}
+	    	</div>
+	    	{/foreach}
+		</div>
+		<script>
+			$(function(){
+		 		$('.cf-container .cf-tab-item').eq(0).click();
+		 		$("div[data-express-id]").each(function(){
+		 			var curr = $(this);
+		 			var express_id = curr.attr("data-express-id");
+		 			var is_express = curr.attr("data-is-express");
+		 			if(parseInt(is_express)){
+						$('.js-express-info-'+express_id).html("加载中...");
+			 			if(express_id != undefined){
+				 			$.ajax({
+				 	 			type : 'post',
+				 				url : "APP_MAIN/order/getordergoodsexpressmessage",
+				 				data : {"express_id":express_id},
+				 				success : function(data){
+				 					var html = '<div class="logistics">物流跟踪</div>';
+				 					if (data['Success'] == true) {
+				 						for (var i = 0; i < data["Traces"].length; i++){
+				 							html+='<ul>';
+				 							html += '<li><span class="text">'+data["Traces"][i]["AcceptStation"]+'</span>';
+				 							html += '<span class="time">'+data["Traces"][i]["AcceptTime"]+'</span></li>';
+				 							html+='</ul>';
+				 						}
+				 					}else{
+				 						html += '<ul><li class="frist"><span class="text">无物流信息</span></li></ul>';	 						
+				 					}
+				 					$('.js-express-info-'+express_id).html(html);
+				 					$('.express_logistics').find('li').eq(0).addClass('frist');
+				 				}
+				 	 		});
+			 			}
+		 			}
+		 		});
+		 	});
+		</script>
+	</body>
+</html>

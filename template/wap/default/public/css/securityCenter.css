@@ -1,0 +1,108 @@
+/*common style*/
+*,body{
+	padding: 0;
+	margin: 0;
+	font: normal 100% 'Microsoft Yahei', Arial, sans-serif;
+}
+html, body { width:100%; margin:0; padding:0; font-size: 12px;}
+body{background:#fff;min-width:320px;max-width:640px;margin:0 auto;}
+li{list-style:none}
+a:active,a:hover {outline: 0;text-decoration:none;}
+a, li, a:hover, a:active, a:focus {text-decoration:none;}
+a,input,button,div{border: none;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;outline: none;}
+.fl { float: left;}
+.fr { float: right;}
+/*清除浮动*/
+.cf:before,.cf:after{display:table;line-height:0;content:"";}
+.cf:after{clear:both;}
+*.cf{zoom:1;}
+.setting{
+	border-bottom:6px solid #F6F5FA;
+}
+.J_setting{
+	padding:14px 10px 10px 0;
+	margin-left:14px;
+	border-bottom:1px solid #F6F5FA;
+}
+.J_setting .cellPhone{
+	font-size:16px;
+}
+.J_setting .phone{
+	color:#888;
+	font-size:14px;
+}
+.cf .pwa{
+	padding-right:14px;
+}
+.J_pwa{
+	cursor:pointer;
+}
+.J_setting .pwa{
+	background:url(../images/ARROW.png)no-repeat right center;
+}
+.password,.success,.changePassword,.J_success,.password02{
+	display: none;
+}
+.password .title,.changePassword .title,.password02 .title{
+	text-align: center;
+	font-size:16px;
+	margin-top:10px;
+}
+.settingPwa{
+	padding:10px 0;
+	border-bottom:1px solid #F6F5FA;
+	margin-left:14px;
+	margin-bottom:24px;
+}
+.settingPwa input{
+	height:22px;
+	line-height:20px;
+	font-size:13px;
+	width: 70%;
+}
+.changePassword .settingPwa{
+	margin-top:22px;
+}
+.btn{
+	width:70%;
+	margin: 30px auto;
+	text-align: center;
+}
+.btn button{
+	background: #F83271;
+	border:1px solid #F83271;
+	color:#fff;
+	font-size:16px;
+	width:100%;
+	border-radius:8px;
+	padding:6px 0;
+}
+.btn #msg,.btn #J_msg,.J_msg{
+    color: #F83271;
+    font-size: 14px;
+    height:30px;
+    display:none;
+}
+.success,.J_success{
+	text-align: center;
+}
+.success img,.J_success img{
+	width:80px;
+	height:auto;
+}
+
+
+
+/*忘记密码*/
+.settingPwa #btn{
+	background: url(../images/btnBg.png)no-repeat center center;
+    color: #fff;
+    width: 84px;
+    height: 30px;
+    display: inline-block;
+    position: absolute;
+    text-align: center;
+    line-height: 30px;
+    right: 10px;
+
+}

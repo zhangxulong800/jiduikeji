@@ -1,0 +1,103 @@
+{extend name="platform/base" /}
+{block name="resources"/}
+<style>
+
+</style>
+
+{/block}
+{block name="main"}
+<section class="panel panel-default">
+	<header class="panel-heading font-bold"> 会员销售提成参数设置 </header>
+	<div class="panel-body">
+		<form class="form-horizontal">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">会员直属销售提成比例</label>
+				<div class="col-md-4" style="width:80%;">
+					<input type="text" class="form-control" id="hui_zhi" value="{$info.hui_zhi}" style="width:30%;">
+				</div>
+				<p class="col-sm-4" style="margin-left: 200px;margin-top: 10px;color: #BBB;width:100%;">身份为[  会员  ]时,获得直属会员销售额的百分比(例如C1->C2,则C1获得的提成比例)</p>
+			</div>
+			<div class="line line-dashed line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">经理直属销售提成比例</label>
+				<div class="col-md-4" style="width:80%;">
+					<input type="text" class="form-control" id="jing_zhi" value="{$info.jing_zhi}" style="width:30%;">
+				</div>
+				<p class="col-sm-4" style="margin-left: 200px;margin-top: 10px;color: #BBB;width:100%;">身份为[  经理  ]时,获得直属会员销售额的百分比(例如C1->C2,则C1获得的提成比例)</p>
+			</div>
+			<div class="line line-dashed line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">总监直属销售提成比例</label>
+				<div class="col-md-4" style="width:80%;">
+					<input type="text" class="form-control" id="zong_zhi" value="{$info.zong_zhi}" style="width:30%;">
+				</div>
+				<p class="col-sm-4" style="margin-left: 200px;margin-top: 10px;color: #BBB;width:100%;">身份为[  总监  ]时,获得直属会员销售额的百分比(例如C1->C2,则C1获得的提成比例)</p>
+			</div>
+			<div class="line line-dashed line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">会员从属销售提成比例</label>
+				<div class="col-md-4" style="width:80%;">
+					<input type="text" class="form-control" id="hui_cong" value="{$info.hui_cong}" style="width:30%;">
+				</div>
+				<p class="col-sm-4" style="margin-left: 200px;margin-top: 10px;color: #BBB;width:100%;">身份为[  会员  ]时,获得从属会员销售额的百分比(例如C2->C3,则C1获得的提成比例)</p>
+			</div>
+			<div class="line line-dashed line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">经理从属销售提成比例</label>
+				<div class="col-md-4" style="width:80%;">
+					<input type="text" class="form-control" id="jing_cong" value="{$info.jing_cong}" style="width:30%;">
+				</div>
+				<p class="col-sm-4" style="margin-left: 200px;margin-top: 10px;color: #BBB;width:100%;">身份为[  经理  ]时,获得从属会员销售额的百分比(例如C2->C3,则C1获得的提成比例)</p>
+			</div>
+			<div class="line line-dashed line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">总监从属销售提成比例</label>
+				<div class="col-md-4" style="width:80%;">
+					<input type="text" class="form-control" id="zong_cong" value="{$info.zong_cong}" style="width:30%;">
+				</div>
+				<p class="col-sm-4" style="margin-left: 200px;margin-top: 10px;color: #BBB;width:100%;">身份为[  总监  ]时,获得从属会员销售额的百分比(例如C2->C3,则C1获得的提成比例)</p>
+			</div>
+			<div class="line line-dashed line-lg pull-in"></div>
+			
+			<div class="form-group">
+				<div class="col-sm-4 col-sm-offset-2">
+					<a href="javascript:void(0);" onclick="setConfigAjax()" class="btn btn-primary">保存</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</section>
+<script>
+
+	function setConfigAjax(){
+		var hui_zhi = $('#hui_zhi').val();
+		var jing_zhi = $('#jing_zhi').val();
+		var zong_zhi = $('#zong_zhi').val();
+		var hui_cong = $('#hui_cong').val();
+		var jing_cong = $('#jing_cong').val();
+		var zong_cong = $('#zong_cong').val();
+		$.ajax({
+			type:"post",
+			url : "PLATFORM_MAIN/config/salescommissionConfig",
+			async : true,
+			data : {
+				"hui_zhi" : hui_zhi,
+				"jing_zhi" : jing_zhi,
+				"zong_zhi" : zong_zhi,
+				"hui_cong" : hui_cong,
+				"jing_cong" : jing_cong,
+				"zong_cong" : zong_cong,
+			},
+			success : function(data){
+				if(data['code'] > 0)
+					{
+						showMessage('success', data["message"]);
+						location.href="PLATFORM_MAIN/config/salescommissionConfig";
+					}else{
+						showMessage('error', data["message"]);
+					}
+			}
+		})
+	}
+</script>
+{/block}

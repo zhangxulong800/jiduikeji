@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" id="ben">
+<head>
+	<meta charset="UTF-8">
+	<title>头像修改</title>
+ 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+ 	<meta name="apple-mobile-web-app-capable" content="yes" />
+ 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+ 	<meta name="format-detection" content="telphone=no,email=no" />
+	<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/portrait.css" />
+	<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+	<script src="__TEMP__/{$style}/public/js/iscroll-zoom.js"></script>
+	<script src="__TEMP__/{$style}/public/js/hammer.js"></script>
+	<script src="__TEMP__/{$style}/public/js/jquery.photoClip.js"></script>
+ 	<script type="text/javascript">
+	 var _width = $(window).width();
+		var _ziHao = 20 * (_width/320);
+		if(_width < 641){
+			$("#ben").css({"font-size":_ziHao + "px"})
+		}
+ 	</script>
+</head>
+<body>	
+	<div class="btn">
+		<button class="fl">取消</button>
+		<button class="fr" name="submit2" type="submit">保存</button>
+	</div>
+	<section class="logo-license">
+		<div class="half">
+			<a class="logo" id="logox">
+				<img id="bgl" src="__UPLOAD__/{$member_img}">
+			</a>
+		</div>
+		<div class="clear"></div>
+	</section>
+	<div class="exitImg">修改头像</div>
+	<article class="htmleaf-container">
+		<div id="clipArea"></div>
+		<div class="foot-use">
+			<div class="uploader1 blue">
+				<input type="button" name="file" class="button" value="选择图片">
+				<input id="file" type="file" accept="image/*" multiple name="" />
+			</div>
+			<button id="clipBtn" type="button">完成</button>
+		</div>
+		<div id="view"></div>
+	</article>
+	<script>
+	var obUrl = ''
+	$("#clipArea").photoClip({
+		width: 300,
+		height: 300,
+		file: "#file",
+		view: "#view",
+		ok: "#clipBtn",
+		loadStart: function() {
+			console.log("照片读取中");
+		},
+		loadComplete: function() {
+			console.log("照片读取完成");
+		},
+		clipFinish: function(dataURL) {
+			console.log(dataURL);//图片路径
+		}
+	});
+	</script>
+	<script>
+	$(function(){
+		$(".exitImg").click(function(){
+			$(".htmleaf-container").show();
+		})
+		$('.btn .fl').click(function(){
+			window.location.href='APP_MAIN/member/personaldata'
+		})
+		$("#clipBtn").click(function(){
+			$("#logox").empty();
+			$('#logox').append('<img src="' + imgsource + '" align="absmiddle">');
+			$(".htmleaf-container").hide();
+		})
+		$('.btn .fr').click(function(){
+			var file = dataURLtoBlob(imgsource);  //将base64格式图片转换为文件形式
+            var formData = new FormData();
+            var newImg = new Date().getTime() + '.png';   //给图片添加文件名   如果没有文件名会报错
+            
+            //formData.append('user_headimg', imgsource)  //formData对象添加文件
+            $.ajax({
+            	type:"post",
+            	url:"APP_MAIN/member/portrait",
+            	data: {'user_headimg': imgsource,'submit2':''},
+                success: function (msg) {
+                	if(msg == 0){
+                		window.location.href='APP_MAIN/member/index'
+                	}
+                }
+            });
+		})
+		function dataURLtoBlob(dataurl) {  
+            var arr = dataurl.split(','), 
+            	mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]), n = bstr.length, 
+                u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], { type: mime });
+        }
+	});
+	</script>
+</body>
+</html>

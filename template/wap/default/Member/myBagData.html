@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<link rel="shortcut  icon" type="image/x-icon" href="__TEMP__/{$style}/public/images/icon.ico" media="screen"/>
+		<title>卡的权益</title>
+		<style>
+			/*common style*/
+			*,body{
+				padding: 0;
+				margin: 0;
+				font: normal 100% 'Microsoft Yahei', Arial, sans-serif;
+			}
+			html, body { width:100%; margin:0; padding:0; font-size: 12px;}
+			body{background:#fff;min-width:320px;max-width:640px;margin:0 auto;}
+			li{list-style:none}
+			a:active,a:hover {outline: 0;text-decoration:none;}
+			a, li, a:hover, a:active, a:focus {text-decoration:none;}
+			a,input,button{border: none;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;outline: none;}
+			.fl { float: left;}
+			.fr { float: right;}
+			/*清除浮动*/
+			.cf:before,.cf:after{display:table;line-height:0;content:"";}
+			.cf:after{clear:both;}
+			*.cf{zoom:1;}
+			.box {
+			    margin: 0px 14px 0px 14px;
+			    height: 100%;
+			}
+			.goldktvImg{
+				display:none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="box">
+			<div class="goldktvImg" id="gold">
+				<img src="__TEMP__/{$style}/public/images/default/gold.png" width="100%"/>
+			</div>
+			<div class="goldktvImg" id="bojin">
+				<img src="__TEMP__/{$style}/public/images/default/bojin.png" width="100%"/>
+			</div>
+			<div class="goldktvImg" id="zuanshi">
+				<img src="__TEMP__/{$style}/public/images/default/zuanshi.png" width="100%"/>
+			</div>
+			<div class="goldktvImg" id="super">
+				<img src="__TEMP__/{$style}/public/images/default/super.png" width="100%"/>
+			</div>
+		</div>
+		<script>
+			$(function() {
+				var url = location.search; //获取url中"?"符后的字串
+			    	var theRequest = new Object();
+				if(url.indexOf("?") != -1) {
+					var str = url.substr(1);
+				   		strs = str.split("&");
+				   for(var i = 0; i < strs.length; i ++) {
+				      theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+				   }
+				}
+				if(theRequest.price != '' || theRequest.price != null || theRequest.price != undefined){
+					if(theRequest.price == 298){     //黄金
+						$('#gold').show();
+					}else if(theRequest.price == 1680){   //铂金
+						$('#bojin').show();
+					}else if(theRequest.price == 2980){   //钻石
+						$('#zuanshi').show();
+					}else if(theRequest.price == 12800){   //超级
+						$('#super').show();
+					}
+					
+				}
+			   return ;
+			});
+		</script>
+	</body>
+</html>

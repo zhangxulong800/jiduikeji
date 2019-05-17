@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="__TEMP__/{$style}/public/css/reset-mobile.css" />
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<!--    <link rel="stylesheet" href="__TEMP__/{$style}/public/css/invitationPoster.css" />-->
+    <script src="__TEMP__/{$style}/public/js/rem.js"></script>
+    <script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+    <!--<script type="text/javascript" src="__PCMOB__/js/jquery.cookie.js" ></script>-->
+    <link rel="shortcut  icon" type="image/x-icon" href="__TEMP__/{$style}/public/images/icon.ico" media="screen"/>
+    <title>新人专享专题页</title>
+    <style>
+        .new-container {
+
+        }
+        .new-container a {
+            display: block;
+        }
+        .new-container a img{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="new-container">
+        <a href="javascript:;" id="showShareMask">
+            <img src="/template/wap/default/public/images/newIndex/newMember/t1.png" alt="" width="100%">
+        </a>
+        <a href="APP_MAIN/goods/excdetail?id=1301">
+            <img src="/template/wap/default/public/images/newIndex/newMember/t2.png" alt="" width="100%">
+        </a>
+        <a href="APP_MAIN/goods/excdetail?id=1300">
+            <img src="/template/wap/default/public/images/newIndex/newMember/t3.png" alt="" width="100%">
+        </a>
+        <a href="APP_MAIN/goods/excdetail?id=1303">
+            <img src="/template/wap/default/public/images/newIndex/newMember/t4.png" alt="" width="100%">
+        </a>
+        <a href="APP_MAIN/goods/excdetail?id=1305">
+            <img src="/template/wap/default/public/images/newIndex/newMember/t5.png" alt="" width="100%">
+        </a>
+        <a href="APP_MAIN/goods/excdetail?id=1304">
+            <img src="/template/wap/default/public/images/newIndex/newMember/t6.png" alt="" width="100%">
+        </a>
+        <a href="APP_MAIN/goods/excdetail?id=1302">
+            <img src="/template/wap/default/public/images/newIndex/newMember/t7.png" alt="" width="100%">
+        </a>
+
+    </div>
+    <div class="share-mask-container">
+        <div class="shareimg01">
+            <img src="__TEMP__/{$style}/public/images/newIndex/newMember/shareImg02.png">
+        </div>
+        <div class="shareimg02">
+            <img src="__TEMP__/{$style}/public/images/newIndex/newMember/shareImg01.png">
+        </div>
+
+    </div>
+</body>
+<script>
+    $(function() {
+        $("#showShareMask").on('click',function () {
+            $(".share-mask-container").show();
+        })
+        $(".share-mask-container").on('click',function () {
+            $(".share-mask-container").hide();
+        })
+		$.ajax({
+            type:"post",
+            url : "APP_MAIN/member/getShareContents",
+            success : function(data){
+                {include file='wap/default/shareContents'/}
+            }
+        })
+    })
+
+</script>
+</html>

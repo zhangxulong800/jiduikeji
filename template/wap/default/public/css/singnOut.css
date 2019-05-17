@@ -1,0 +1,173 @@
+/*common style*/
+*,body{
+	padding: 0;
+	margin: 0;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+html, body { width:100%; height:100%; margin:0; padding:0; font-size: 12px;}
+body{background:#fff;min-width:320px;max-width:640px;margin:0 auto;}
+li{list-style:none}
+a:active,a:hover {outline: 0;text-decoration:none;}
+a, li, a:hover, a:active, a:focus {text-decoration:none;}
+a,li{border: none;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;outline: none;}
+.fl { float: left;}
+.fr { float: right;}
+/*清除浮动*/
+.cf:before,.cf:after{display:table;line-height:0;content:"";}
+.cf:after{clear:both;}
+*.cf{zoom:1;}
+.header{
+	padding:10px 0 20px 14px;
+	background: url(../images/icon/bbg.png)no-repeat center;
+	height:120px;
+}
+.userId .portrait{
+	padding-right:16px;
+}
+.userId .portrait img{
+	width:70px;
+	height:70px;
+	border-radius:50%;
+}
+.userId .nickname{
+	color:#fff;
+}
+.userId .nickname .J_nickname{
+	font-size:18px;
+	padding-bottom:6px;
+}
+.userId .nickname a{
+	color: #fff;
+    display: inline-block;
+    font-size: 14px;
+    margin-top: 22px;
+    border: 1px solid #fff;
+    padding: 4px 30px;
+    border-radius:20px;
+}
+.userId .nickname .J_nickname{
+	font-size:18px;
+	padding-bottom:6px;
+}
+.userId .nickname .J_nicknameLevel{
+	border: 1px solid #fff;
+    border-radius: 12px;
+    background: url(../images/icon/medal.png)no-repeat 18px center;
+    background-size: 8px 11px;
+    padding: 2px 20px 3px 30px;
+    text-align: center;
+    display: inline-block;
+    margin-top:4px;
+}
+.userId .nickname .explain{
+	border-bottom:1px solid #FFB551;
+	color: #FFB551;
+	font-size:11px;
+}
+.sale .J_sale,.sale .J_balance{
+	width:33.3333%;
+	text-align: center;
+	color:#fff;
+	margin-top:14px;
+}
+.sale .J_sale .J_pcire,.sale .J_balance .J_pcire{
+	font-size:22px;
+}
+.sale .J_balance .J_pcire{
+	position:relative;
+}
+.J_pese a{
+	background:url(../images/icon/s-qees.png)no-repeat center;
+	width:16px;
+	height:16px;
+	display: block;
+	position:absolute;
+    right: 18%;
+    top: -38%;
+}
+@media only screen and (min-width:640px) {
+	.J_pese a{
+	    right: 32%;
+	}
+}
+@media only screen and (min-width:376px) and (max-width:414px) {
+	.J_pese a{
+	    right: 24%;
+	}
+}
+@media only screen and (min-width:321px) and (max-width:375px) {
+	.J_pese a{
+	    right: 22%;
+	}
+}
+.total{
+	width:90%;
+	position:relative;
+	top:-1.5%;
+	left:0;
+	right:0;
+	bottom:0;
+	margin:auto;
+	background:#fff;
+	box-shadow:0 0 18px rgba(0,0,0,.3);
+	border-radius:8px;
+	padding:14px 0px;
+}
+.total .date{
+	margin-bottom:10px;
+	text-align: center;
+}
+.total ul .col-cx-4{
+	width:25%;
+	text-align:center;
+	float: left;
+}
+.total ul .col-cx-4 a .J_totaltitle{
+	color: #000000;
+	font-size:1rem;
+}
+.total ul .col-cx-4 a .J_totaltitle .today{
+	color: #000000;
+	font-size:11px;
+}
+.total ul .col-cx-4 a .numerical{
+	color: #F83271;
+	font-size:14px;
+	margin-top:10px;
+}
+.liMenu{
+	
+}
+.liMenu ul .col-cx-3{
+	width:calc(33.33333% - 2px);
+	text-align:center;
+	float: left;
+	height:70px;
+}
+.liMenu ul .col-cx-3 .J_linkIcon{
+    height: 48px;
+    line-height: 72px;
+}
+.J_linkIcon img{
+	max-width:34px;
+}
+.J_linkIcon01 img{
+    max-width: 26px;
+}
+.J_linkIcon03 img{
+	width: 30px;
+}
+.J_linkIcon04 img{
+	width: 28px;
+}
+.liMenu li{
+	border-bottom:1px solid #F8F8F8;
+	padding:14px 0;
+}
+.liMenu .boirder{
+	border-left:1px solid #F8F8F8;
+	border-right:1px solid #F8F8F8;
+}
+.liMenu li a .linkIcon{
+	color:#999;
+}

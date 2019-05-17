@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/profit.css">
+		<script type="text/javascript" src="__PCMOB__/js/echarts.js" ></script>
+		<script>
+			var APPMAIN = 'APP_MAIN';
+			var total_money ='{$total_money}';
+		</script>
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/profit.js" ></script>
+		<title>月账单</title>
+	</head>
+	<body>
+		<div class="box">
+			<div class="bg"></div>
+			<div class="content">
+				<div class="title">{$Y}年{$M}月</div>
+				<div class="consumption"><img src='__TEMP__/{$style}/public/images/pay/jiao.png'/>-{$total_money}</div>
+				<div class="container" id="container"></div>
+				<div class="proportion"><ul class="liList"></ul></div>
+				<div class="consumption profit"><img src='__TEMP__/{$style}/public/images/pay/jiao.png'/>积分:{$point}  余额:{$money}</div>
+				<div class="cf reward">
+					<div class="fl integralReward">
+						<div class="integral">积分奖励</div>
+						<div class="integralProfit">收益：￥{$point}</div>
+					</div>
+					<div class="fr distribution">
+						<div class="integral">分销收益</div>
+						<div class="integralProfit">收益：￥{$money}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

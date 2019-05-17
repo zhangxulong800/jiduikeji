@@ -1,0 +1,180 @@
+/*common style*/
+*,body{
+	padding: 0;
+	margin: 0;
+	font: normal 100% 'Microsoft Yahei', Arial, sans-serif;
+}
+html, body { width:100%; margin:0; padding:0; font-size: 12px;}
+body{background:#fff;min-width:320px;max-width:640px;margin:0 auto;}
+li{list-style:none}
+a:active,a:hover {outline: 0;text-decoration:none;}
+a, li, a:hover, a:active, a:focus {text-decoration:none;}
+a,input,button{border: none;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;outline: none;}
+.fl { float: left;}
+.fr { float: right;}
+/*清除浮动*/
+.cf:before,.cf:after{display:table;line-height:0;content:"";}
+.cf:after{clear:both;}
+*.cf{zoom:1;}
+.loginLogo{
+	text-align: center;
+}
+.loginLogo .logoImg{
+	margin-top:50px;
+	max-width:135px;
+}
+.loginLogo .eng{
+	max-width:135px;
+	margin:10px 0 30px 0;
+}
+.J_referee{
+	background:#F6F5FA;
+	width:80%;
+	margin:0 auto;
+	padding: 10px 16px;
+}
+.nickname .J_nickname{
+}
+.register{
+	width:70%;
+	margin: 0 auto;
+}
+.nickname .J_nickname .intimate{
+	color:#606060;
+	font-size:16px;
+	width:60px;
+	display: inline-block;
+	padding-bottom:22px;
+}
+.nickname >.J_nickname:last-child>.intimate{
+	padding-bottom:0px;
+}
+.nickname .J_nickname .call{
+	color:#C7C7CD;
+	font-size:14px;
+}
+.J_referee .userIcon{
+	width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    padding-top:14px;
+}
+.J_referee .userIcon img{
+	width:100%;
+    height: 100%;
+}
+.reksm{
+	position:relative;
+	padding:10px 0 10px 0px;
+	border-bottom:1px solid #CBCBCB;
+	margin-top:20px;
+}
+.reksm label img{
+	width:15px;
+	margin-right:20px;
+}
+ input::-webkit-input-placeholder {
+    color:#B3B3B3;
+}
+.reksm .nameInput{
+	font-size:14px;
+	height:22px;
+	line-height:23px;
+	color: #606060;
+	width:70%;
+}
+.J_register a.H_register{
+	float: left;
+	font-size:12px;
+	color:#F34048;
+}
+.J_register{
+	margin-top:10px;
+}
+.J_register input[type="checkbox"]{
+	vertical-align: middle;
+}
+.J_register a.H_paw{
+	float: right;
+	font-size:12px;
+	color:#B3B3B3;
+}
+.reksm #btn{
+	background: url(../images/btnBg.png)no-repeat center center;
+	color:#fff;
+	width:84px;
+	height:30px;
+	display: inline-block;
+	position: absolute;
+	text-align: center;
+	line-height:30px;
+	right: 10px;
+}
+
+.badgeBtn{
+	width:90%;
+	margin:auto;
+	text-align:center;
+	margin-top:30px;
+}
+.badgeBtn .msg{
+    color: #F83271;
+    font-size: 14px;
+    height:30px;
+    display:none;
+}
+.badgeBtn button{
+	width:80%;
+	border-radius:8px;
+	height:40px;
+	line-height:40px;
+	color:#fff;
+	border:1px solid #F83271;
+	background: #F83271;
+	font-size:16px;
+	display:inline-block;
+	margin-top:10px;
+}
+@media only screen and (max-width:320px ) {
+	.badgeBtn{
+		width: auto;
+	}
+	.badgeBtn button{
+		width:300px;
+	}
+}
+.party_l{
+	width:70%;
+	margin:40px auto;
+	text-align: center;
+	color:#B3B3B3;
+	font-size:14px;
+	position: relative;
+	border-bottom:1px solid #CBCBCB;
+}
+.party_l div{
+	position:absolute;
+	margin-top:-10px;
+	background:#fff;
+	padding:0 10px;
+	margin-left:auto;
+	margin-right:auto;
+	width:112px;
+	left:0;
+	right:0;
+}
+.login_wei_two {
+	text-align: center;
+}
+.login_wei_two img{
+	width:40px;
+}
+.reksm .lookat{
+	display:inline-block;
+	width:16px;
+	height:10px;
+	float:right;
+}
+.reksm .lookat img{
+	width:100%;
+}

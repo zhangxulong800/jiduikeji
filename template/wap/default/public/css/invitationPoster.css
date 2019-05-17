@@ -1,0 +1,47 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+.poster-area {
+    position: relative;
+    height: 100%;
+    width:100%;
+    /*overflow: hidden;*/
+}
+.qrcode-area {
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+}
+#h {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#h img{
+    /*width:82%;*/
+}
+
+.done-btns {
+    position: absolute;
+    bottom:1.333rem;
+    left:0;
+    right:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.download-btn {
+    height: 2.267rem;
+    font-size:0.934rem;
+    color:#fff;
+    padding:0 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #0D84D4;
+    border-radius:1.334rem;
+}

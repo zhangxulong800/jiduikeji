@@ -1,0 +1,79 @@
+{extend name="wap/default/base" /}
+{block name="resources"}
+    <link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/member_common.css">
+{/block}
+{block name="goodsHead"}
+<section class="head">
+		<a class="head_back" id="backoutapp" onclick="window.history.go(-1)" href="javascript:void(0)"><i class="icon-back"></i></a>
+		<div class="head-title">我的优惠券</div>
+	</section>
+{/block}
+
+{block name="main"}
+ 
+  	<div class="cf-container" data-reactid="2">
+   		<div class="cf-edge" data-reactid="3"></div>
+		<ul class="cf-content" data-reactid="4">
+   			<li class="cf-tab-item select" data-index="1" data-reactid="7"><a href="javascript:getMemberCounponList(1);">未使用</a></li>
+			<li class="cf-tab-item" data-index="1" data-reactid="7"><a href="javascript:getMemberCounponList(2);">已使用</a></li>
+			<li class="cf-tab-item" data-index="1" data-reactid="7"><a href="javascript:getMemberCounponList(3);">已过期</a></li>
+			
+    	</ul>
+	</div>
+    <div class="quanIcon"></div>
+	<script type="text/javascript">
+		$(function(){
+			$('.cf-container .cf-tab-item').click(function(){
+	       		$('.cf-container .cf-tab-item').removeClass('select');
+	       		$(this).addClass('select');
+	       	})
+			getMemberCounponList(1);
+		})
+		function getMemberCounponList(type){
+			$.ajax({
+				type:'post',
+				async:true,
+				url:'APP_MAIN/member/membercoupon',
+				data:{'type':type },
+				dataType:'json',
+				success:function(data){
+					var listhtml='';
+					if(data.length>0){
+						$('.null_default').hide();
+						for(var i=0;i<data.length;i++){
+							var money=data[i]['money'];
+							var coupon_code=data[i]['coupon_code'];
+							var start_time=data[i]['start_time'];
+							var end_time=data[i]['end_time'];
+							if(type == '1'){
+								listhtml+='<div class="voucher voucher1 cf">'
+							}else if(type == '2'){
+								listhtml+='<div class="voucher voucher2 cf">'
+							}else if(type == '3'){
+								listhtml+='<div class="voucher voucher3 cf">'
+							}
+								listhtml+='<span class="fl money">￥<font>'+data[i].money+'</font></span>'
+								+'<span class="fl msju">'
+								+'<div class="full">满'+data[i].at_least+'元可用</div>'
+								+'<div class="date">'+data[i].end_time+'前使用</div>'
+								+'</span>'
+								+'</div>'
+						}
+					}else{
+						listhtml='<div class="null_default"><i class="icon-nocontent-youhuiquan"></i><span class="nulltext">你还没有任何优惠券哦！</span></div>';
+					}
+					
+					$('.quanIcon').html(listhtml);
+				}
+			})
+		}
+	    $("#backoutapp").click(function (){
+	        var json ={
+	        		"center" : "1",
+	            }
+	        window.webkit.messageHandlers.center.postMessage(json);
+	    })
+	</script>
+
+{/block}
+{block name="bottom"}{/block}

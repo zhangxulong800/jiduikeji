@@ -1,0 +1,58 @@
+/*common style*/
+*,body{
+	padding: 0;
+	margin: 0;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+html, body { width:100%; height:100%; margin:0; padding:0; font-size: 12px;}
+body{background:#F9FAFB;min-width:320px;max-width:640px;margin:0 auto;}
+li{list-style:none}
+a:active,a:hover {outline: 0;text-decoration:none;}
+a, li, a:hover, a:active, a:focus {text-decoration:none;}
+a,li{border: none;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;outline: none;}
+.fl { float: left;}
+.fr { float: right;}
+/*清除浮动*/
+.cf:before,.cf:after{display:table;line-height:0;content:"";}
+.cf:after{clear:both;}
+*.cf{zoom:1;}
+.box{background: #fff;margin-bottom: 10px;}
+.box li a{
+	display:block;
+	padding:12px 20px 12px 0;
+	margin-left:14px;
+	border-bottom:1px solid #F6F5FA;
+}
+.box li a .title{
+	font-size:16px;
+	color: #4A4A4A;
+	width:24%;
+    height: 100%;
+    line-height: 70px;
+}
+.box li a .icon,.J_rightIcon{
+	background: url(../images/ARROW.png)no-repeat right center;
+}
+.box li a .fr img{
+	width:70px;
+	height:70px;
+	border-radius:50%;
+    margin-right: 16px;
+}
+.box li .padding{
+	height: 60px;
+	padding:0 16px 0 0;
+}
+.box li a.padding .title{
+    line-height: 60px;
+}
+.box li a .J_skcjs{
+	font-size:16px;
+	color: #949494;
+    line-height:60px;
+    padding-right:20px;
+}
+.box li a .rightIcon{
+	width:8px;
+	height: 100%;
+}

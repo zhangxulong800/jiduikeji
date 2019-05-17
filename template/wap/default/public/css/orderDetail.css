@@ -1,0 +1,291 @@
+/*common style*/
+*,body{
+	padding: 0;
+	margin: 0;
+	font: normal 100% 'Microsoft Yahei', Arial, sans-serif;
+}
+html, body { width:100%; margin:0; padding:0; font-size: 12px;}
+body{background:#F6F5FA;min-width:320px;max-width:640px;margin:0 auto;}
+li{list-style:none}
+a:active,a:hover {outline: 0;text-decoration:none;}
+a, li, a:hover, a:active, a:focus {text-decoration:none;}
+a,input,button{border: none;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;outline: none;}
+.fl { float: left;}
+.fr { float: right;}
+/*清除浮动*/
+.cf:before,.cf:after{display:table;line-height:0;content:"";}
+.cf:after{clear:both;}
+*.cf{zoom:1;}
+.box{
+	padding-bottom:60px;
+}
+.header{
+	position: relative;
+	color:#fff;
+	margin:10px;
+	border-radius:6px;
+}
+.header .bg img{
+    min-height: 88px;
+    max-width: 100%;
+    max-height: 175px;
+}
+.header .bg{
+	position:absolute;
+	z-index: -1;
+}
+.header .title{
+	font-size:18px;
+	padding-left:10px;
+	padding-top: 10px;
+}
+.header .order-detail{
+	font-size:14px;
+	padding-top:12px;
+	padding-left:20px;
+	padding-bottom:16px;
+	width:260px;
+}
+.map,.shop,.total,.integral{
+	margin:10px;
+	border-radius:6px;
+	background:#fff;
+	padding:10px 0;
+}
+.mapTitle{
+	font-size:14px;
+	background: url(../images/icon/profile.png)no-repeat 20px 2px;
+	background-size:15px;
+	padding-left:44px;
+	padding-bottom:10px;
+	border-bottom:1px solid #F4F4F4;
+}
+.mapPhone{
+	padding-top:14px;
+	font-size:14px;
+}
+.mapPhone .mapIcon{
+	background: url(../images/icon/map.png)no-repeat 20px 2px;
+	background-size:14px 16px;
+	padding-left:44px;
+}
+.mapPhone .map_phone{
+	padding-right:6px;
+}
+.mapDetail{
+	padding-left:44px;
+	margin-top:10px;
+	color:#757575;
+	font-size:15px;
+	padding-right:6px;
+}
+.shopTitle{
+	font-size:14px;
+	background: url(../images/shop-img.png)no-repeat 20px 2px;
+	background-size:16px;
+	padding-left:44px;
+	padding-bottom:10px;
+}
+.list-myorder{
+	padding-left:20px;
+}
+.list-myorder .ul-product li {
+	margin-top:14px;
+}
+.list-myorder .ul-product .pic {
+	width:60px;
+	margin-right:5px;
+}
+.list-myorder .ul-product .pic img{
+	max-width:60px;	
+}
+.list-myorder .ul-product .jksm{
+	width:calc(100% - 65px);
+}
+.jksm .namePrice .name{
+    font-size: 12px;
+    max-width: 188px;
+    padding-right: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.jksm .namePrice .price{
+	padding-right:14px;
+	font-size:14px;
+}
+.specificationsNumer .specifications{
+	color: #B2B2B2;	
+}
+.specificationsNumer .numer{
+	padding-right:14px;
+	font-size:14px;
+}
+@media only screen and (max-width: 320px) {
+	.jksm .namePrice .name{
+		max-width:150px;
+	}
+	.specificationsNumer .numer{
+		padding-right:4px;
+	}
+	.jksm .namePrice .price{
+		padding-right:4px;
+	}
+}
+@media only screen and (max-width: 414px) {
+	.header{
+		height:111px;
+	}
+}
+@media only screen and (min-width: 640px) {
+	.header{
+		height:175px;
+	}
+}
+.total,.integral{
+	padding-left:10px;
+	padding-right:10px;
+}
+.total ul li,.integral ul li{
+	color:#767676;
+	font-size:14px;
+	padding-bottom:6px;
+}
+.total ul .padder{
+	padding-top:20px;
+	color:#464646;
+}
+.total ul .padder .fr{
+	color:#FC3301;
+}
+.footer{
+	position:fixed;
+	width:100%;
+	max-width:640px;
+	min-width:320px;
+	background:#fff;
+	z-index:10;
+	padding:15px 0;
+	text-align:right;
+	bottom:0;
+}
+.footer a{
+	padding:4px 20px;
+	color:#fff;
+	font-size:14px;
+	text-align: center;
+	background: url(../images/icon/border.png)no-repeat center center;
+	border-radius:20px;
+	margin-right:20px;
+}
+.footer a.close{
+	color:#bbb;
+	border:1px solid #bbb;
+	background:#fff;
+}
+.refund{
+	text-align: right;
+	margin-right:10px;
+	margin-top:10px;
+}
+.refund a{
+	border:1px solid #ff0000;
+	border-radius:20px;
+	color:#ff0000;
+	display:inline-block;
+	padding:4px 30px
+}
+
+
+
+
+
+
+/*物流信息*/
+.pic_cover_micro{
+	background:#fff;
+	margin:10px 10px 0 10px;
+	border-top-left-radius:10px;
+	border-top-right-radius:10px;
+	padding:20px 10px;
+}
+.express_goods{
+	margin:10px 10px 0 10px;
+}
+.truck{
+	margin-top: 0;
+	color:#fff;
+	font-size:14px;
+	position:relative;
+}
+.truck >div{
+	padding-left:10px;
+}
+.truck >div:first-child{
+	padding-top:20px;
+	padding-bottom:10px;
+}
+.truck >div:last-of-type{
+	padding-top:10px;
+	padding-bottom:10px;
+}
+.truck img{
+	width:100%;
+	height:100%;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+}
+.express_logistics{
+	background:#fff;
+	border-radius:10px;
+	margin: 10px;
+	padding:20px 10px;
+}
+.logistics{
+	color: #FE2C74;
+	font-size:16px;
+	padding-left: 40px;
+	background:url(../images/icon/truck.png) no-repeat 10px center;
+	background-size: 20px 12px;
+}
+.express_logistics li .text{
+	display: inline-block;
+	padding-left: 18px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    font-size: 14px;
+    color: #757575;
+}
+.express_logistics li .time{
+	display: inline-block;
+	padding-left: 18px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    font-size: 12px;
+    color: #757575;
+}
+.express_logistics li:before{
+	content: '';
+    background-color: #666;
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 5px;
+    margin-left:-3px;
+}
+.express_logistics li.frist{
+	border:none;
+}
+.express_logistics li.frist:before{
+	margin-left:-6px;
+	background:url(../images/icon/dian.png) no-repeat center;
+	width: 13px;
+    height: 13px;
+}
+.express_logistics li {
+    border-left: 1px solid #F6F5FA;
+    margin-left:44px;
+    height: 28px;
+    min-height: 28px;
+}

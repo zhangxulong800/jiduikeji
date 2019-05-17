@@ -1,0 +1,44 @@
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/slick.css">
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/components.css">
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/swiper.css">
+<style>
+    .swiper-pagination-bullet{
+        background: #fff;
+    }
+    .swiper-container {
+        height: 144px;
+    }
+</style>
+<script src="__TEMP__/{$style}/public/js/swiper.js"></script>
+{if condition="$plat_adv_list['is_use'] eq 1"}
+{if condition="$plat_adv_list['adv_list'][0]['adv_image'] neq ''"}
+<div class="swiper-container width-Fixed bannerSlide">
+    <div class="swiper-wrapper">
+        {foreach name="plat_adv_list['adv_list']" item="v" }
+        {if condition="$v.adv_url eq 'member/invitationFriends'"}
+        <a href="APP_MAIN/{$v.adv_url}?id={$member_info.user_info.user_tel}" class="swiper-slide">
+            <img src="__UPLOAD__/{$v.adv_image}" class="image-slider"  height="100%"/>
+        </a>
+        {else}
+        <a href="APP_MAIN/{$v.adv_url}" class="swiper-slide">
+            <img src="__UPLOAD__/{$v.adv_image}" class="image-slider"  height="100%"/>
+        </a>
+        {/if}
+        {/foreach}
+    </div>
+    <div class="swiper-pagination"></div>
+</div>
+{/if}
+{/if}
+
+<script>
+    /*轮播*/
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        slidesPerView: 1,
+        autoplay: 5000,
+        paginationClickable: true,
+        spaceBetween: 30,
+        loop: true
+    });
+</script>

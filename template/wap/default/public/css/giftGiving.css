@@ -1,0 +1,250 @@
+/*common style*/
+*,body{
+	padding: 0;
+	margin: 0;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+html, body { width:100%; height:100%; margin:0; padding:0; font-size: 12px;}
+body{background:#F6F5FA;min-width:320px;max-width:640px;margin:0 auto;}
+li{list-style:none}
+a:active,a:hover,input:focus {outline: 0;text-decoration:none;}
+a, li, a:hover, a:active, a:focus {text-decoration:none;}
+a,li{border: none;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;outline: none;}
+.fl { float: left;}
+.fr { float: right;}
+/*清除浮动*/
+.cf:before,.cf:after{display:table;line-height:0;content:"";}
+.cf:after{clear:both;}
+ input::-webkit-input-placeholder {
+    font-size:14px;
+}
+*.cf{zoom:1;}
+.box{
+	padding-top:20px;
+	height:calc(100% - 20px);
+}
+.account{
+	padding:10px 4px 10px 8px;
+	background:#fff;
+	font-family:'pingfang';
+	color:#333;
+}
+.account label{
+	font-size:16px;
+	line-height:28px;
+}
+.account span input{
+	padding:6px 2px;
+	vertical-align: middle;
+	border: none;
+	font-size:16px;
+}
+.hint{
+	color:#959595;
+	margin:14px 0 20px 14px;
+}
+.btn{
+	color:#fff;
+	border:none;
+	width:90%;
+	margin:0 auto;
+	background-image:linear-gradient(160deg, #FC6C61 20%,#F83271 80%);
+	text-align: center;
+	border-radius:6px;
+	height:44px;
+	line-height:44px;
+	font-size:16px;
+}
+.title{
+	text-align: center;
+}
+.title img{
+	border-radius: 100%;
+}
+.name{
+	text-align: center;
+	color:#2B2B2B;
+	font-family: 'pingfang';
+	font-size:16px;
+	margin:6px 0;
+}
+.giftgiving{
+	width:86%;
+	margin:14px auto;
+	background:#fff;
+	border-radius:4px;
+	box-shadow:0 0 20px rgba(0,0,0,.1);
+	padding:10px 4px 40px 14px;
+	font-family: 'pingfang';
+}
+.giftgiving .zhuanzeng{
+	font-size:16px;
+	padding-top:10px;
+}
+.giftgiving .J_input{
+	margin-top:20px;
+	width:100%;
+	margin-bottom:20px;
+}
+.giftgiving .J_input input{
+	width:92%;
+	font-size:18px;
+	padding-left:4px;
+	padding-bottom:14px;
+	border:none; 
+	border-bottom:1px dashed #DEDEDE;
+}
+.bbg{
+	background: rgba(0,0,0,.5);
+    height: 100%;
+    position: fixed;
+    bottom: 0;
+    z-index: 1;
+    width: 100%;
+    max-width: 640px;
+    display:none;
+}
+.pwdBox{
+	bottom:0;
+	width:100%;
+	max-width:640px;
+	min-width: 320px;
+	height: 100%;
+	z-index: 10;
+	display:none;
+}
+.share{
+	position:fixed;
+	bottom:0;
+	width:100%;
+	max-width:640px;
+	min-width: 320px;
+	height: 100%;
+	z-index: 10;
+	display:none;
+}
+.share .share01{
+    position: absolute;
+    top: 48px;
+    right: 16px;
+    width: 57px;
+}
+.share .titleImg{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    width: 50%;
+}
+.pwd-box{
+    width:310px;
+    height: 228px;
+    left:50%;
+    margin-top: -100%;
+    margin-left: -155px;
+    position: relative;
+    border: none;
+    background: white;
+    z-index: 101;
+}
+.pwd-box input[type="tel"]{
+	width: 91%;
+	height: 42px;
+	color: transparent;
+	position: absolute;
+	top:110px;
+	left: 0;
+	border: none;
+	font-size: 18px;
+	opacity: 0;
+	z-index: 1;
+	letter-spacing: 35px;
+	padding-left:15px;
+}
+.fake-box{
+    width:272px;
+    margin-left: 15px;
+    bottom: 2px;
+    height: 41px;
+    margin-top:12px;
+    border:1px solid #bfb6b6;
+    box-sizing: initial;
+}
+.fake-box input{
+    width: 41px;
+    height: 41px;
+    border: none;
+    border-right: 1px solid #e5e5e5;
+    text-align: center;
+    font-size: 30px;
+    margin:0 !important;
+    border-top-right-radius: inherit;
+    border-bottom-right-radius: inherit;
+}
+.fake-box input:nth-last-child(1){
+    border:none;
+}
+#box-title{
+    height: 40px;
+    width:100%;
+    border-bottom: 0.2px solid #e5e5e5;
+}
+#title-text{
+    height:40px;
+    width: 200px;
+    text-align: center;
+    line-height:38px;
+    display: block;
+    margin-left: 55px;
+    font-size:14px;
+}
+#money-box{
+    width: 100%;
+    height: 50px;
+}
+#content-text{
+    height: 30px;
+    width: 200px;
+    text-align: center;
+    line-height: 27px;
+    display: block;
+    margin-left: 55px;
+    margin-top: 10px;
+    font-size: 22px;
+}
+#forget-pwd{
+    margin-top:5px;
+    margin-right:20px;
+    float: right;
+    text-decoration:none;
+    color: #666;
+}
+.forget-pwd{
+	height:34px;
+}
+.eudi .fl{
+	border-right:1px solid #F5F5F5;
+	width:calc(50% - 1px);
+}
+.eudi .fr{
+	width:50%;
+}
+.eudi .fl,.eudi .fr{
+	font-size:16px;
+	border-top:1px solid #F5F5F5;
+	text-align: center;
+	height:40px;
+	line-height:40px;
+}
+.price-pay{
+	text-align: center;
+	margin-top:10px;
+	font-size:14px;
+}
+.price{
+	text-align: center;
+	font-size:18px;
+	font-weight:bold;
+}

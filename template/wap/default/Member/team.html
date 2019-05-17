@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" type="text/css" href="__PCMOB__/css/font.css">
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/Mdate.css" />
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/team.css" />
+		<link rel="shortcut icon" type="image/x-icon" href="__TEMP__/{$style}/public/images/icon.ico" media="screen"/>
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/iScroll.js" ></script>
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/Mdate.js" ></script>
+		<title>我的团队</title>
+	</head>
+	<body>
+		<div class="box">
+			<header class="header cf">
+				<div class="fl">
+					<input type="text" value="" id="" name="" class="search" placeholder="搜索"/>
+				</div>
+				<div class="fr"><img src="__TEMP__/{$style}/public/images/icon/calendar.png" id="dateShowBtn"/></div>
+			</header>
+			<div class="J_user cf">
+				<div class="fl">
+					{if condition="$user_headimg eq '' "}
+						<img src="__TEMP__/{$style}/public/images/member_default.png" width="48px"/>
+					{else/}
+						<img src="__UPLOAD__/{$user_headimg}" width="48px" style="border-radius:100%;"/>
+					{/if}
+				</div>
+				<div class="fl user-con-top">
+					<div>{$user_name}</div>
+					{if condition="$usergrade eq '0'"}
+						<div style="font-size: 12px;" class="J_level">会员</div>
+					{elseif condition="$usergrade eq '2'"}
+						<div style="font-size: 12px;" class="J_level">经理</div>
+					{else/}
+						<div style="font-size: 12px;" class="J_level">总监</div>
+					{/if}
+				</div>
+				<div class="fr commission">
+					<div>销售总佣金:{$tot_commission}元</div>
+					<div>待入账佣金:{$dai_tot_commission}元</div>
+				</div>
+			</div>
+			<!---直属团队--->
+			<div class="direct-team">
+				<div class="team cf">
+					<div class="J_team fl">
+						<div class="under"><img src="__TEMP__/{$style}/public/images/icon/data01.png" width="22px"/></div>
+						<div class="J_under">直属团队({$team_count.zhi_count})</div>
+					</div>
+					<div class="team-info fr">
+						<div class="subordinate"><img src="__TEMP__/{$style}/public/images/icon/friends01.png" width="25px"/></div>
+						<div class="J_subordinate">从属团队({$team_count.cong_count})</div>
+					</div>
+				</div>
+				<div class="total">
+					<div class="total-sales cf">
+						<div class="fl">
+							<div>销售总金额:</div>
+							<div>{$tot_zhi_sale}</div>
+						</div>
+						<div class="fr">
+							<div>销售总佣金:</div>
+							<div>{$zhi_commission}</div>
+						</div>
+					</div>
+					<div class="J_subordinate">直属团队:({$team_count.zhi_count}人)</div>
+				</div>
+				<div class="level">
+					<span data-grade="0" class="tab">会员({$team_count.huiyuan_count})</span>
+					<span data-grade="2">经理({$team_count.jingli_count})</span>
+					<span data-grade="5">总监({$team_count.zongjian_count})</span>
+				</div>
+				<div class="content" id="mem_commission"></div>
+			</div>
+			<!---从属团队--->
+			<div class="subordinate-team">
+				<div class="team cf">
+					<div class="J_team fl">
+						<div class="under"><img src="__TEMP__/{$style}/public/images/icon/data_02.png" width="19px"/></div>
+						<div class="J_under">直属团队({$team_count.zhi_count})</div>
+					</div>
+					<div class="team-info fr">
+						<div class="subordinate"><img src="__TEMP__/{$style}/public/images/icon/friends_02.png" width="25px"/></div>
+						<div class="J_subordinate">从属团队({$team_count.cong_count})</div>
+					</div>
+				</div>
+				<div class="total">
+					<div class="total-sales cf">
+						<div class="fl">
+							<div>销售总金额:</div>
+							<div>{$tot_cong_sale}</div>
+						</div>
+						<div class="fr">
+							<div>销售总佣金:</div>
+							<div>{$cong_commission}</div>
+						</div>
+					</div>
+					<div class="J_subordinate">从属团队:({$team_count.cong_count}人)</div>
+				</div>
+				<div class="team-item"></div>
+			</div>
+		</div>
+		<input type="hidden" id="dateSelectorTwo" />
+		<input type="hidden" id="grade" value="0" />
+		<input type="hidden" name="" id="direct" value="1" />
+<script type="application/javascript">
+$(function(){
+	var num = 0;
+	new Mdate("dateShowBtn", {
+		acceptId: "dateSelectorTwo",
+		beginYear: "2018",      //此项为Mdate的初始年份，不填写默认为2000
+		beginMonth: "1",       //此项为Mdate的初始月份，不填写默认为1
+		beginDay: "1",        //此项为Mdate的初始日期，不填写默认为1
+		endYear: "2099",     //此项为Mdate的结束年份，不填写默认为当年
+		endMonth: "12",       //此项为Mdate的结束月份，不填写默认为当月
+		endDay: "",        //此项为Mdate的结束日期，不填写默认为当天
+		format: "-"     //此项为Mdate需要显示的格式，可填写"/"或"-"或".",不填写默认为年月日
+	})
+	$('.J_team').click(function(){
+		$('.subordinate-team').hide();
+		$('.direct-team').show();
+		$('#direct').val('1');
+		getSaleData();
+	})
+	$('.team-info').click(function(){
+		$('.direct-team').hide();
+		$('.subordinate-team').show();
+		$('#direct').val('2');
+		getNextData();
+	});
+	$('.level span').click(function(){
+		$('.level span').removeClass('tab');
+		$(this).addClass('tab');
+		var once=$(this).attr('data-grade');
+		$('#grade').val(once);
+		getSaleData();
+	});
+	//加载数据函数
+	getSaleData();
+})
+function getSaleData(){
+	var grade=$('#grade').val();
+	var year=$('#dateSelectorTwo').val();
+	if(year=='' || year==undefined){
+		var ymd = '';
+	}else {
+		var ymd = year.substring(4,0) + '-' + year.substring(7,5);
+	}
+	$.ajax({
+		type:"post",
+		url:"APP_MAIN/member/team",
+		data:{
+			'grade':grade,
+			'date':ymd,
+		},
+		success:function(data){
+			var html = ''
+			if(data.length> 0 ){
+				for(var i= 0;i<data.length;i++){
+					html+='<div class="conter-info">'
+						+'<a href="APP_MAIN/member/teamDeail?uid='+data[i].user_id+'">'
+						+'<div class="cf userInfo">'
+						+'<div class="fl user">'
+						+'<div class="userName">'+data[i].user_str+'</div>'
+						+'<div class="userid">'+data[i].id+'</div>'
+						+'</div>'
+						+'<div class="fr user">'
+						+'<div class="userPhone">'+data[i].telephone+'</div>'
+						+'<div class="userTime">'+data[i].grade_name+'</div>'
+						+'</div>'
+						+'</div>'
+						+'<div class="cf sale" style="padding:6px 10px;">'
+						+'<div class="fl">'
+						+'<span>销售总金额:</span>'
+						+'<span>'+data[i].mem_sale+'</span>'
+						+'</div>'
+						+'<div class="fr">'
+						+'<span>销售总佣金:</span>'
+						+'<span>'+data[i].mem_commission+'</span>'
+						+'</div></div></a></div>'
+				}
+				$('#mem_commission').html(html);
+			} else {
+				$('#mem_commission').html('<div class="conter-info nodate" style="text-align:center;">暂无记录！</div>');
+			}
+		}
+	});
+}
+$('body').on('click','#dateSure',function(){
+	if($('#direct').val() == '1'){
+		getSaleData();
+	}else{
+		getNextData();
+	}
+})
+function getNextData(){
+	var year=$('#dateSelectorTwo').val();
+	if(year=='' || year==undefined){
+		var ymd = '';
+	}else {
+		var ymd = year.substring(4,0) + '-' + year.substring(7,5);
+	}
+	$.ajax({
+		type:"post",
+		url:"APP_MAIN/member/teamNext",
+		data:{
+			'date':ymd,
+		},
+		success:function(data){
+			$('#sale_tot').html(data.data_tot.sale_tot);
+			//$('#commission_tot').html(data.data_tot.commission_tot);
+			var html = ''
+			if(data.this_team.length>0){
+				for (var i = 0;i<data.this_team.length;i++){
+					if(data['this_team'][i]['user_headimg'] == ''){
+						var user_headimg='__TEMP__/{$style}/public/images/headicon.png';
+					} else {
+						var user_headimg='/'+data['this_team'][i]['user_headimg'];
+					}
+					html+='<a href="javascript:void(0)">'
+						+'<div class="user-avatar cf">'
+						+'<img src="'+user_headimg+'" width="44px" class="fl"/>'
+						+'<span class="userName fl">'
+						+'<div>'+data['this_team'][i]['son_name']+'</div>'
+						+'<div>'+data['this_team'][i]['team_number']+'人</div>'
+						+'</span>'
+						+'</div>'
+//						+'<div class="back"><img src="__TEMP__/{$style}/public/images/icon/back.png" width="23px"/></div>'
+						+'<div class="cf sale">'
+						+'<div class="fl">'
+						+'<span>团队销售总金额:</span>'
+						+'<span>'+data['this_team'][i]['son_sale']+'</span>'
+						+'</div>'
+						+'<div class="fr">'
+						+'<span>团队销售总佣金:</span>'
+						+'<span>'+data['this_team'][i]['son_commission']+'</span>'
+						+'</div></div></a>'
+				}
+				$('.team-item').html(html);
+			}
+			console.log(data);
+		}
+	});
+}
+</script>
+	</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/myDistribution.css" />
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<link rel="shortcut  icon" type="image/x-icon" href="__TEMP__/{$style}/public/images/icon.ico" media="screen"/>
+		<title>我的分销</title>
+	</head>
+	<body>
+		<div class="expect">敬请期待</div>
+		<div class="header">
+			<div class="userId cf">
+				<div class="portrait fl">
+					<a href="APP_MAIN/member/portrait">
+					{empty name="$member_info.user_info.user_headimg"}
+						<img src="__TEMP__/{$style}/public/images/member_default.png" />
+					{else /}
+						<img src="__UPLOAD__/{$member_info.user_info.user_headimg}" />
+					{/empty}
+					</a>
+				</div>
+				<div class="nickname fl">
+					<div class="J_nickname">{$member_info.user_info.user_name}</div>
+					<div class="J_nicknameID">ID:{$real_num}</div>
+					{if condition="$member_info['grade'] eq '0'"}
+					<div class="J_nicknameLevel">会员</div>
+					{elseif condition="$member_info['grade'] eq '2'" /}
+					<div class="J_nicknameLevel">经理</div>
+					{elseif condition="$member_info['grade'] eq '5'" /}
+					<div class="J_nicknameLevel">总监</div>
+					{else}
+					<div class="J_nicknameLevel">大众</div>
+					{/if}
+					<span class="explain">规则说明</span>
+				</div>	
+			</div>
+			<div class="sale cf">
+				<div class="J_sale fl">
+					<div class="J_pcire">{$tot_sale}</div>
+					<div class="H_pcire">总销售(元)</div>
+				</div>
+				<div class="J_balance fl">
+					<div class="J_pcire J_pese">{$member_info['balance']}</div>
+					<div class="H_pcire">可提余额(元)</div>
+				</div>
+				<div class="J_balance fr">
+					<div class="J_pcire J_pese">{$member_info['for_add_balance']}</div>
+					<div class="H_pcire">余额(待入账)</div>
+				</div>
+			</div>
+		</div>
+		<div class="total">
+			<div class="date">2018-09-21(今日)</div>
+			<ul class="cf">
+				<li class="col-cx-4">
+					<a href="APP_MAIN/Member/addMembers">
+						<div class="J_totaltitle">
+							<div class="added">新增会员</div>
+						</div>
+						<div class="numerical">{$my_team}</div>
+					</a>
+				</li>
+				<li class="col-cx-4">
+					<a href="javascript:void(0);">
+						<div class="J_totaltitle">
+							<div class="added">销售额(元)</div>
+						</div>
+						<div class="numerical">{$today_sale}</div>
+					</a>
+				</li>
+				<li class="col-cx-4">
+					<a href="javascript:void(0);">
+						<div class="J_totaltitle">
+							<div class="added">待增收入(元)</div>
+						</div>
+						<div class="numerical">{$staymoney}</div>
+					</a>
+				</li>
+				<li class="col-cx-4">
+					<a href="javascript:void(0);">
+						<div class="J_totaltitle">
+							<div class="added">待增积分</div>
+						</div>
+						<div class="numerical">{$staypoint}</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="liMenu">
+			<ul class="cf">
+				<li class="col-cx-3" style="display: none;">
+					<a href="APP_MAIN/Member/information">
+						<div class="J_linkIcon J_linkIcon01"><img src="__TEMP__/{$style}/public/images/icon/personal.png"/></div>
+						<div class="linkIcon">个人信息</div>
+					</a>
+				</li>
+				<!-- <li class="col-cx-3">
+					<a href="APP_MAIN/Member/sales">
+						<div class="J_linkIcon "><img src="__TEMP__/{$style}/public/images/icon/xiaoshou.png"/></div>
+						<div class="linkIcon">我的销售</div>
+					</a>
+				</li> -->
+				<li class="col-cx-3">
+					<a href="APP_MAIN/member/invitationPoster?id={$member_info.user_info.user_tel}">
+						<div class="J_linkIcon"><img src="__TEMP__/{$style}/public/images/icon/extension.png"/></div>
+						<div class="linkIcon">一键推广</div>
+					</a>
+				</li>
+				<li class="col-cx-3" style="display: none;">
+					<a href="APP_MAIN/Member/putforward">
+						<div class="J_linkIcon J_linkIcon03 "><img src="__TEMP__/{$style}/public/images/icon/apply.png"/></div>
+						<div class="linkIcon">申请提现</div>
+					</a>
+				</li>
+				<li class="col-cx-3 boirder J_expect" style="display: none;">
+					<a href="javascript:void(0);">
+						<div class="J_linkIcon J_linkIcon01"><img src="__TEMP__/{$style}/public/images/icon/bank.png"/></div>
+						<div class="linkIcon">积分银行</div>
+					</a>
+				</li>
+				<li class="col-cx-3 boirder">
+					<a href="APP_MAIN/Member/team">
+						<div class="J_linkIcon"><img src="__TEMP__/{$style}/public/images/icon/team.png"/></div>
+						<div class="linkIcon">团队销售</div>
+					</a>
+				</li>
+				<li class="col-cx-3">
+					<a href="APP_MAIN/Member/merchant">
+						<div class="J_linkIcon"><img src="__TEMP__/{$style}/public/images/icon/store.png"/></div>
+						<div class="linkIcon">推荐商户</div>
+					</a>
+				</li>
+				<li class="col-cx-3 boirder">
+					<a href="APP_MAIN/Member/customer">
+						<div class="J_linkIcon J_linkIcon03"><img src="__TEMP__/{$style}/public/images/icon/service.png"/></div>
+						<div class="linkIcon">联系客服</div>
+					</a>
+				</li>
+				<li class="col-cx-3">
+					<a href="APP_MAIN/member/invitationFriends?id={$member_info.user_info.user_tel}">
+						<div class="J_linkIcon"><img src="__TEMP__/{$style}/public/images/icon/yaoqing3.png"/></div>
+						<div class="linkIcon">邀请好友</div>
+					</a>
+				</li>
+				<li class="col-cx-3 boirder" style="display: none;">
+					<a href="APP_MAIN/Member/myBag">
+						<div class="J_linkIcon J_linkIcon03" style="line-height: 56px;"><img src="__TEMP__/{$style}/public/images/icon/card.png"/></div>
+						<div class="linkIcon">我的卡包</div>
+					</a>
+				</li>
+				<!--<li class="col-cx-3 boirder J_expect">
+					<a href="javascript:void(0);">
+						<div class="J_linkIcon J_linkIcon03"><img src="__TEMP__/{$style}/public/images/icon/problem.png"/></div>
+						<div class="linkIcon">常见问题</div>
+					</a>
+				</li>-->
+				<li class="col-cx-3" onclick="logout()" style="display: none;">
+					<a href="javascript:void(0);">
+						<div class="J_linkIcon"><img src="__TEMP__/{$style}/public/images/icon/signOut.png"/></div>
+						<div class="linkIcon">退出登录</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<script>
+			$(function(){
+				if($(document.body).height() == '554'){
+					$('.liMenu').css('padding-bottom','80px');
+				}
+				var myDate = new Date();
+				var year=myDate.getFullYear(); //获取当前年份
+				var month=myDate.getMonth()+1; //获取当前月份   
+				var strDate=myDate.getDate(); //获取当前日   
+				if (month >= 1 && month <= 9) {
+		            month = "0" + month;
+		        }
+		        if (strDate >= 0 && strDate <= 9) {
+		            strDate = "0" + strDate;
+		        }
+		        $('.date').html(year +'-'+month+'-'+strDate+' (今日)');
+		        $('.J_expect').click(function(){
+		        	$('.expect').fadeIn();
+		        	setTimeout(function () {
+		        		$('.expect').fadeOut()
+				    },2000);
+		        })
+			})
+			function logout(){
+				$.ajax({
+					url: "/wap/member/logout",
+					type: "post",
+					success: function (res) {
+						if (res['code'] > 0) {
+							location.href='APP_MAIN/Member/signOut';
+							//window.location.reload();
+						} else {
+							if(res["message"]!=null){
+								alert(res["message"]);
+							}
+						}
+					}
+				})
+			}
+		</script>
+	</body>
+</html>

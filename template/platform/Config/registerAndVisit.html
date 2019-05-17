@@ -1,0 +1,147 @@
+{extend name="platform/base" /}
+{block name="resources"/}
+<link rel="stylesheet" type="text/css" href="ADMIN_CSS/defau.css">
+<script src="ADMIN_JS/art_dialog.source.js"></script>
+<script src="ADMIN_JS/iframe_tools.source.js"></script>
+<script src="ADMIN_JS/material_managedialog.js"></script>
+<style>
+input[type="checkbox"] {
+    margin: 0;
+    margin-top: 1px \9;
+    line-height: normal;
+}
+.inline{margin-right: 10px;}
+</style>
+{/block}
+{block name="main"}
+
+<section class="panel panel-default">
+	<header class="panel-heading font-bold"> 注册与访问 </header>
+	<div class="panel-body">
+		<form class="form-horizontal">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">是否允许注册会员</label>
+				<div class="col-md-4">
+						{if condition="$register_and_visit['is_register'] eq 1"}
+							<label class="inline"><input type="radio" name="is_register" value="1" checked="checked">启用</label>
+							<label class="inline"><input type="radio" name="is_register" value="0">禁用</label>
+						{else /}
+							<label class="inline"><input type="radio" name="is_register" value="1">启用</label>
+							<label class="inline"><input type="radio" name="is_register" value="0" checked="checked">禁用</label>
+						{/if}
+					<br/><a class="hint" style="color:#BBB;">设置允许游客注册成为站点会员</a>
+				</div>
+			</div>
+			<div class="line line-dashed line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">是否允许注册</label>
+				<div class="col-md-8">
+					<label class="inline"><input type="checkbox" name="register_info_validate" value="plain" >普通注册</label> 
+					<label class="inline"><input type="checkbox" name="register_info_validate" value="email" >邮箱注册</label> 
+					<label class="inline"><input type="checkbox" name="register_info_validate" value="mobile" >手机注册</label>
+					<br/><a class="hint" style="color:#BBB;">注册时是否需要填写邮箱及手机，填写后如配置邮件及短信，则需要进行验证后方能注册成功</a>
+				</div>
+			</div>
+		    <div class="line line-dashed line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">用户名保留关键字</label>
+				<div class="col-md-8">
+					<textarea  rows="2" id="name_keyword"  class="form-control" style="width:400px;height:100px;" maxlength="50">{$register_and_visit["name_keyword"]}</textarea>
+					<br/><a class="hint" style="color:#BBB;">用户在其用户信息中无法使用这些关键字。关键字后加“,”，可使用通配符“*”如“*管理员*”（不含引号）</a>
+				</div>
+			</div>
+			<div class="line line-dashed line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">密码最小长度</label>
+				<div class="col-md-4">
+						 <input id="pwd_len" type="number" min="0" step="1" class="form-control" value="{$register_and_visit['pwd_len']}"/> 
+					<br/><a class="hint" style="color:#BBB;">新用户注册时密码最小长度，0或不填为不限制</a>
+				</div>
+			</div>
+			
+			<div class="line line-dashed line-lg pull-in"></div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">强制密码复杂度</label>
+				<div class="col-md-4">
+					<label class="inline"><input type="checkbox" name="pwd_complexity" value="number" >数字</label> 
+					<label class="inline"><input type="checkbox" name="pwd_complexity" value="letter" >小写字母</label>
+					<label class="inline"><input type="checkbox" name="pwd_complexity" value="upper_case" >大写字母</label>
+					<label class="inline"><input type="checkbox" name="pwd_complexity" value="symbol" >符号</label>
+					<br/><a class="hint" style="color:#BBB;">新用户注册时密码中必须存在所选字符类型，不选择为无限制</a>
+				</div>
+			</div>
+			<div style="display:none;">
+				<label class="col-sm-2 control-label">注册服务条款内容:</label>
+				<div class="col-md-4">
+					<textarea  rows="2" id="terms_of_service"
+						class="textarea w400" maxlength="50">{$register_and_visit["terms_of_service"]}</textarea>
+					<p class="hint">新用户注册时显示网站服务条款内容</p>
+				</div>
+			</div>
+			<div class="line line-dashed line-lg pull-in"></div>
+			<div class="form-group">
+				<div class="col-sm-4 col-sm-offset-2">
+					<a href="javascript:void(0);" onclick="setConfigAjax()" class="btn btn-primary">提交</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</section>			
+
+<script type="text/javascript">
+
+	window.onload=function(){
+		var register_info = "{$register_and_visit['register_info']}";
+		var pwd_complexity = "{$register_and_visit['pwd_complexity']}";
+		register_info = register_info.split(',');
+		pwd_complexity = pwd_complexity.split(',');
+		for(var i = 0; i < register_info.length;i++){
+			$('[name="register_info_validate"][value="'+register_info[i]+'"]').prop("checked", true);
+		}
+		for(var i = 0; i < pwd_complexity.length;i++){
+			$('[name="pwd_complexity"][value="'+pwd_complexity[i]+'"]').prop("checked", true);
+		}
+	};
+
+	function setConfigAjax(){
+		var is_register = $('[name="is_register"]:checked').val();
+		var register_info = '';
+		$('[name="register_info_validate"]:checked').each(function(){
+			register_info += $(this).val() + ',';
+		})
+		
+		var name_keyword = $('#name_keyword').val();
+		name_keyword = name_keyword.replace('，',',');
+		
+		var pwd_len = $('#pwd_len').val();
+		
+		var pwd_complexity = '';
+		$('[name="pwd_complexity"]:checked').each(function(){
+			pwd_complexity += $(this).val() + ',';
+		})
+		var terms_of_service = $('#terms_of_service').val();
+		
+			$.ajax({
+				type:"post",
+				url : "PLATFORM_MAIN/config/registerandvisit",
+				data : {
+					"is_register" : is_register,
+					"register_info": register_info,
+					"name_keyword" : name_keyword,
+					"pwd_len" : pwd_len,
+					"pwd_complexity" : pwd_complexity,
+					"terms_of_service" : terms_of_service
+				},
+				success : function(data){
+					if(data['code'] > 0)
+						{
+							showMessage('success', data["message"], "PLATFORM_MAIN/config/registerandvisit");
+						}else{
+							showMessage('error', data["message"]);
+						}
+				}
+			});
+		
+	}
+</script>
+{/block}

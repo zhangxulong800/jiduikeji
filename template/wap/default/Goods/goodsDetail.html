@@ -1,0 +1,113 @@
+{extend name="wap/default/base" /} {block name="resources"}
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/mall.css">
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/pre_foot.css">
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/goods_detail.css">
+<script src="__TEMP__/{$style}/public/js/goods_product.js"></script>
+<script language="javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" src="__TEMP__/{$style}/public/js/jscommon.js" language="javascript" charset="gb2312"></script>
+<script src="__TEMP__/{$style}/public/js/jquery.lazyload.js" type="text/javascript"></script>
+<script>
+	var APPMAIN = 'APP_MAIN';
+	var shop_main='SHOP_MAIN';//外置JS调用
+</script>
+<style>
+	.js-shelves {
+		display: none;
+	}
+	.comment-type{
+		margin-bottom: 50px;
+	}
+</style>
+{/block}
+{block name="goodsHead"}
+<section class="head" style="display:none;">
+	<a class="head_back" onclick="window.history.go(-1)" href="javascript:void(0)"><i class="icon-back"></i></a>
+	<div class="head-title">{$shopname}</div>
+</section>
+{/block}
+{/block}
+{block name="main"}
+{include file="wap/default/Goods/controlDetail" /}
+{include file='wap/default/share'/}
+{/block}
+{block name="bottom"}
+
+<div class="js-bottom-opts bottom-fix" id="purchase">
+	<input type="hidden" value="{$buy_arr.num}" id="buy_num"/>
+	<input type="hidden" value="{$buy_arr.message}" id="buy_messege"/>
+	<div class="responsive-wrapper">
+		<a id="global-cart" href="APP_MAIN/goods/cart" class="new-btn buy-cart {if condition="$carcount>0"}buy-cart-msg{/if} ">
+			<i class="iconfont icon-shopping-cart"></i>
+			<span class="desc">购物车</span>
+		</a>
+		<a href="/wap/member/customer" class="service new-btn buy-cart">客服</a>
+		<a href="APP_MAIN/shop/index?shop_id={$goods_detail.shop_id}" class="shops new-btn buy-cart">商铺</a>
+		<a href="javascript:void(0);"{if condition="$is_member_fav_goods>0"}class="love new-btn buy-cart love_but"{else/}class="love new-btn buy-cart"{/if}  onclick="collectionGoods({$goods_detail.goods_id},'goods','{$goods_detail.goods_name}',this,false)">
+		<i data-log-id="{$is_member_fav_goods}"></i>
+		<span>{if condition="$is_member_fav_goods>0"}已收藏
+					 							{else/}收藏{/if}</span>
+		</a>
+		<div class="big-btn-2-1">
+			{if condition="$type>0"}
+			<a href="javascript:;" class="big-btn orange-btn" id="addCart">免费领取</a><!-- 拷贝加入购物车，修改加入购物车中的代码-->
+			{else /}
+			<a href="javascript:;" class="big-btn orange-btn" id="addCart">加入购物车</a>
+			{/if}
+			<a href="javascript:;" class="big-btn red-btn" id="buyBtn1">立即购买</a>
+		</div>
+	</div>
+</div>
+<div class="btn_wrap btn_wrap_static btn_wrap_nocart no-server js-shelves">
+	<div class="product-status">该商品已下架</div>
+</div>
+<input type="hidden" value="{$uid}" id="uid"/>
+
+<script>
+	$(function(){
+		var url = location.search; //获取url中"?"符后的字串
+		var theRequest = new Object();
+		if(url.indexOf("?") != -1) {
+			var str = url.substr(1);
+			strs = str.split("&");
+			for(var i = 0; i < strs.length; i ++) {
+				theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+			}
+		}
+		if(theRequest.shop_group_id != null || theRequest.shop_group_id != undefined){
+			$('#purchase').remove();
+		}else{
+			$('#purchase2').remove();
+		}
+		if(!$('#mask').is(':hidden')){
+			$('body').css({
+				"overflow-y":"hidden"
+			});
+		}else{
+			$('body').css({
+				"overflow-y":"auto"
+			});
+		}
+	})
+</script>
+<script>
+	$.ajax({
+		type:"post",
+		url : "APP_MAIN/member/getShareContents",
+		data : {"shop_id" : "{$shop_id}" , "flag" : "goods" , "goods_id" : "{$goods_id}"},
+		success : function(data){
+			console.log('=======',data)
+			localStorage.setItem("$infoData",JSON.stringify(data));
+			//alert(JSON.stringify(data));
+			//document.write(data.share_img);
+			/* $("#share_title").val(data['share_title']);
+            $("#share_desc").val(data['share_contents']);
+            $("#share_url").val(data['share_url']);
+            $("#share_img_url").val(data['share_img']);\ */
+			{include file='wap/default/shareContents'/}
+		}
+	})
+
+
+
+</script>
+{/block}

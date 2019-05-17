@@ -1,0 +1,94 @@
+{extend name="wap/default/base" /}
+{block name="resources"}
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/accountlist.css" />
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<script src="__TEMP__/{$style}/public/js/showBox.js"></script>
+		<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/showbox.css">
+		<title>我的银行卡</title>
+		<script>
+			$(function(){
+				var cmdIcon = '__TEMP__/{$style}/public/images/bankIcon/';
+				var length = $('.bank_account_number').length;
+				for(var i=0;i<length;i++){
+					var number = $('.bank_account_number').eq(i).val();
+					var id = $('.voId').eq(i).val();
+					if(number != undefined){
+						$('.bankCord').eq(i).html('**** **** **** '+number.substr(number.length-4));
+					};
+					bankCardAttribution(number.replace(/\s+/g,""),cmdIcon,id);
+				}
+			})
+		</script>
+		<script type="text/javascript" src="__PCMOB__/js/bankCard.js" ></script>
+{/block}
+{block name="main" }
+<div class="box">
+	<div class="head">
+		<!--已有银行卡循环-->
+		{foreach name="account_list" item="vo"}
+		<input type="hidden" value="{$vo.account_number}" class="bank_account_number"/>
+		<input type="hidden" value="{$vo.id}" class="voId"/>
+		{/foreach}
+		<div id="hasBank"></div>
+		<!--已有银行卡循环end-->
+		<div class="binding"><a href="APP_MAIN/member/addaccount?shop_id={$shop_id}">+ 绑定银行卡</a></div>
+		<input type="hidden" value="" class="shop_id" id="shop_id"/>
+	</div>
+</div>
+{/block}
+{block name="javascript"}
+<script>
+	 $(function(){
+ 		buttomActive('');
+  	})
+	$(function() {
+		var url = location.search; //获取url中"?"符后的字串
+	    	var theRequest = new Object();
+		if(url.indexOf("?") != -1) {
+			var str = url.substr(1);
+		   		strs = str.split("&");
+		   for(var i = 0; i < strs.length; i ++) {
+		      theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+		   }
+		}
+		if(theRequest.shop_id != '' || theRequest.shop_id != null || theRequest.shop_id != undefined){
+			$('#shop_id').val(theRequest.shop_id)
+		}
+	   return ;
+	});
+	function checkAccount(id,obj){
+        var shop_id=$("#shop_id").val();
+		$.ajax({
+			url: "APP_MAIN/member/checkaccount",
+			data: { "id": id },
+			type: "post",
+			success: function (res) {
+				showBox(res.message);
+				if (res["code"] > 0) {
+					if({$flag}==0 &&  $('#shop_id').val() !=''){
+						window.location.href="APP_MAIN/member/towithdraw?shop_id="+shop_id;
+					}
+					if({$flag}==2){
+						window.location.href="APP_MAIN/distribution/towithdraw?shop_id="+shop_id;
+					}
+				}
+			}
+		})
+	}
+	function account_delete(id){
+		$.ajax({
+			url: "APP_MAIN/member/delaccount",
+			data: { "id": id },
+			type: "post",
+			success: function (res) {
+				showBox(res.message);
+				 if (res.code == 1) {
+					window.location.reload();
+				}
+			}
+		})
+	}
+</script>
+{/block}

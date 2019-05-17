@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/bringDetails.css" />
+		<title>提现明细</title>
+		<style>
+			.emptyFrame{
+				text-align: center;
+				font-size:14px;
+				margin-top:10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="box">
+			{if condition="count($withdraws.data) neq 0 "}
+				{volist name="withdraws.data" id="vo"}
+					<div class="content cf">
+						<div class="fl forward">
+							<div class="J_forward">余额提现</div>
+							<div class="money">{$vo['cash']}</div>
+						</div>
+						<div class="fr stateDate">
+							<div class="date">{$vo['ask_for_date']}</div>
+							<div class="state">{$vo['status']}</div>
+						</div>
+					</div>
+				{/volist}
+			{else/}
+				<div>
+					<div class="emptyFrame"> <i class="user_balance"></i><span>您暂时还没有提现记录哦！</span> </div>
+				</div>
+			{/if}
+		</div>
+	</body>
+</html>

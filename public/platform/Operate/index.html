@@ -1,0 +1,130 @@
+{extend name="platform/base" /}
+{block name="resources"/}
+<style>
+.error{
+	display:none;
+	color:red;
+}
+</style>
+{/block}
+{block name="main"}
+<section class="panel panel-default">
+	<header class="panel-heading font-bold">基本设置 </header>
+	<div class="panel-body">
+		<form class="form-horizontal">
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">限时折扣</label>
+				<div class="col-md-10">
+				
+					<div class="col-md-3">
+						<p>是否开启</p>
+						<label class="switch"><input id="is_discount_open" type="checkbox" {if condition="$operate_config->is_discount_open eq 1"} checked="checked" {/if}><span></span>
+							<br/><a class="hint" style="color:#BBB;">开启以后商家才可添加限时折扣</a>
+						</label>
+					</div>
+					
+					<div class="col-md-3">
+						<p>是否审核</p>
+						<label class="switch"><input id="is_discount_toExamine" type="checkbox"  {if condition="$operate_config->is_discount_toExamine eq 1"} checked="checked" {/if}><span></span>
+						<br/><a class="hint" style="color:#BBB;">开启以后商家添加以后必须由平台审核通过才可进行</a>
+						</label>
+					</div>
+				</div>
+				
+			</div>
+			<div class="line line-dashed line-lg pull-in"></div>
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">满减/送</label>
+				<div class="col-md-10">
+				
+					<div class="col-md-3">
+						<p>是否开启</p>
+						<label class="switch"><input id="is_mansong_open" type="checkbox"  {if condition="$operate_config->is_mansong_open eq 1"} checked="checked" {/if}><span></span>
+						<br/><a class="hint" style="color:#BBB;">开启以后商家才可添加满减/送</a>
+						</label>
+					</div>
+					
+					<div class="col-md-3">
+						<p>是否审核</p>
+						<label class="switch"><input id="is_mansong_toExamine" type="checkbox" {if condition="$operate_config->is_mansong_toExamine eq 1"} checked="checked" {/if}><span></span>
+						<br/><a class="hint" style="color:#BBB;">开启以后商家添加以后必须由平台审核通过才可进行</a>
+						</label>
+					</div>
+				</div>
+				
+			</div>
+			<div class="line line-dashed line-lg pull-in"></div>
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">拼团</label>
+				<div class="col-md-10">
+				
+					<div class="col-md-3">
+						<p>是否开启</p>
+						<label class="switch"><input id="is_groups_open" type="checkbox" {if condition="$operate_config->is_groups_open eq 1"} checked="checked" {/if}><span></span>
+						<br/><a class="hint" style="color:#BBB;">开启以后商家才可添加拼团商品</a></label>
+					</div>
+					
+					<div class="col-md-3">
+						<p>是否审核</p>
+						<label class="switch"><input id="is_groups_toExamine" type="checkbox" {if condition="$operate_config->is_groups_toExamine eq 1"} checked="checked" {/if}><span></span>
+						<br/><a class="hint" style="color:#BBB;">开启以后商家添加以后必须由平台审核通过才可进行</a></label>
+					</div>
+				</div>
+				
+			</div>
+			<div class="line line-dashed line-lg pull-in"></div>
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">商家自提点</label>
+				<div class="col-md-10">
+				
+					<div class="col-md-3">
+						<p>是否开启</p>
+						<label class="switch"><input id="is_pickuPpoint_open" type="checkbox" {if condition="$operate_config->is_pickuPpoint_open eq 1"} checked="checked" {/if}><span></span>
+						<br/><a class="hint" style="color:#BBB;">开启以后商家才设置商家自提点</a></label>
+					</div>
+				</div>
+				
+			</div>
+			<div class="line line-dashed line-lg pull-in"></div>
+			<div class="col-sm-4 col-sm-offset-2">
+				<a href="javascript:void(0);" onclick="updateOperateConfig()" class="btn btn-primary">保存</a>
+			</div>
+		</form>
+		
+		
+	</div>
+	
+	
+</section>
+
+
+<script type="text/javascript">	
+	function updateOperateConfig(){
+		$.ajax({
+			type : "post",
+			url : "PLATFORM_MAIN/Operate/index",
+			data : {
+				'is_discount_open':$('#is_discount_open').prop("checked") ? 1 : 0,
+				'is_discount_toExamine':$('#is_discount_toExamine').prop("checked") ? 1 : 0,
+				'is_mansong_open':$('#is_mansong_open').prop("checked") ? 1 : 0,
+				'is_mansong_toExamine':$('#is_mansong_toExamine').prop("checked") ? 1 : 0,
+				'is_groups_open':$('#is_groups_open').prop("checked") ? 1 : 0,
+				'is_groups_toExamine':$('#is_groups_toExamine').prop("checked") ? 1 : 0,
+				'is_pickuPpoint_open':$('#is_pickuPpoint_open').prop("checked") ? 1 : 0
+			},
+			async : true,
+			success : function(data) {
+				if (data["code"] > 0) {
+					showMessage('success', "添加成功");
+				}else{
+					showMessage('error', "添加失败");
+				}
+			}
+		})
+	}
+</script>
+{/block}

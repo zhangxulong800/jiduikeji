@@ -1,0 +1,118 @@
+{extend name="shop/default/Member/base" /}
+{block name="resources"}
+<style type="text/css">
+img{
+	max-height: 120px !important;
+}
+.img {
+	width: 120px;
+	height: 120px;
+	border: 1px solid #bbb;
+}
+.user-right .tabmenu .tab li.active{
+	padding: 10px 10px 8px 10px;
+}
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+}
+input[type="number"]{
+	-moz-appearance: textfield;
+}
+</style>
+{/block}
+{block name="main"}
+<div class="user-right">
+	<div class="box">
+		<div class="ncm-user-profile">
+			<div class="ncm-default-form"  id="con_tab_1">
+				<form name="formEdit" action="SHOP_MAIN/member/testUniPoint" method="post" id="formEdit" enctype="multipart/form-data">
+					<table cellpadding="10" width="600px">
+						<tr>
+							<td align="right"><span style="color:red;">*</span>计算日期：</td>
+							<td width="65%" align="left">
+								<input type="date" name="calc_date" value="{$calc_date}"  size="25" class="inputBg" style="ime-mode:disabled" />
+							</td>
+						</tr>
+						<tr>
+							<td width="35%" align="right"><span style="color:red;">*</span>当日新增积分：C10</td>
+							<td width="65%" align="left">
+								<input type="text" name="C10" value="{$C10}" size="25" class="inputBg" style="ime-mode:disabled" />
+							</td>
+						</tr>
+						<tr>
+							<td width="35%" align="right"><span style="color:red;">*</span>当日消耗积分：C11</td>
+							<td width="65%" align="left">
+								<input type="text" name="C11" value="{$C11}" size="25" class="inputBg" style="ime-mode:disabled" />
+							</td>
+						</tr>
+						<tr>
+							<td width="35%" align="right"><span style="color:red;">*</span>集采投资：历史每日累计收益：C18</td>
+							<td width="65%" align="left">
+								<input type="text" name="C18" value="{$C18}" size="25" class="inputBg" style="ime-mode:disabled" />
+							</td>
+						</tr>
+						<tr>
+							<td width="35%" align="right">今日可兑换余额的积分：D27</td>
+							<td width="65%" align="left">
+								<input type="text" name="D27" value="{$D27}" size="25" class="inputBg" style="ime-mode:disabled" />
+							</td>
+						</tr>
+						<tr>
+							<td width="35%" align="right"><span style="color:red;">*</span>今日兑换成余额的积分：D28</td>
+							<td width="65%" align="left">
+								<input type="text" name="D28" value="{$D28}" size="25" class="inputBg" style="ime-mode:disabled" />
+							</td>
+						</tr>
+						<tr>
+							<td width="35%" align="right">今日结余积分：D29</td>
+							<td width="65%" align="left">
+								<input type="text" name="D29" value="{$D29}" size="25" class="inputBg" style="ime-mode:disabled" />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center">
+								<label class="submit-border">
+									<input name="submit" type="submit" class="main-btn common-btn" value="确认"  id="btn_submit"/>
+								</label>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{/block}
+{block name="javascript"}
+<script type="text/javascript">
+
+function setTabCatGoods(name,cursel,n){
+	for(i=1;i<=n;i++){
+		var menu=document.getElementById(name+i);
+		var con=document.getElementById("con_"+name+"_"+i);
+		if(con!=null){
+			con.style.display=i==cursel?"block":"none";
+		}
+		if(menu!=null){
+			menu.className=i==cursel?"active":"";
+		}
+	}
+}
+
+$(document).ready(function(){
+	//对表单进行优化,昵称，用户名，手机号,不能为空
+	function verify(){
+		return true;
+	}
+	
+	//提交订单
+	$("#btn_submit").click(function(){
+		if(!verify()){
+			return false;
+		}
+		$("#formEdit").submit();
+	});
+
+});
+</script>
+{/block}

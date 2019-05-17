@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/reviewCommodity.css" />
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<link rel="shortcut  icon" type="image/x-icon" href="__TEMP__/{$style}/public/images/icon.ico" media="screen"/>
+		<script src="__STATIC__/js/ajax_file_upload.js" type="text/javascript"></script>
+		<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/showbox.css">
+		<script src="__TEMP__/{$style}/public/js/showBox.js"></script>
+		<script>
+			var temp = '__TEMP__';
+			var shop_main = 'SHOP_MAIN';
+			var APPMAIN = "APP_MAIN";//外置JS调用
+		</script>
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/review.js"></script>
+		<title>发表评论</title>
+	</head>
+	<body>
+		<div class="motify" style="display: none;"><div class="motify-inner">弹出框提示</div></div>
+		<input type="hidden" id="order_id" value="{$order_id}" />
+		<input type="hidden" id="order_no" value="{$order_no}" />
+		<input type="hidden" id="style" name="style" value="{$style}" />
+		{foreach $list as $vo}
+		<div class="box evaluate" ogid="{$vo.order_goods_id}" oid="{$vo.order_id}">
+			<div class="evaluate_right_one">
+				<span class="picImg"><img src="__UPLOAD__/{$vo.picture_info.pic_cover_small}"></span>
+				<span>商品评分</span>
+				<div class="star" style="display: inline-block;">
+					<a href="javascript:void(0)" val="1" sel="red"><img src="__TEMP__/{$style}/public/images/icon/star_color.png"/></a>
+					<a href="javascript:void(0)" val="2" sel="red"><img src="__TEMP__/{$style}/public/images/icon/star_color.png"/></a>
+					<a href="javascript:void(0)" val="3" sel="red"><img src="__TEMP__/{$style}/public/images/icon/star_color.png"/></a>
+					<a href="javascript:void(0)" val="4" sel="red"><img src="__TEMP__/{$style}/public/images/icon/star_color.png"/></a>
+					<a href="javascript:void(0)" val="5" sel="red"><img src="__TEMP__/{$style}/public/images/icon/star_color.png"/></a>
+				</div>
+			</div>
+			<div class="rate_content">
+				<div class="content">
+					<textarea cols="60" rows="4" placeholder="请输入要评价的内容，不要超过150个字符。" style="resize: none;" maxlength="150"></textarea>
+				</div>
+				<span class="evaluate_right_two"> 
+					<input type='file' class="input-file" name='imgPhoto' id="img_{$vo.order_goods_id}" onchange='UploadImage(this);' accept="image/*" multiple/>
+					<span class="evaluate_right_three">买家晒图</span>
+				</span>
+				<span class="num">
+					<div class="evaluate_right_imgs"></div>
+					<span class="evaluate_right_four">0/5</span>
+					<span class="evaluate_right_isni"><label> <input type="checkbox" id="checkbox{$vo.order_goods_id}" class="checkbox vm">&nbsp;匿名评价</label></span>
+				</span>
+			</div>
+		</div>
+		{/foreach}
+		<input id="btn_submit" type="button" class="common-btn" onclick="doSubmit(1)" value="提交"/>
+		<input type="hidden" id="isSub" value="true" />
+	</body>
+</html>

@@ -1,0 +1,65 @@
+{extend name="wap/default/base" /} 
+{block name="resources"}
+<link rel="stylesheet" type="text/css" href="__TEMP__/{$style}/public/css/editRess.css">
+{/block}
+{block name="goodsHead"}
+<section class="head" style="display:none;">
+	<a class="head_back" href="javascript:"><i class="icon-back"></i></a>
+	<div class="head-title">添加收货地址</div>
+</section>
+{/block}
+{block name="main"}
+<input type="hidden" id="ref_url" value="{$pre_url}">
+<input type="hidden" value="{$flag}" id="hidden_flag" />
+<input type="hidden" value="" id="J_flag" />
+<form class="form-info">
+	<div class="box">
+		<div class="ressTable">
+			<label>收&nbsp;&nbsp;货&nbsp;&nbsp;人 :</label>
+			<input type="text" name="name" value="{$address_info['consigner']}" id="Name" placeholder="请输入收件人姓名"/>
+		</div>
+		<div class="ressTable">
+			<label>收货号码 :</label>
+			<input type="text" placeholder="请输入手机号" id="Moblie" value="{$address_info['mobile']}" maxlength="11"/>
+		</div>
+		<div class="ressTable">
+			<label>请选择省:</label> 
+			<select id="seleAreaNext" onchange="GetProvince();getSelCity();">
+				<option value="">请选择</option>
+			</select>
+		</div>
+		<div class="ressTable">
+			<label>请选择市:</label> 
+			<select id="seleAreaThird" onchange="getSelCity();">
+				<option value="">请选择</option>
+			</select>
+		</div>
+		<div class="ressTable">
+			<label>请选择区:</label> 
+			<select id="seleAreaFouth">
+				<option value="-1">请选择</option>
+			</select>
+		</div>
+		<div class="ressTable">
+			<label>详细地址 :</label>
+			<input type="text" placeholder="请输入详细地址" id="AddressInfo" value="{$address_info['address']}" />
+		</div>
+		<div class="ressTable cf">
+			<label>地址标签 :</label>
+			<span class="labelBtn">
+				<div>家</div>
+				<div class="active">公司</div>
+				<div>学校</div>
+				<div>其他</div>
+			</span>
+		</div>
+	</div>
+	<div class="addRessBth">
+		<a href="javascript:void(0);" onclick="saveAddress()">保存</a>
+	</div>
+</form>
+{/block}
+{block name="bottom"}{/block} 
+{block name="javascript"}
+<script src="__TEMP__/{$style}/public/js/address.js"></script>
+{/block}

@@ -1,0 +1,222 @@
+/*common style*/
+*,body{
+	padding: 0;
+	margin: 0;
+	font: normal 100% 'Microsoft Yahei', Arial, sans-serif;
+}
+html, body { width:100%;padding:0; font-size: 12px;height: 100%;min-width:320px;max-width:640px;margin:0 auto;}
+body{height: 100%;background:#22004D url(../images/index/bg.png)no-repeat;background-size:100%;min-width:320px;max-width:640px;margin:0 auto;font-family:"微软雅黑","Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;}
+li{list-style:none}
+a:active,a:hover {outline: 0;text-decoration:none;}
+a, li, a:hover, a:active, a:focus {text-decoration:none;}
+a,input,button{border: none;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;outline: none;}
+.fl { float: left;}
+.fr { float: right;}
+/*清除浮动*/
+.cf:before,.cf:after{display:table;line-height:0;content:"";}
+.cf:after{clear:both;}
+*.cf{zoom:1;}
+.box{
+	padding-top:62%;
+	padding-bottom:20px;
+}
+.js-discount-time{
+	width:278px;
+	margin: 0 auto;
+	background:url(../images/index/linee.png)no-repeat center;
+	background-size:100%;
+	text-align: center;
+	color:#F83570;
+}
+.js-discount-time .c-red{
+	background:#F83570;
+	color:#fff;
+	padding:4px;
+	border-radius:4px;
+}
+.commodity{
+	width: 90%;
+	margin: 0 auto;
+	background:url(../images/index/bg_factory.png)no-repeat top center;
+	background-size:100%;
+	display: block;
+	padding-top:28px;
+	padding-left:4px;
+	position: relative;
+}
+.commodity a .fl{
+	width:40%;
+}
+.commodity a .fr{
+	width:58%;
+}
+.commodity a .fr .J_title{
+	font-size:14px;
+	color: #343434;
+	padding-right:10px;
+	padding-top:14px;
+}
+.commodity a .fr .park_price{
+	position:absolute;
+	bottom:6px;
+	right:14px;
+}
+.commodity a .fr .park_price span{
+	color:#000;
+	font-size:12px;
+}
+.commodity a .fr .park_price .font{
+	color: #FF0000;
+	font-size:14px;
+}
+.commodity a .fr .park_price .font font{
+	font-size:22px;
+	font-family: 'impact';
+}
+.commodity a .fr .park_price .decoration{
+	font-size:14px;
+	color: #bbb;
+	font-family: 'impact';
+	text-decoration:line-through
+}
+.park_rule{
+	width: 91%;
+    margin: 0 auto;
+	background: #F83570;
+	color:#fff;
+	border-radius:8px;
+	border-top-right-radius:0;
+	border-top-left-radius:0;
+	padding-bottom: 14px;
+}
+.park_rule ul li{
+	width:33.333%;
+	float:left;
+	text-align: center;
+	padding-top:14px;
+	font-size:14px;
+}
+.Invitation{
+	color:#fff;
+	padding-top:30px;
+	font-size:16px;
+	text-align: center;
+	font-family: 'MicrosoftYaHei';
+}
+.Invitation font{
+	color:#F83570;
+	font-size:24px;
+}
+.people{
+	width:90%;
+	margin:0px auto;
+}
+.people ul li{
+	width:20%;
+	float: left;
+	text-align: center;
+	margin-top:22px;
+}
+.people ul li img{
+	border-radius:100%;
+	width:45px;
+}
+.immediately{
+	background: url(../images/index/button.png)no-repeat center;
+	background-size:100%;
+	display:block;
+	width:236px;
+	margin:30px auto 0 auto;
+	text-align: center;
+	color:#fff;
+	font-family:'pingfang';
+	font-size:18px;
+	height:77px;
+	line-height:56px;
+}
+.look{
+	display: block;
+    width: 182px;
+    margin: 0px auto;
+    text-align: center;
+    font-family: 'pingfang';
+    font-size: 18px;
+    height: 40px;
+    line-height: 40px;
+    color: #F83570;
+    background: #fff;
+    border-radius: 22px;
+}
+.collage{
+	background:#fff;
+	margin-top:20px;
+}
+.collage .J_collage{
+	text-align: center;
+	padding:14px 0;
+	font-size:18px;
+	font-family: 'pingfang';
+}
+.collage .step{
+	width:92%;
+	margin: 0 auto;
+	padding-bottom:50px;
+}
+.collage .step li{
+	width:25%;
+	float: left;
+	text-align: center;
+	height:26px;
+}
+.collage .step li .fl{
+	background:url(../images/index/circle.png)no-repeat center;
+	background-size:26px;
+	text-align: center;
+	display: inline-block;
+	height:26px;
+	width:26px;
+	color:#fff;
+	line-height:24px;
+	margin-top:4px;
+}
+.collage .step li .fr{
+	width:calc(100% - 26px);
+	color:#474747;
+}
+@media only screen and (min-width: 100px) and (max-width:320px) {
+	.collage .step {
+	    width: 100%;
+	}
+}
+.rule{
+	width:192px;
+	height:32px;
+	color: #FFFD04;
+	margin:20px auto;
+	text-align: center;
+	background:url(../images/index/bg1.png)no-repeat center;
+	background-size:192px 31px;
+	line-height:32px;
+}
+.J_rule{
+	width:82%;
+	margin:0px auto;
+	background:#fff;
+	padding:8px 10px;
+	border-radius:6px 6px 12px 12px;
+}
+.J_rule p{
+	text-indent:25px;
+	font-size:14px;
+}
+.J_rule p.title{
+	font-size:14px;
+	padding:14px 0;
+	color:#212025;
+	text-indent:0;
+	font-weight:bold;
+}
+.J_rule p.indent{
+	text-indent:0;
+	padding-top:4px;
+}

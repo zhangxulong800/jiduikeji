@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="__TEMP__/{$style}/public/css/reset-mobile.css" />
+    <link rel="stylesheet" href="__TEMP__/{$style}/public/css/invitationFriends.css" />
+    <script src="__TEMP__/{$style}/public/js/rem.js"></script>
+    <script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+    <!--<script type="text/javascript" src="__PCMOB__/js/jquery.cookie.js" ></script>-->
+    <link rel="shortcut  icon" type="image/x-icon" href="__TEMP__/{$style}/public/images/icon.ico" media="screen"/>
+    <title>邀请好友</title>
+</head>
+<body class="grey-body">
+    <!--<header class="wrap-header">
+        <a href="javascript:history.back(-1)" class="return-btn flex-center">
+            <img src="/template/wap/default/public/images/newIndex/icon-return.png" alt="">
+        </a>
+        <h1 class="header-title flex-center">邀请好友</h1>
+        <a href="/wap/member/pointRule" class="header-link">积分规则</a>
+    </header>-->
+    <div class="wrap-main">
+        <div class="top-banner">
+            <a href="APP_MAIN/member/newMember" style="display: block;width:100%;height:100%;"></a>
+        </div>
+        <div class="radius-wrap">
+            <div class="radius-wrap-inner">
+                <a href="APP_MAIN/member/newMember" style="display: block;width:100%;height:100%;">
+                    <img class="radius-bg" src="/template/wap/default/public/images/newIndex/invite-box.png" alt="">
+                </a>
+                    <div class="radius-box width-Fixed">
+                    <div class="radius-item">
+                        <div class="radius-title">总积分</div>
+                        <p class="radius-data">{$totalExcPoint}</p>
+                    </div>
+                    <div class="radius-item">
+                        <div class="radius-title">积分余额</div>
+                        <p class="radius-data">{$excpoint[0]}</p>
+                    </div>
+                    <div class="radius-item">
+                        <div class="radius-title">邀请人数</div>
+                        <p class="radius-data">{$pidnum}</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="section-block width-Fixed">
+            <div class="section-title">
+                <span class="short-line"></span>
+                <span>邀请好友得奖励</span>
+            </div>
+            <div class="section-content">
+                <div class="card-list">
+                    <div class="card-item">
+                        <div class="card-item-top card-item-text">
+                            <p>邀请好友</p>
+                            <p>5个</p>
+                        </div>
+                        <div class="dash-line"></div>
+                        <div class="card-item-bottom card-item-text">
+                            <p>赠<span class="red-font">100</span>积分</p>
+                            <p>体验会员<span class="red-font">2</span>天</p>
+                        </div>
+                    </div>
+                    <div class="card-item">
+                        <div class="card-item-top card-item-text">
+                            <p>邀请好友</p>
+                            <p>10个</p>
+                        </div>
+                        <div class="dash-line"></div>
+                        <div class="card-item-bottom card-item-text">
+                            <p>赠<span class="red-font">210</span>积分</p>
+                            <p>体验会员<span class="red-font">3</span>天</p>
+                        </div>
+                    </div>
+                    <div class="card-item">
+                        <div class="card-item-top card-item-text">
+                            <p>邀请好友</p>
+                            <p>20个</p>
+                        </div>
+                        <div class="dash-line"></div>
+                        <div class="card-item-bottom card-item-text">
+                            <p>赠<span class="red-font">400</span>积分</p>
+                            <p>体验会员<span class="red-font">5</span>天</p>
+                        </div>
+                    </div>
+                    <div class="card-item">
+                        <div class="card-item-top card-item-text">
+                            <p>邀请好友</p>
+                            <p>40个</p>
+                        </div>
+                        <div class="dash-line"></div>
+                        <div class="card-item-bottom card-item-text">
+                            <p>赠<span class="red-font">800</span>积分</p>
+                            <p>体验会员<span class="red-font">5</span>天</p>
+                        </div>
+                    </div>
+                    <div class="card-item">
+                        <div class="card-item-top card-item-text">
+                            <p>邀请好友</p>
+                            <p>50个</p>
+                        </div>
+                        <div class="dash-line"></div>
+                        <div class="card-item-bottom card-item-text">
+                            <p>赠<span class="red-font">1000</span>积分</p>
+                            <p>体验会员<span class="red-font">7</span>天</p>
+                        </div>
+                    </div>
+                    <div class="card-item-link">
+                        <a id="posterLink" href="javascript:;">
+                            <p>邀请好友</p>
+                            <p>得积分</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section-block width-Fixed friend-wrap">
+            <div class="section-title">
+                <span class="short-line"></span>
+                <span>我的好友</span>
+            </div>
+            {volist name="$useInfo" id='vo' key='k'}
+            {volist name="$vo" id='item' key='kk'}
+            <div class="section-content">
+                <div class="friend-list">
+                    <div class="friend-item">
+                        <div class="friend-item-left">
+                            <div class="friend-profile">
+                                {if condition="$item.user_headimg eq '' "}
+                                <img src="__TEMP__/{$style}/public/images/detault_team_logo.png"/>
+                                {else/}
+                                <img src="/{$item.user_headimg}" />
+                                {/if}
+                            </div>
+                            <div class="friend-info">
+                                <div class="friend-name"><span>{$item.user_name}</span> <img src="/template/wap/default/public/images/newIndex/member.png" alt=""></div>
+                                <div class="friend-id">ID {$item.uid}</div>
+                            </div>
+                        </div>
+                        <div class="friend-item-right">
+                            <div class="jifen-add">+50积分</div>
+                            <div class="invite-time">{$item.reg_time}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/volist}
+            {/volist}
+        </div>
+    </div>
+</body>
+<script>
+    $(function () {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if(url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for(var i = 0; i < strs.length; i ++) {
+                theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+            }
+        }
+        if(theRequest.id != '' || theRequest.id != null || theRequest.id != undefined){
+            var id =theRequest.id;
+        }
+        if(id != '' && id != undefined && id != null){
+            $("#posterLink").on('click',function () {
+                window.location.href= "APP_MAIN/member/invitationPoster?id="+id+""
+            })
+        }
+
+
+
+        var inviteNum = {$pidnum};
+        if(inviteNum >= 5){
+            $(".card-item").eq(0).addClass("active-background");
+            if(inviteNum >= 10) {
+                $(".card-item").eq(1).addClass("active-background")
+                if(inviteNum >= 20) {
+                    $(".card-item").eq(2).addClass("active-background")
+                    if(inviteNum >= 40) {
+                        $(".card-item").eq(3).addClass("active-background")
+                        if(inviteNum >= 50) {
+                            $(".card-item").eq(4).addClass("active-background")
+                        }
+                    }
+                }
+            }
+        }
+
+    })
+</script>
+</html>

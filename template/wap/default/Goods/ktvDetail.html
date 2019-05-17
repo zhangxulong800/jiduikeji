@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/ktvDetails.css" />
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<title>ktv会员详情</title>
+	</head>
+	<body>
+		<div class="box">
+			{foreach name = "goods_detail['img_list']" item = 'img_list' key='key' }
+				<div class="goldktvImg" id="gold">
+					<img src="__ROOT__/{$img_list.pic_cover}" width="100%"/>
+				</div>
+			{/foreach}
+		</div>
+		<div class="contentBtn">
+			<div class="link">
+				<a href="APP_MAIN/Index/giftBag">查看更多 >></a>
+			</div>
+			<div class="jiesuan" id="J_gold">
+				<a href="javascript:void(0);">立即购买</a>
+			</div>
+		</div>
+		<input id="hiddPDetailID" type="hidden" value="{$goods_detail.goods_id}"/>
+		<input type="hidden" value="{$uid}" id="uid"/>
+		<input id="hiddSkuId" type="hidden" value='1479'/>
+		<input id="hiddSkuName" type="hidden" />
+		<input id="hiddSkuprice" type="hidden" />
+		<input id="hiddStock" type="hidden" value="{$goods_detail.stock}"/>
+		<input type="hidden" id="hidden_shop_name" value="{$goods_detail.shop_name}"/>
+		<input type="hidden" id="hidden_shop_id" value="{$goods_detail.shop_id}"/>
+		<input type="hidden" id="is_sale" value="{$goods_detail.state}" />
+		<input type="hidden" id="goods_id" value="{$goods_detail.goods_id}" />
+		<input type="hidden" id="code" value="{$goods_detail.code}" />
+		<input type="hidden" id="max_buy" value="{$goods_detail.max_buy}" />
+		<input type="hidden" id="hidden_current_num" value="{$num}" />
+		<input type="hidden" class="number" name="quantity" autocomplete="off" value="1" min="1" max="{$goods_detail.stock}" id="num" />
+	</body>
+	<script>
+		$(function(){
+			$('#J_gold').click(function(){
+				if($("#uid").val() == null || $("#uid").val() == ""){
+				window.location.href = "APP_MAIN/login";
+			}else{
+				if($(this).hasClass("disabled")){
+						return;
+					}
+					if ($("#hiddStock").val() == 0) {
+						alert("商品已售罄");
+					} else {
+						var trueId = "";
+						var count = "";
+						var $uiskuprop = $(".s-buy-ul .right button");
+						var $uiskupropCount = 0;
+						var flag = 0;
+						$($uiskuprop).each(function() {
+							flag = $(this).hasClass("current") ? flag + 1: flag; // 判断所有规格是否都选完整了
+						});
+						if ($uiskupropCount === flag) {
+							var purchaseSum = $("#max_buy").val() * 1;
+							var currentNum = $("#hidden_current_num").val() * 1;
+							var num = $("#num").val() * 1;
+							var nummax = $("#num").attr("max") * 1;
+							if(currentNum!=0 && currentNum == purchaseSum){
+								alert("此商品限购，您最多可购买"+ purchaseSum+ "件");
+								return;
+							}
+							if (num >= 1) {
+								if (num <= nummax) {
+									if (num <= purchaseSum|| purchaseSum == 0) {
+										var cart_detail = new Object();
+										cart_detail.trueId = $("#hiddPDetailID").val();
+										cart_detail.count = $("#num").val();
+										cart_detail.goods_name = $("#itemName").text();
+										cart_detail.select_skuid = $("#hiddSkuId").val();
+										cart_detail.shop_id = $("#hidden_shop_id").val();
+										cart_detail.shop_name = $("#hidden_shop_name").val();
+										cart_detail.select_skuName = $("#hiddSkuName").val();
+										cart_detail.price = $("#hiddSkuprice").val();
+										//没有SKU商品，获取第一个
+										if(cart_detail.select_skuid==null||cart_detail.select_skuid==""){
+											cart_detail.select_skuid = $("#goods_sku0").attr("skuid");
+											cart_detail.select_skuName = $("#goods_sku0").attr("skuname");
+											cart_detail.price = $("#goods_sku0").attr("price");
+										}
+										cart_detail.picture = $("#default_img").val();
+										cart_detail.cost_price = $("#cost_price").text();
+										var cart_tag = $("#submit_ok").attr("tag");
+										if(cart_tag == "addCart"){
+											$.ajax({
+												url :  "APP_MAIN/goods/addcart",
+												type : "post",
+												data : {
+													"cart_detail" : cart_detail,
+													"cart_tag" : cart_tag
+												},
+												success : function(data) {
+													console.log(data,'123456')
+													$('body').css("overflow", "auto");
+													if (data == '-1') {
+														alert("只有会员登录之后才能购买，请进入会员中心注册或登录。");
+														//window.location.href = "APP_MAIN/member";
+													}else if(data == 0){
+														alert("该商品限购"+purchaseSum+"，请您检查购物车");
+														$("#s_buy").slideUp();
+														$("#mask").hide();
+														$("#addcart_way").show();
+														$("#addcart_way").addClass("addcart-way");
+														$("#loading").hide();
+														$(".js-bottom-opts").show();
+														$("#global-cart").addClass("buy-cart-msg");
+													}else {
+														$("#s_buy").slideUp();
+														$("#mask").hide();
+														$("#addcart_way").show();
+														$("#addcart_way").addClass("addcart-way");
+														if ($("#submit_ok").attr("tag") == "addCart") {
+															var new_count = $("#countcart").text()* 1+ cart_detail.count* 1;
+															$("#icon_tip_code").show();
+															$("#countcart").show();
+															$("#countcart").text(new_count);
+														}
+														$("#loading").hide();
+														$(".js-bottom-opts").show();
+														$("#global-cart").addClass("buy-cart-msg");
+														// 添加购物车
+														if ($("#submit_ok").attr("tag") == "addCart") {
+															if (purchaseSum != 0) {
+																var tempCoun = purchaseSum - count;
+																if (tempCoun == 0) {
+																	$("#purchaseSum").val(-1);
+																} else {
+																	$("#purchaseSum").val(purchaseSum- count);
+																}
+															}
+															$('#submit_ok').show();
+															alert("加入购物车成功");
+														}
+														$("#loading").hide();
+													}
+												}
+											});
+										}else{
+											var skuid = $("#hiddSkuId").val();
+											var num = $("#num").val();
+											//没有SKU商品，获取第一个
+											if(skuid==null||skuid=="")
+											{
+												skuid = $("#goods_sku0").attr("skuid");
+											}
+											//立即购买
+											$.ajax({
+												url : "APP_MAIN/order/ordercreatesession",
+												type : "post",
+												data : { "tag" : "buy_now", "sku_id" : skuid, "num" :num },
+												success : function(res){
+													window.location.href = "APP_MAIN/order/paymentorder";
+												}
+											});
+										}
+									} else {
+										if (purchaseSum <= 0) {
+											purchaseSum = 0;
+										}
+										alert("此商品限购，您最多可购买"+ purchaseSum+ "件");
+									}
+								} else {
+									alert("库存不足");
+								}
+							} else {
+								alert("商品的数量至少为1");
+							}
+						} else {
+							alert("请选择完整的商品规格");
+						}
+					}
+				}
+			})
+		})
+	$(function() {
+		var url = location.search; //获取url中"?"符后的字串
+	    	var theRequest = new Object();
+		if(url.indexOf("?") != -1) {
+			var str = url.substr(1);
+		   		strs = str.split("&");
+		   for(var i = 0; i < strs.length; i ++) {
+		      theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+		   }
+		}
+		if(theRequest.goos_id != '' || theRequest.goos_id != null || theRequest.goos_id != undefined){
+			if(theRequest.goos_id == 396){     //黄金
+				$('#hiddSkuId').val(1495);
+			}else if(theRequest.goos_id == 397){   //铂金
+				$('#hiddSkuId').val(1496);
+			}else if(theRequest.goos_id == 398){   //钻石
+				$('#hiddSkuId').val(1497);
+			}else if(theRequest.goos_id == 399){   //超级
+				$('#hiddSkuId').val(1498);
+			}
+			
+		}
+	   return ;
+	});
+	</script>
+</html>

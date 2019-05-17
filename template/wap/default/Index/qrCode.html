@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.qrcode.min.js" ></script>
+		<title>积分呗-消费得积分,每1积分提现￥6元</title>
+		<style>
+			*{
+				height:100%;
+				width:100%;
+				margin: 0;
+				padding:0;
+			}
+			*,body{
+				padding: 0;
+				margin: 0;
+				font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+			}
+			html, body { width:100%; height:100%; margin:0; padding:0; font-size: 12px;}
+			body{max-width:640px;min-width:320px;margin:0 auto;}
+			.qrCode{
+				width:100%;
+				height:100%;
+				position:relative;
+			}
+			.qrCode .bg img{
+				width:100%;
+			}
+			.J_qrCode{
+				position: absolute;
+			    top: 25.6%;
+			    left: 0;
+			    right: 3%;
+			    bottom: 0;
+			    margin: auto;
+			    width:75px;
+			    height:75px;
+			}
+			@media only screen and (min-width: 374px ) and (max-width:413px) {
+				.J_qrCode{
+					width: 70px;
+					height: 70px;
+				}
+			}
+			/*@media only screen and (min-width: 320px ) and (max-width:374px) {
+				.J_qrCode canvas{
+					width:84px;
+					height:84px;
+					transform:rotate(4deg);
+					margin-top:4px;
+					margin-left: 12px;
+				}
+			}
+			@media only screen and (min-width: 413px ) and (max-width:639px) {
+				.J_qrCode{
+					top:-2.5%;
+				}
+				.J_qrCode canvas{
+					width:110px;
+					height:110px;
+					transform:rotate(4deg);
+				}
+			}
+			@media only screen and (min-width: 639px ){
+				.J_qrCode{
+					top:-5.5%;
+				}
+				.J_qrCode canvas{
+					width:150px;
+					height:150px;
+					transform:rotate(4deg);
+				}
+			}*/
+		</style>
+	</head>
+	<body>
+		<div class="qrCode">
+			<div class="bg">
+				<img src="__TEMP__/{$style}/public/images/default/qrCode.png"/>
+			</div>
+			<div id="qrcode" style="display: none;"></div>
+			<div class="J_qrCode" id="img"></div>
+		</div>
+	</body>
+	<script>
+		$(function(){
+			var url = location.search; //获取url中"?"符后的字串
+	    	var theRequest = new Object();
+			if(url.indexOf("?") != -1) {
+				var str = url.substr(1);
+			   		strs = str.split("&");
+			   for(var i = 0; i < strs.length; i ++) {
+			      theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+			   }
+			}
+			if(theRequest.id != '' || theRequest.id != null || theRequest.id != undefined){
+				var id =theRequest.id;
+			}
+//		   return ;
+			$('#qrcode').qrcode({
+			    render: "canvas", //也可以替换为table
+			    foreground: "#010101",
+			    background: "#FFF",
+		 		width: 80,
+    			height:80,
+			    text: "APP_MAIN/login/register?id="+id+""
+			});
+			//从 canvas 提取图片 image  
+			function convertCanvasToImage(canvas) {  
+			    //新Image对象，可以理解为DOM  
+			    var image = new Image();  
+			    // canvas.toDataURL 返回的是一串Base64编码的URL
+			    // 指定格式 PNG  
+			    image.src = canvas.toDataURL("image/png");  
+			    return image;  
+			}  
+			//获取网页中的canvas对象  
+			var mycans=$('canvas')[0];   
+			//调用convertCanvasToImage函数将canvas转化为img形式   
+			var img=convertCanvasToImage(mycans);  
+			//将img插入容器 
+			$('#img').append(img);
+		})
+	</script>
+</html>

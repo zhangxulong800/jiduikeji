@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/sale.css" />
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<title>销售明细</title>
+	</head>
+	<body>
+		<div class="box">
+			<div class="searchHead">
+				<div class="cf title">
+					<div class="fl"><input type="text" value="" placeholder="输入你要查询的订单" name=""/></div>
+					<div class="fr" id="searchIcon">搜索</div>
+				</div>
+			</div>
+			<!--销售明细循环-->
+			{foreach name="commission_orders" item="vo"}
+			<div class="detailedContent">
+				<div class="title">订单编号：{$vo.order_no}</div>
+				<div class="cf amount">
+					<div class="J_amount fl">
+						<div class="order">订单金额： {$vo.order_money}元</div>
+						<div class="date">{$vo.pay_time}</div>
+					</div>
+					<div class="profit fr">
+						{if condition="$vo.refund_money gt 0"}
+						<div class="order">退款：<span>{$vo.refund_money}</span>元</div>
+						{/if}
+						<div class="date">用户名: {$vo.user_name}</div>
+						<div class="date">电话: {$vo.user_tel}</div>
+					</div>
+				</div>
+			</div>
+			{/foreach}
+			<!--销售明细循环end-->
+		</div>
+	</body>
+</html>

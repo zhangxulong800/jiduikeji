@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta content="telephone=no" name="format-detection"/>
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/merchant.css" />
+		<title>推荐商户</title>
+	</head>
+	<body>
+		<div class="box">
+			<div class="ressTable">
+				<label><font>*</font>商&nbsp;&nbsp;户&nbsp;&nbsp;名&nbsp;&nbsp;称:</label>
+				<input type="text" name="userName" value="" placeholder="请输入商户名称" id="userName"/>
+			</div>
+			<div class="ressTable">
+				<label>&nbsp;&nbsp;商&nbsp;户&nbsp;联&nbsp;系人:</label>
+				<input type="text" name="name" value="" placeholder="请输入商户联系人"/>
+			</div>
+			<div class="ressTable">
+				<label><font>*</font>商户手机号码: </label>
+				<input type="text" name="phone" value="" placeholder="请输入手机号码" maxlength="11" id="phone"/>
+			</div>
+			<div class="ressTable">
+				<label><font>*</font>商&nbsp;&nbsp;户&nbsp;&nbsp;地&nbsp;&nbsp;址: </label>
+				<div id="address">请选择商户地址</div>
+			</div>
+			<div class="ressTable">
+				<label><font>*</font>商户详情地址: </label>
+				<input type="text" name="phone" value="" placeholder="请输入商户详情地址" id="ress"/>
+			</div>
+			<div class="ressTable cf">
+				<label><font>*</font>商&nbsp;&nbsp;户&nbsp;&nbsp;类&nbsp;&nbsp;别:</label>
+				<span class="labelBtn">
+					<select id="label">
+						<option value="-1">请选择</option>
+						<option value="1">休闲娱乐</option>
+						<option value="1">美食</option>
+						<option value="1">酒店</option>
+						<option value="1">健身运动</option>
+						<option value="1">美容SPA</option>
+						<option value="1">其他</option>
+					</select>
+				</span>
+			</div>
+		</div>
+		<div class="addRessBth">
+			<div class="msg">手机号码有误</div>
+			<button type="submit" id="confirm">确认推荐</button>
+		</div>
+		<div class="addressFlag">
+			<div class="flagBg"></div>
+			<div class="contenr">
+				<div class="title cf">
+					<ul class="cf">
+						<li class="tab" id="J_province">请选择</li>
+						<li id="J_city">请选择</li>
+						<li id="J_area">请选择</li>
+					</ul>
+					<span id="mkxjhhs">确定</span>
+				</div>
+				<div class="adsemre">
+					<ul class="cf">
+						<li id="province"></li>
+						<li id="city"></li>
+						<li id="area"></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		$(function(){
+			// 添加省
+			$.ajax({
+				type : "post",
+				url : "getprovince",
+				dataType : "json",
+				success : function(data) {
+					if (data != null && data.length > 0) {
+						var html ="";
+						for (var i = 0; i < data.length; i++) {
+							html += '<div data-id='+data[i].province_id+'>'+data[i].province_name+'</div>'
+						}
+						$('#province').html(html);
+					}
+				}
+			});
+			var mobile = /^1[3-9]\d{9}$/;
+			$('#confirm').click(function(){
+				if($('#userName').val() == ''){
+					$('.msg').html('请输入商户名称!').show();
+					$("#userName").focus();
+				}else if($("#phone").val() == ''){
+					$('.msg').html('请填写您的手机号!').show();
+					$("#phone").focus();
+				}else if(!mobile.test($("#phone").val())){
+					$('.msg').html('请填写有效的手机号!').show();
+					$("#phone").val('');
+					$("#phone").focus();
+				}else if($("#address").html() == ''){
+					$('.msg').html('请选择商户地址!').show();
+				}else if($("#ress").val() == ''){
+					$('.msg').html('请输入商户详情地址!').show();
+					$("#ress").focus();
+				}else if($("#label").val() == '' || $("#label").val() < 0){
+					$('.msg').html('请选择商户类别!').show();
+					$("#label").focus();
+				}
+				
+			})
+			// 选择省份弹出市区
+			$('#province').on('click','div',function(){
+				var id = $(this).data('id');
+				$('#J_province').html($(this).html());
+				$('.contenr .title li').removeClass('tab');
+				$('#J_city').addClass('tab').html('请选择');
+				$('#J_area').html('请选择');
+				$('#area').html('');
+				$.ajax({
+					type : "post",
+					url : "getcity",
+					dataType : "json",
+					data : {
+						"province_id" : id
+					},
+					success : function(data) {
+						if (data != null && data.length > 0){
+							var html ="";
+							for (var i = 0; i < data.length; i++) {
+								html += '<div data-id='+data[i].city_id+'>'+data[i].city_name+'</div>'
+							}
+							$('#city').html(html);
+						}
+					}
+				});
+			});
+			$('#city').on('click','div',function(){
+				var id = $(this).data('id');
+				$('#J_city').html($(this).html());
+				$('.contenr .title li').removeClass('tab');
+				$('#J_area').addClass('tab').html('请选择');
+				$.ajax({
+					type : "post",
+					url : "getDistrict",
+					dataType : "json",
+					data : {
+						"city_id" : id
+					},
+					success : function(data) {
+						if (data != null && data.length > 0) {
+							var html ="";
+							for (var i = 0; i < data.length; i++) {
+								html += '<div data-id='+data[i].district_id+'>'+data[i].district_name+'</div>'
+							}
+							$('#area').html(html);
+						}
+					}
+				});
+			});
+			$('#area').on('click','div',function(){
+				$('#J_area').html($(this).html());
+			});
+			$('#mkxjhhs').click(function(){
+				if($('#J_area').html() != '请选择'){
+					var dizhi = $('#J_province').html() + $('#J_city').html()+$('#J_area').html();
+					$('#address').html(dizhi);
+				}else{
+					var dizhi = $('#J_province').html() + $('#J_city').html();
+					$('#address').html(dizhi);
+				}
+				$('.addressFlag').hide();
+			})
+			$('#address').click(function(){
+				$('.addressFlag').show();
+			});
+		})
+	</script>
+</html>

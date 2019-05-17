@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/ >
+		<link rel="stylesheet" href="__TEMP__/{$style}/public/css/register.css" />
+		<script type="text/javascript" src="__TEMP__/{$style}/public/js/jquery.min.js" ></script>
+		<title>手机号绑定</title>
+	</head>
+	<body>
+		<div class="box" id="first">
+			<div class="register">
+				<div class="reksm cf">
+					<label class="fl">手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机:</label>
+					<input type="text" name="phone" placeholder="请输入手机号码" maxlength="11" value="{$member_info.user_info.user_tel}" class="fl nameInput" id="phone"/>
+					<input type="hidden" id="oldMobile" value="{$member_info.user_info.user_tel}">
+				</div>
+				<div class="reksm cf">
+					<label class="fl">验&nbsp;&nbsp;证&nbsp;&nbsp;码:</label>
+					<input type="text" name="code" placeholder="请输入验证码" maxlength="6" class="fl nameInput" id="code"/>
+					<input type="button" id="btn" value="发送验证码" onClick="sendemail()" /> 
+				</div>
+			</div>
+			<div class="badgeBtn">
+				<div class="msg">手机号码有误</div>
+				<button class="but" type="submit" id="submit">完成</button>
+			</div>
+		</div>
+		<div class="box" id="two">
+			<div class="success"><img src="__TEMP__/{$style}/public/images/success.png"/>绑定成功</div>
+			<div class="badgeBtn">
+				<a href="javaScript:void(0);">前往个人中心</a>
+			</div>
+		</div>
+	</body>
+	<script>
+		$(function(){
+			$('#submit').click(function(){
+				if($("#code").val() == ''){
+					$('.msg').html('请输入验证码!').show();
+					$("#code").focus();
+				}else{
+					$.ajax({
+						type : "post",
+						url : "APP_MAIN/member/check_dynamic_code",
+						async : true,
+						data: { "mobile_code": $("#code").val(),"mobile":$("#phone").val()},
+						success : function(data) {
+							if(data.code == -1){
+								$('.msg').html('验证码错误,请重新输入!').show();
+							}else{
+								if($("#oldMobile").val() == ''){    //绑定手机
+									$.ajax({
+										type: "post",
+										url: "APP_MAIN/member/sendbindcode",
+										data: {"mobile":$("#phone").val(),"type":"mobile"},
+										success: function(data){
+											window.location.href="APP_MAIN/Member/information";
+										}
+									});
+								}else{   //修改手机
+									$.ajax({
+					                    url: "APP_MAIN/member/modifymobile",
+					                    data: { "mobilephone": $("#phone").val() },
+					                    type: "post",
+					                    success: function (res) {
+					                        if (res["code"] > 0) {
+					                           window.location.href="APP_MAIN/Member/information";	
+					                        } else {
+					                        	$('.msg').html(res.message).show();
+					                        }
+					                    }
+					                })
+								}
+							} 
+						}
+					});	
+				}
+			});
+		})
+		var countdown=60; 
+		function sendemail(){
+			var mobile = /^1[34578]\d{9}$/;
+		    var obj = $("#btn");
+		    if($("#phone").val() == ''){
+				$('.msg').html('请填写您的手机号!').show();
+				$("#phone").focus();
+			}else if(!mobile.test($("#phone").val())){
+				$('.msg').html('请填写有效的手机号!').show();
+				$("#phone").val('');
+				$("#phone").focus();
+			}else if($("#phone").val() == $("#oldMobile").val()){
+				$('.msg').html('与原手机号码一致,无需修改!').show();
+				$("#phone").val('');
+				$("#phone").focus();
+			}else{
+				$.ajax({
+					type: "post",
+					url: "APP_MAIN/Login/sendSmsRegisterCode",
+					data: {"mobile":$("#phone").val()},
+					success: function(data){
+						if(data.code == '0'){
+							settime(obj);
+						}else{
+							$('.msg').html(data.message).show();
+							//$(".verifyimg").attr("src",'{:captcha_src()}');
+							return false;
+						}
+					}
+				});
+			}
+	    }
+		function settime(obj) { //发送验证码倒计时
+		    if(countdown == 0) { 
+		        obj.attr('disabled',false); 
+		        //obj.removeattr("disabled"); 
+		        obj.val("发送验证码");
+		        countdown = 60; 
+		        return;
+		    }else { 
+		        obj.attr('disabled',true);
+		        obj.val("重新发送(" + countdown + ")");
+		        countdown--; 
+		    } 
+		setTimeout(function() { 
+		    settime(obj) 
+		},1000)}
+	</script>
+</html>

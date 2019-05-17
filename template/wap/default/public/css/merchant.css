@@ -1,0 +1,197 @@
+/*common style*/
+*,body{
+	padding: 0;
+	margin: 0;
+	font: normal 100% 'Microsoft Yahei', Arial, sans-serif;
+}
+html, body { width:100%; margin:0; padding:0; font-size: 12px;}
+body{background:#F9FAFB;min-width:320px;max-width:640px;margin:0 auto;}
+li{list-style:none}
+a:active,a:hover {outline: 0;text-decoration:none;}
+a, li, a:hover, a:active, a:focus {text-decoration:none;}
+a,input,button,select,li{border: none;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;outline: none;}
+.fl { float: left;}
+.fr { float: right;}
+/*清除浮动*/
+.cf:before,.cf:after{display:table;line-height:0;content:"";}
+.cf:after{clear:both;}
+*.cf{zoom:1;}
+select{
+	background:none;
+}
+.box{
+	padding:10px 0 4px 0;
+	background:#fff;
+}
+.ressTable{
+	width:90%;
+	margin:0 auto;
+	border-bottom: 1px solid #F0F0F0;
+	padding:14px 0;
+}
+.ressTable label{
+	color:#424242;
+	font-size:14px;
+	font-weight:bold;
+	float: left;
+	margin-right:10px;
+    width: 96px;
+}
+.ressTable label font{
+	color:#FF0000;
+}
+.ressTable input{
+	border:none;
+	font-size:14px;
+	color:#424242;
+	height:22px;
+	line-height: 22px;
+    padding-left: 4px;
+    width: calc(100% - 118px);
+}
+.ressTable select {
+	border:none;
+	font-size:14px;
+	color:#424242;
+	height:22px;
+	line-height: 22px;
+    padding-left: 4px;
+    width: calc((100% - 118px)/3);
+    background:#fff;
+}
+.labelBtn {
+    float: left;
+    width: 65%;
+}
+.ressTable .labelBtn select{
+    color: #424242;
+    border:none;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    height:auto;
+}
+@media only screen and (min-width: 413px) and (max-width: 640px) {
+	.labelBtn {
+	    width: 70%;
+	}
+}
+.deleteRess{
+	cursor:pointer;
+	background:#fff;
+	height:30px;
+	line-height:30px;
+	padding-left:16px;
+	color: #FC3301;
+	margin-top:20px;
+}
+.addRessBth{
+	position: fixed;
+	bottom:14px;
+	width:200px;
+	left:0;
+	right:0;
+	margin: 0 auto;
+	text-align: center;
+}
+.addRessBth .msg{
+    color: #F83271;
+    font-size: 14px;
+    height:30px;
+    display:none;
+}
+.addRessBth button{
+	width:100%;
+	color:#fff;
+	background:#ff3074;
+	display: block;
+	height:34px;
+	line-height:34px;
+	border-radius:30px;
+	font-size:14px;
+}
+.addressFlag {
+	position:fixed;
+	bottom:0;
+	left: 0;
+	right:0;
+	width:100%;
+	min-width:320px;
+	max-width:640px;
+	height:100%;
+	margin: auto;
+	display:none;
+}
+.flagBg {
+	background:rgba(0,0,0,.3);
+	height:100%;
+}
+.addressFlag .contenr{
+	height:60%;
+	position:fixed;
+	bottom:0;
+	left: 0;
+	right:0;
+	width:100%;
+	min-width:320px;
+	max-width:640px;
+	background: #fff;
+	margin: auto;
+}
+.addressFlag .contenr .title{
+	border-bottom:1px solid #F5F6F5;
+	position: fixed;
+    width: 100%;
+    height: 41px;
+    background: #fff;
+    min-width:320px;
+	max-width:640px;
+}
+.addressFlag .contenr .title ul{
+	width:80%;
+	float: left;
+}
+.addressFlag .contenr .title ul li{
+	width:30%;
+	text-align: center;
+	float: left;
+	font-size:14px;
+	cursor: pointer;
+	padding:10px 3px;
+	overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.addressFlag .contenr .title ul li.tab{
+	color:#ff0000;
+	border-bottom:1px solid #ff0000;
+}
+.addressFlag .contenr .title span{
+	width:20%;
+	display: inline-block;
+	float: left;
+	padding:10px 0;
+	text-align: center;
+	font-size:14px;
+}
+.adsemre{
+	margin-top:41px;
+	margin-bottom:4px;
+	height: 400px;
+}
+.adsemre ul li {
+	width:33.333%;
+	float:left;
+	text-align: left;
+    overflow-y: auto;
+    height: 400px;
+}
+.adsemre ul li div{
+	font-size:14px;
+	padding:16px 0 0px 12px;
+	color:#424242;
+	cursor: pointer;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

@@ -1,0 +1,180 @@
+<style type="text/css">
+.group-list{overflow: hidden;}
+.group-list-box{float: none;overflow-y: hidden;}
+.group-list-box .group-list li{
+	width:96%;
+	padding:0px;
+	position:relative;
+	box-shadow: 0 0 12px rgba(0,0,0,.15);
+	margin: 10px auto;
+    border-radius: 8px;
+}
+.brand-info .brand-info-left .b-price span{
+	color:#f23030;
+	font-weight:bold;
+	font-size:14px;
+}
+.brand-info .brand-info-left .b-price s{
+	font-size: 12px;
+	color: #999;
+}
+.buyer{
+	font-size:12px;
+}
+.group-list-box .group-list li .brand-name {
+  	text-align:left;
+    height: 20px;
+    overflow: hidden;
+}
+.p-img{
+	width: 27%;
+    float: left;
+    padding:10px;
+}
+.p-img img{
+	max-width:100%;
+	float: left;
+}
+.brand-info{
+	width:62%;
+	float: left;
+    padding-top: 10px;
+}
+.group-list-box .group-list li .brand-info-right{
+   	clear: both;
+    margin-bottom: 8px;
+    position: absolute;
+    right: 10px;
+    bottom: 0px;
+    background: #FE2D74;
+    color: #fff;
+    padding: 2px 14px;
+    border-radius: 13px;
+    line-height: 20px;
+}
+.group-list-box .group-list li .brand-info-right a{
+	color:#fff;
+}
+.controltype{
+	border-top:16px solid #F6F5FA;
+}
+.control_l_content span{
+	margin-left:60px;
+	font-size:16px;
+}
+.control_l_content a{
+	float: right;
+	padding-right:14px;
+	margin-right:10px;
+	background: url(__TEMP__/{$style}/public/images/arrow.png) no-repeat right 4px;
+	background-size:5px 10px ;
+}
+.brand-time{
+	padding:10px 0;
+	position: relative;
+	text-align: center;
+}
+.brand-time i{
+	height:1px;
+	border-top:1px solid #E9E9E9;
+	display: inline-block;
+	width:96%;
+	margin:0 auto;
+}
+.settime{
+	position: absolute;
+    top:6px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 6px;
+    background: #fff;
+    width:120px;
+    margin: auto;
+    font-size:12px;
+    font-weight: bold;
+    line-height: 34px;
+}
+</style>
+{if condition="$discount_adv['is_use'] eq 1"}
+
+    {if condition="$discount_adv['adv_list'][0]['adv_image'] neq ''"}
+	<div class="slick">
+		<a href="{$discount_adv['adv_list'][0]['adv_url']}">
+			<img src="__UPLOAD__/{$discount_adv['adv_list'][0]['adv_image']}" >
+			<!-- style="height:{$discount_adv.ap_height}px;" -->
+		</a>
+	</div>
+    {/if}
+{/if}
+<span class="control_l_content cf" style="padding-bottom:6px;">
+	<span><img src="__TEMP__/{$style}/public/images/navimg/display_discount.png"></span>
+	<a href="APP_MAIN/index/discount">更多</a>
+</span> 
+<div class="group-list-box">
+	<ul class="group-list">
+	{volist name="discount_list" id="vo"}
+		<li class="cf">
+			<div class="brand-time" >
+				<i></i>
+				<span class="settime" starttime="{$vo.start_time}" endtime="{$vo.end_time}" ></span>
+			</div>
+			<div class="p-img">
+				<a href="APP_MAIN/goods/goodsdetail?id={$vo.goods_id}" title="{$vo.goods_name}">
+				    <img src="__UPLOAD__/{$vo['picture']['pic_cover']}"/>
+				</a>
+				 <!-- <div class="p_discount">{$vo.discount}折</div> -->
+			</div>
+			<div class="brand-info">
+				<a href="APP_MAIN/goods/goodsdetail?id={$vo.goods_id}" title="{$vo.goods_name}"><div class="brand-name">{$vo.goods_name}</div></a>
+				<div class="brand-info-left" style="float:none;">
+					<span class="b-price">
+						<span>￥{$vo.promotion_price}</span>
+						<s style="margin-left: 10px;">原价：￥{$vo.price}</s>
+					</span>
+				</div>
+			</div>
+			<div class="brand-info-right">
+				<a class="main-btn" href="APP_MAIN/goods/goodsDetail?id={$vo.goods_id}">马上抢</a>
+			</div> 
+		</li>
+	{/volist}
+	</ul>
+</div>
+<script type="text/javascript">
+	$().ready(function() {
+		updateEndTime();
+	});
+	//倒计时函数
+	function updateEndTime() {
+		var date = new Date();
+		var time = date.getTime(); //当前时间距1970年1月1日之间的毫秒数
+
+		$(".settime").each(function(i) {
+			var endDate = this.getAttribute("endTime"); //结束时间字符串
+			
+			//转换为时间日期类型
+			var endDate1 = eval('new Date(' + endDate.replace(/\d+(?=-[^-]+$)/, function(a) {
+				return parseInt(a, 10) - 1;
+			}).match(/\d+/g) + ')');
+			
+			var endTime = endDate1.getTime(); //结束时间毫秒数
+	
+			var lag = ((endTime - time) / 1000);        //当前时间和结束时间之间的秒数
+			if (lag > 0) {
+				var second = Math.floor(lag % 60);
+				var minite = Math.floor((lag / 60) % 60);
+				var hour = Math.floor(lag / 3600);    //没有将小时转换成天
+				//var hour = Math.floor((lag / 3600) % 24);    //多少个小时
+				//var day = Math.floor((lag / 3600) * 24);   //多少天
+				var hour = hour<10?"0"+hour:hour;
+				var minite = minite<10?"0"+minite:minite;
+				var second = second<10?"0"+second:second;
+				$(this).html('还剩 '+hour + " : " + minite + " : " + second );
+			} else{
+				$(this).html("活动已经结束啦！");
+			}
+		});
+		setTimeout("updateEndTime()", 1000);
+	}
+</script>
